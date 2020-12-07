@@ -7,7 +7,13 @@ class User < ApplicationRecord
     attr_reader :password
     
     before_validation :ensure_session_token!
-    # has_many :posts
+    has_many :holdings
+      foreign_key: :user_id,
+      class_name: :Holding
+
+    has_many :assets 
+      through: :holdings, 
+      source: :asset
     
     def self.find_by_credentials(username, password)
       user = User.find_by(username: username)
