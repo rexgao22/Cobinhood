@@ -8,10 +8,14 @@ class ApplicationController < ActionController::Base
     
     def required_logged_in
         unless logged_in?
-        render json: {base: ['invalid credential']}, status 401 
+          render json: { base: ["Need to log in!"] }, status: 401
         end
     end
     
+    def require_logged_out
+      render json: ["Need to log out!"], status: 403 if logged_in?
+    end
+
     def login!(user)
       @current_user = user
       session[:session_token] = user.reset_session_token!
