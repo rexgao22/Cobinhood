@@ -7,11 +7,11 @@ class User < ApplicationRecord
     attr_reader :password
     
     before_validation :ensure_session_token!
-    has_many :holdings
+    has_many :holdings,
       foreign_key: :user_id,
       class_name: :Holding
 
-    has_many :assets 
+    has_many :assets,
       through: :holdings, 
       source: :asset
     
