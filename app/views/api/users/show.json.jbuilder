@@ -1,5 +1,5 @@
 
-json.extract! @user, :id, :username, :buying_power
+json.partial! "api/users/user", user: @user
 
 
 # json.assets do 
