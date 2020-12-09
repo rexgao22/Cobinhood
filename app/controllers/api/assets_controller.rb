@@ -5,8 +5,7 @@ class Api::AssetsController < ApplicationController
 
     def search 
         str = params[:searchbar]
-        return_assets = Asset.where("LOWER(company_name) LIKE ? OR ticker_symbol LIKE ?"
-        , "%#{str.downcase}%","%#{str.upcase}%")
+        return_assets = Asset.where("LOWER(company_name) LIKE ? OR ticker_symbol LIKE ?", "%#{str.downcase}%","%#{str.upcase}%")
         # @assets = result_assets(return_assets, str)
         render :search
     end
