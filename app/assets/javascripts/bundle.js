@@ -360,7 +360,7 @@ var mapStateToProps = function mapStateToProps(state) {
     navLink: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
       to: "/signup"
     }, "Don't have an account?"),
-    errors: state.errors.sessionErrors,
+    errors: state.errors.session,
     formType: "Login"
   };
 };
@@ -519,7 +519,7 @@ var mapStateToProps = function mapStateToProps(state) {
     navLink: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
       to: "/login"
     }, "Already have an account?"),
-    errors: state.errors.sessionErrors,
+    errors: state.errors.session,
     formType: "Sign Up"
   };
 };
@@ -570,7 +570,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  sessionErrors: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
 
