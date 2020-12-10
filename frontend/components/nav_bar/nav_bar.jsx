@@ -6,9 +6,10 @@ class NavBar extends React.Component {
         super(props);
     }
     render() { 
-      const {logout} = this.props
         return (
           <section>
+            <Link to='/portfolio'>Cobinhood</Link>
+            
             <button className="logout-button" onClick={this.props.logout}>Log Out</button>
           </section>
         );

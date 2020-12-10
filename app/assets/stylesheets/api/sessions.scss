@@ -37,7 +37,6 @@
 }
 
 .session-form-container button {
-  
   width: 150px;
   height: 45px;
   border: transparent;
@@ -63,4 +62,12 @@ label span {
 .session-img{
     height: 100%;
     width: 50%;
+}
+
+.session-link {
+  margin-top: 12px;
+  font-size: 16px;
+  a {
+    color: blue;
+  }
 }

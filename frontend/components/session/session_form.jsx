@@ -68,7 +68,7 @@ class SessionForm extends Component {
                   className="login-input"
                 />
               </label>
-              <br />
+              <br/>
               <button type="submit">{this.props.formType}</button>
             </div>
           </form>

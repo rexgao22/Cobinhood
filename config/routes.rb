@@ -8,4 +8,5 @@ Rails.application.routes.draw do
     get '/assets/search/:searchbar', to:'assets#search', as: 'search_assets'
   end
   root to: "staticpages#root"
+  # match "*path", to: "welcome#index", via: [:get]
 end
