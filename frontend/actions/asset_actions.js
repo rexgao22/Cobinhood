@@ -6,8 +6,8 @@ export const UNWATCH_ASSET = "UNWATCH_ASSET";
 export const UPDATE_ASSET = "UPDATE_ASSET";
 export const UPDATE_HOLDING = "UPDATE_HOLDING";
 export const RECEIVE_NEW_BUYING_POWER = "RECEIVE_NEW_BUYING_POWER";
-export const RECEIVE_PURCHASE_ERRORS = "RECEIVE_PURCHASE_ERRORS";
 export const RECEIVE_PORTFOLIO_DATA = "RECEIVE_PORTFOLIO_DATA";
+export const RECEIVE_PURCHASE_ERRORS = "RECEIVE_PURCHASE_ERRORS";
 
 export const watchAsset = (asset) => ({
   type: WATCH_ASSET,
@@ -33,6 +33,8 @@ export const updateHolding = (asset) => ({
   type: UPDATE_HOLDING,
   asset,
 });
+
+export const receivePortfolioData
 
 export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
   APIUtil.createHolding(assetId, userId, amount).then((asset) => {
@@ -60,18 +62,26 @@ export const updateUserBuyingPower = (userId, BPChange) => dispatch =>(
     updateBuyingPower(userId, BPChange).then((buyingPower) => dispatch(receiveBuyingPower(buyingPower)))
 )
 
-export const sellAsset = ((userId,
-holdingId,
-oldAmount,
-amountSell,
-price) = APIUtil.updateHoldingAmount(holdingId, oldAmount - amountSell).then(
+export const sellAsset = ((userId,holdingId,oldAmount,amountSell,price) => dispatch => 
+APIUtil.updateHoldingAmount(holdingId, oldAmount - amountSell).then(
   (asset) => {
     (asset.price = price), dispatch(updateHolding(asset));
   }
-).then(()=>updateBuyingPower(userId,(amountSell*price)))
-.then((buyingPower)=> dispatch(receiveNewBuyingPower(buyingPower)))
+).then(
+  ()=>updateBuyingPower(userId,(amountSell*price)),
+  (buyingPower)=> dispatch(receiveNewBuyingPower(buyingPower))
+  )
 );
 
-export const buyAsset = (userId, holdingId, oldAmount, amountBuy, price) => dispatch(
-  updateBuyingPower(userId,(amountBuy*price*-1))
-)
+export const buyAsset = (userId, holdingId, oldAmount, amountBuy, price) =>dispatch =>(
+    updateBuyingPower(userId, amountBuy * price * -1).then(
+      (buyingPower) => dispatch(receiveNewBuyingPower(buyingPower)),
+      () => dispatch(updateHoldingAmount(holdingId, oldAmount + amountBuy, price))
+    )
+  );
+
+export const buyNewAsset = (userId, assetId, amount, price) => (dispatch) =>
+  updateBuyingPower(userId, amountBuy * price * -1).then(
+    (buyingPower) => dispatch(receiveNewBuyingPower(buyingPower)),
+    () => dispatch(createHolding(assetId, userId, amount, price))
+  );

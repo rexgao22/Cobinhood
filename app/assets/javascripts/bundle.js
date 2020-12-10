@@ -277,9 +277,9 @@ var HomePage = function HomePage(props) {
   }, "Investing for Greater Good"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "home-gif",
     src: window.images.homeGif
-  }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+  }), "Commission-free investing, No regret! You are next Bill and Steve.", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "homepage-text"
-  }, "Commission-free investing, No regret! You are next Bill and Steve.")));
+  })));
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (HomePage);
