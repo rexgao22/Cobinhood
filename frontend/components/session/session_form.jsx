@@ -39,39 +39,43 @@ class SessionForm extends Component {
     const [title, test, path] = this.props.logProp;
     return (
       <div className="session-form-container">
-        <header>Welcome to Cobinhood</header>
-        <br/>
-        <button className="demo-button" onClick={this.handleDemo.bind(this)}>Demo Log In</button>
-        <form onSubmit={this.handleSubmit} className="session-form">
-          {this.renderErrors()}
-          <div className="login-form">
-            <br />
-            <label>
-              <span>Username</span>
-              <input
-                type="text"
-                value={this.state.username}
-                onChange={this.handleChange("username")}
-                className="login-input"
-              />
-            </label>
-            <br />
-            <label>
-              <span>Password</span>
-              <input
-                type="password"
-                value={this.state.password}
-                onChange={this.handleChange("password")}
-                className="login-input"
-              />
-            </label>
-            <br />
-            <button type="submit">{this.props.formType}</button>
+        {/* <img className="session-img" src={window.images.money} /> */}
+        <div className="session-display-form">
+          <header className="session-header">Welcome to Cobinhood</header>
+          <button className="demo-button" onClick={this.handleDemo.bind(this)}>
+            Demo Log In
+          </button>
+          <form onSubmit={this.handleSubmit} className="session-form">
+            {this.renderErrors()}
+            <div className="login-form">
+              <br />
+              <label>
+                <span>Username</span>
+                <input
+                  type="text"
+                  value={this.state.username}
+                  onChange={this.handleChange("username")}
+                  className="login-input"
+                />
+              </label>
+              <br />
+              <label>
+                <span>Password</span>
+                <input
+                  type="password"
+                  value={this.state.password}
+                  onChange={this.handleChange("password")}
+                  className="login-input"
+                />
+              </label>
+              <br />
+              <button type="submit">{this.props.formType}</button>
+            </div>
+          </form>
+          <div className="session-link">
+            <h3>{title}</h3>
+            <Link to={path}>{test}</Link>
           </div>
-        </form>
-        <div className="session-link">
-          <h3>{title}</h3>
-          <Link to={path}>{test}</Link>
         </div>
       </div>
     );

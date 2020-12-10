@@ -6,10 +6,16 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-left: 20px;
     font-family: 'DM Sans', sans-serif;
+    background-image: image-url("money.png");
+    
 }
-
+.session-display-form{
+    width: 50%;
+    background-color: white;
+    margin-left: auto;
+    padding: 24px;
+}
 .demo-button{
     margin-bottom: 30px;
 }
@@ -24,10 +30,37 @@
   border: none;
   border-radius: 10px;
   margin-bottom: 15px;
+  height: 48px;
+  width: 420px;
+  padding-left: 20px;
+  background-color: rgb(235, 238, 240);
+}
+
+.session-form-container button {
+  
+  width: 150px;
   height: 45px;
-  width: 450px;
-  padding-left: 15px;
-  box-sizing: border-box;
-  background-color: rgba(245, 248, 250, 1);
-  transition: background 0.3s;
+  border: transparent;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  margin-top: 60px;
+  background-color: rgb(30,198,36);
+  text-align: center; 
+}
+
+label span {
+  display: block;
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+.session-header {
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.session-img{
+    height: 100%;
+    width: 50%;
 }
