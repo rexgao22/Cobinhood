@@ -2,11 +2,19 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 const HomeNavBar = (props) => (
-  <section>
-    <h1>Cobinhood</h1>
+  <section className="navbar">
+    <div className="navbar-logo">
+      <h1 className="navbar-name">Cobinhood</h1>
+      <img className="logo" src={window.images.logo} />
+    </div>
     <div>
-        <Link id="login-link" to="/login"> Log In</Link>
-        <Link id="signup-link" to="/signup"><span>Sign Up</span></Link>
+      <Link className="nav-link" to="/login">
+        {" "}
+        Log In
+      </Link>
+      <Link className="nav-link" to="/signup">
+        <span>Sign Up</span>
+      </Link>
     </div>
   </section>
 );

@@ -6,11 +6,10 @@ class NavBar extends React.Component {
         super(props);
     }
     render() { 
+      const {logout} = this.props
         return (
           <section>
-            <div className="logout-button" onClick={this.props.logout}>
-              <span>Log Out</span>
-            </div>
+            <button className="logout-button" onClick={this.props.logout}>Log Out</button>
           </section>
         );
     }

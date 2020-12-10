@@ -5,11 +5,11 @@ const HomePage= (props) => {
   return (
     <main>
       <HomeNavBar />
-      <div>
-        <header>Investing for Greater Good</header>
-        <div>
-          Commission-free investing, No regret!
-          You are next Bill and Steve.
+      <div className="homepage">
+        <header className="homepage-header">Investing for Greater Good</header>
+        <img className="home-gif" src={window.images.homeGif} />
+        <div className="homepage-text">
+          Commission-free investing, No regret! You are next Bill and Steve.
         </div>
       </div>
     </main>

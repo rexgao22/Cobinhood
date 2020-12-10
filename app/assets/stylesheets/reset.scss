@@ -1,0 +1,35 @@
+/* PHASE 0: Reset */
+
+html, body, header, nav, h1, h3, a,
+ul, li, ol, strong, main, button, i, var
+section, img, div, h2, p, form, figure, strong
+fieldset, label, textarea,
+span, article, footer, time, small {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+  text-decoration: inherit;
+  vertical-align: inherit;
+  box-sizing: inherit;
+  background: transparent;
+}
+
+ol,ul {
+  list-style: none;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}

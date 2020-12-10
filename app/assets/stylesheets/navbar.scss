@@ -1,0 +1,28 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background-color:white;
+    z-index: 1;
+    height: 64px;
+}
+.navbar-logo{
+    display: flex;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 25px;
+    margin-left: 20px;
+    font-weight: bold;
+}
+.logo {
+    margin-top: 5px;
+    height: 20px;
+    width: 20px;
+}
+
+.nav-link {
+    color: black;
+    font-weight: bold;
+    margin-left: 25px;
+    margin-right: 6px;
+}

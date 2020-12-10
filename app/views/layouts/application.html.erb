@@ -2,8 +2,17 @@
 <html>
   <head>
     <title>Cobinhood</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+
+    <script>
+    window.images = {
+        logo: "<%= asset_path("robinhood.png") %>",
+        homeGif: "<%= asset_path("homepageGif.gif") %>",
+      }
+  </script>
 
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>

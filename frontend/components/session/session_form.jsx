@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 class SessionForm extends Component {
   constructor(props) {
@@ -16,8 +17,9 @@ class SessionForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const user = Object.assign({}, this.state);
-    this.props.action(user);
+    this.props
+      .action(this.state)
+      .then(() => this.props.history.push("/portfolio"));
   }
 
   renderErrors() {
@@ -29,19 +31,23 @@ class SessionForm extends Component {
       </ul>
     );
   }
-  
+  handleDemo(e){
+    e.preventDefault();
+    this.props.demoLogin().then(() => this.props.history.push("/portfolio"));
+  }
   render() {
+    const [title, test, path] = this.props.logProp;
     return (
-      <div className="login-form-container">
-        <form onSubmit={this.handleSubmit} className="login-form-box">
-          Welcome to Cobinhood
-          <br />
-          Please {this.props.formType} or {this.props.navLink}
+      <div className="session-form-container">
+        <header>Welcome to Cobinhood</header>
+        <br/>
+        <button className="demo-button" onClick={this.handleDemo.bind(this)}>Demo Log In</button>
+        <form onSubmit={this.handleSubmit} className="session-form">
           {this.renderErrors()}
           <div className="login-form">
             <br />
             <label>
-              Username:
+              <span>Username</span>
               <input
                 type="text"
                 value={this.state.username}
@@ -51,7 +57,7 @@ class SessionForm extends Component {
             </label>
             <br />
             <label>
-              Password:
+              <span>Password</span>
               <input
                 type="password"
                 value={this.state.password}
@@ -60,13 +66,13 @@ class SessionForm extends Component {
               />
             </label>
             <br />
-            <input
-              className="session-submit"
-              type="submit"
-              value={this.props.formType}
-            />
+            <button type="submit">{this.props.formType}</button>
           </div>
         </form>
+        <div className="session-link">
+          <h3>{title}</h3>
+          <Link to={path}>{test}</Link>
+        </div>
       </div>
     );
   }
