@@ -9,7 +9,6 @@ import NavBarContainer from "../components/nav_bar/nav_bar_container"
 
 const App = () => (
   <div>
-    {/* <NavBar /> */}
     <NavBarContainer />
     <Switch>
       <AuthRoute exact path="/login" component={LogInContainer} />

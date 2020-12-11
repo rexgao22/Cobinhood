@@ -18,8 +18,10 @@
           logout: "<%= asset_path("logout.png") %>",
         }
     </script>
+
     <script type="text/javascript">
-      window.cloudiexAPIKey = "<%= Rails.application.credentials.cloudIEX[:api_key] %>"
+      window.marketstackAPIKey = "09d7b6075bf4c12a5f6a4096d9caf7fb",
+      window.fmpAPIKey = "48f846a9ee23325054c2f3d5dc4c75fe",
     </script>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>

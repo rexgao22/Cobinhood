@@ -6,8 +6,8 @@ class Portfolio extends Component {
     componentDidMount() {
         this.props.buyingPower
     }
-    render() { 
-        
+    
+    render() {     
         return (
           <div>
             Portfolio
