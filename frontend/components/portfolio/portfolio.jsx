@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import NavBarContainer from '../nav_bar/nav_bar_container'
 class Portfolio extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +10,6 @@ class Portfolio extends Component {
         
         return (
           <div>
-            <NavBarContainer />
             Portfolio
           </div>
         );

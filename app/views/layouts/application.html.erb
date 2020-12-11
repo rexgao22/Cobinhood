@@ -18,7 +18,9 @@
           logout: "<%= asset_path("logout.png") %>",
         }
     </script>
-    
+    <script type="text/javascript">
+      window.cloudiexAPIKey = "<%= Rails.application.credentials.cloudIEX[:api_key] %>"
+    </script>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>

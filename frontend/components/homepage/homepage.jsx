@@ -1,5 +1,4 @@
 import React from "react";
-import HomeNavBar from "../nav_bar/home_nav_bar";
 import { makeStyles } from '@material-ui/core/styles';
 // const useStyles = makeStyles((theme) => ({
 //   showcase: {
@@ -13,7 +12,6 @@ const HomePage = (props) => {
   // const classes = useStyles();
   return (
     <main>
-      <HomeNavBar />
       <div className="homepage">
           <div className="left-side">
             <header className="homepage-header">
