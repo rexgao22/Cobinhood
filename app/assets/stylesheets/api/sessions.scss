@@ -36,16 +36,28 @@
   background-color: rgb(235, 238, 240);
 }
 
+.session-form input:hover {
+  background-color: white;
+  border: 1px solid lightgrey;
+}
+
 .session-form-container button {
   width: 150px;
   height: 45px;
   border: transparent;
   border-radius: 6px;
+  font-family: 'Playfair Display', serif;
   color: white;
   font-weight: bold;
-  margin-top: 60px;
+  margin-top: 50px;
   background-color: rgb(30,198,36);
   text-align: center; 
+}
+
+.session-form-container button:hover {
+  background-color: rgb(0,173,37);
+  transition: background 0.4s;
+  cursor: pointer;
 }
 
 label span {
@@ -71,3 +83,12 @@ label span {
     color: blue;
   }
 }
+.session-link h3 {
+  margin-top: 18px;
+  margin-bottom: 10px;
+}
+.session-errors {
+  font-size: 13px;
+  color: orange;
+}
+

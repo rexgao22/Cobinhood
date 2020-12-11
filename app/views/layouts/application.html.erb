@@ -4,17 +4,21 @@
     <title>Cobinhood</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Langar&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Langar&family=Oswald&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
+    
     <script>
-    window.images = {
-        logo: "<%= asset_path("robinhood.png") %>",
-        homeGif: "<%= asset_path("homepageGif.gif") %>",
-        money: "<%= asset_path("money.png") %>",
-      }
-  </script>
-
+      window.images = {
+          logo: "<%= asset_path("robinhood.png") %>",
+          homeGif: "<%= asset_path("homepageGif.gif") %>",
+          money: "<%= asset_path("money.png") %>",
+          logout: "<%= asset_path("logout.png") %>",
+        }
+    </script>
+    
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
   </head>

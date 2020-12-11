@@ -7,12 +7,15 @@ const HomeNavBar = (props) => (
       <h1 className="navbar-name">Cobinhood</h1>
       <img className="logo" src={window.images.logo} />
     </div>
-    <div>
-      <Link className="nav-link" to="/login">
+    <div className="home-link">
+      <div>
+        <span>About Me</span>
+      </div>
+      <Link id='login' className="home-link-child" to="/login">
         {" "}
         Log In
       </Link>
-      <Link className="nav-link" to="/signup">
+      <Link id='signup' className="home-link-child" to="/signup">
         <span>Sign Up</span>
       </Link>
     </div>

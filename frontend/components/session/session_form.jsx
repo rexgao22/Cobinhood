@@ -39,14 +39,13 @@ class SessionForm extends Component {
     const [title, test, path] = this.props.logProp;
     return (
       <div className="session-form-container">
-        {/* <img className="session-img" src={window.images.money} /> */}
         <div className="session-display-form">
           <header className="session-header">Welcome to Cobinhood</header>
           <button className="demo-button" onClick={this.handleDemo.bind(this)}>
             Demo Log In
           </button>
           <form onSubmit={this.handleSubmit} className="session-form">
-            {this.renderErrors()}
+            <span className= "session-errors">{this.renderErrors()}</span>
             <div className="login-form">
               <br />
               <label>
@@ -68,7 +67,7 @@ class SessionForm extends Component {
                   className="login-input"
                 />
               </label>
-              <br/>
+              <br />
               <button type="submit">{this.props.formType}</button>
             </div>
           </form>
