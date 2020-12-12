@@ -156,7 +156,7 @@ Asset.create({ company_name: "ZoomInfo", ticker_symbol: "ZI" })
 Asset.create({ company_name: "Zebra Technologies", ticker_symbol: "ZBRA" })
 
 
-Holding.create({ user_id: 19, asset_id: 6, amount: 0 })
+Holding.create({ user_id: 19, asset_id: 29, amount: 0 })
 Holding.create({ user_id: 19, asset_id: 8, amount: 0 })
 Holding.create({ user_id: 19, asset_id: 28, amount: 0 })
 Holding.create({ user_id: 19, asset_id: 15, amount: 6 })
