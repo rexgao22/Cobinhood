@@ -1,4 +1,4 @@
-import { fetchNews } from "../util/external_api_util";
+import { fetchNews } from "../util/external_util";
 
 export const RECEIVE_NEWS = "RECEIVE_NEWS";
 

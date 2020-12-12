@@ -269,16 +269,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/esm/styles/index.js");
 
- // const useStyles = makeStyles((theme) => ({
-//   showcase: {
-//     backgroundColor: 'black', 
-//     width: 100,
-//     height: 100,
-//   }
-// }))
+
 
 var HomePage = function HomePage(props) {
-  // const classes = useStyles();
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "homepage"
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -289,7 +282,7 @@ var HomePage = function HomePage(props) {
     className: "homepage-text"
   }, "Commission-free investing, No regret! You are next Bill and Steve.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "home-gif",
-    src: window.images.homeGif
+    src: window.images.CobVid
   })));
 };
 
@@ -377,8 +370,6 @@ var NavBar = function NavBar(_ref) {
       src: window.images.logout
     }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Log Out")))));
   };
-
-  console.log(path);
 
   if (path.history.location.pathname === "/login" || path.history.location.pathname === "/signup") {
     return null;

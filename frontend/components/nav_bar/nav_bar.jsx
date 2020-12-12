@@ -54,7 +54,6 @@ const NavBar = ({currentUser,logout,path}) => {
       </div>
     </section>
   );
-  console.log(path);
   if (path.history.location.pathname === "/login" || path.history.location.pathname === "/signup"){
     return null;
   }else{
