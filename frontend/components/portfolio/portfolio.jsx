@@ -1,16 +1,24 @@
 import React, { Component } from 'react';
+import Sidebar from './sidebar/sidebar';
+
+
 class Portfolio extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        this.props.buyingPower
+        this.props.updatePortfolio(
+          Object.keys(this.props.ownedAssets).concat(Object.keys(this.props.watchedAssets)),
+          this.props.owned,
+          this.props.buyingPower
+        );
     }
     
     render() {     
         return (
           <div>
             Portfolio
+          <Sidebar />
           </div>
         );
     }

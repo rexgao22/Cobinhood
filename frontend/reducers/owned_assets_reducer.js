@@ -10,13 +10,13 @@ import {
 } from "../actions/asset_actions";
 import { obtainPricesAndChange } from "./obtain_price_and_change";
 
-export const ownedAssetsReducer = (oldState = {}, action) => {
+const ownedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      if (action.res.assets) {
-        Object.values(action.res.assets).forEach((asset) => {
+      if (action.currentResponse.assets) {
+        Object.values(action.currentResponse.assets).forEach((asset) => {
           if (asset.amount) {
             nextState[asset.tickerSymbol] = asset;
           }
@@ -59,3 +59,5 @@ export const ownedAssetsReducer = (oldState = {}, action) => {
       return oldState;
   }
 };
+
+export default ownedAssetsReducer;

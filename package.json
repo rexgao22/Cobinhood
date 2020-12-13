@@ -23,6 +23,7 @@
     "babel-loader": "^8.0.5",
     "finnhub": "^1.2.1",
     "lodash": "^4.17.11",
+    "recharts": "^1.8.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.2",
@@ -34,7 +35,8 @@
     "webpack": "^4.30.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.3.1"
+    "webpack-cli": "^3.3.1",
+    "babel-plugin-recharts": "^1.2.1"
   },
   "directories": {
     "lib": "lib",

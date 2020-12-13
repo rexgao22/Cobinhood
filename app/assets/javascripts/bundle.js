@@ -86,6 +86,185 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./frontend/actions/asset_actions.js":
+/*!*******************************************!*\
+  !*** ./frontend/actions/asset_actions.js ***!
+  \*******************************************/
+/*! exports provided: WATCH_ASSET, UNWATCH_ASSET, UPDATE_ASSET, UPDATE_HOLDING, RECEIVE_NEW_BUYING_POWER, RECEIVE_PORTFOLIO_DATA, RECEIVE_PURCHASE_ERRORS, watchAsset, unwatchAsset, updateAsset, receiveNewBuyingPower, updateHolding, purchaseErrors, createHolding, deleteHolding, updateAssetPrice, updateHoldingAmount, updateUserBuyingPower, sellAsset, buyAsset, buyNewAsset, updatePortfolio */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WATCH_ASSET", function() { return WATCH_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNWATCH_ASSET", function() { return UNWATCH_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_ASSET", function() { return UPDATE_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_HOLDING", function() { return UPDATE_HOLDING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_BUYING_POWER", function() { return RECEIVE_NEW_BUYING_POWER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PORTFOLIO_DATA", function() { return RECEIVE_PORTFOLIO_DATA; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PURCHASE_ERRORS", function() { return RECEIVE_PURCHASE_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "watchAsset", function() { return watchAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwatchAsset", function() { return unwatchAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAsset", function() { return updateAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewBuyingPower", function() { return receiveNewBuyingPower; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHolding", function() { return updateHolding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "purchaseErrors", function() { return purchaseErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAssetPrice", function() { return updateAssetPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHoldingAmount", function() { return updateHoldingAmount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserBuyingPower", function() { return updateUserBuyingPower; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sellAsset", function() { return sellAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buyAsset", function() { return buyAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buyNewAsset", function() { return buyNewAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePortfolio", function() { return updatePortfolio; });
+/* harmony import */ var _util_asset_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/asset_util */ "./frontend/util/asset_util.js");
+/* harmony import */ var _util_buying_power_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/buying_power_util */ "./frontend/util/buying_power_util.js");
+/* harmony import */ var _util_external_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/external_util */ "./frontend/util/external_util.js");
+
+
+
+var WATCH_ASSET = "WATCH_ASSET";
+var UNWATCH_ASSET = "UNWATCH_ASSET";
+var UPDATE_ASSET = "UPDATE_ASSET";
+var UPDATE_HOLDING = "UPDATE_HOLDING";
+var RECEIVE_NEW_BUYING_POWER = "RECEIVE_NEW_BUYING_POWER";
+var RECEIVE_PORTFOLIO_DATA = "RECEIVE_PORTFOLIO_DATA";
+var RECEIVE_PURCHASE_ERRORS = "RECEIVE_PURCHASE_ERRORS";
+var watchAsset = function watchAsset(asset) {
+  return {
+    type: WATCH_ASSET,
+    asset: asset
+  };
+};
+var unwatchAsset = function unwatchAsset(tickerSymbol) {
+  return {
+    type: DELETE_HOLDING,
+    tickerSymbol: tickerSymbol
+  };
+};
+var updateAsset = function updateAsset(asset) {
+  return {
+    type: UPDATE_ASSET,
+    asset: asset
+  };
+};
+var receiveNewBuyingPower = function receiveNewBuyingPower(buyingPower) {
+  return {
+    type: RECEIVE_NEW_BUYING_POWER,
+    buyingPower: buyingPower
+  };
+};
+var updateHolding = function updateHolding(asset) {
+  return {
+    type: UPDATE_HOLDING,
+    asset: asset
+  };
+};
+
+var receivePortfolioData = function receivePortfolioData(tickerKeyToData, ownedAssets, buyingPower) {
+  return {
+    type: RECEIVE_PORTFOLIO_DATA,
+    tickerKeyToData: tickerKeyToData,
+    ownedAssets: ownedAssets,
+    buyingPower: buyingPower
+  };
+};
+
+var purchaseErrors = function purchaseErrors(errors) {
+  return {
+    type: RECEIVE_PURCHASE_ERRORS,
+    errors: errors
+  };
+};
+var createHolding = function createHolding(assetId, userId, amount, price) {
+  return function (dispatch) {
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["createHolding"](assetId, userId, amount).then(function (asset) {
+      asset.price = price, dispatch(watchAsset(asset));
+    });
+  };
+};
+var deleteHolding = function deleteHolding(holdingId) {
+  return function (dispatch) {
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["deleteHolding"](holdingId).then(function (asset) {
+      return dispatch(unwatchAsset(asset.tickerSymbol));
+    });
+  };
+};
+var updateAssetPrice = function updateAssetPrice(assetId, newPrice) {
+  return function (dispatch) {
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["updateAssetPrice"](assetId, newPrice).then(function (asset) {
+      return dispatch(updateAsset(asset));
+    });
+  };
+};
+var updateHoldingAmount = function updateHoldingAmount(holdingId, newAmount, price) {
+  return function (dispatch) {
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["updateHoldingAmount"](holdingId, newAmount).then(function (asset) {
+      asset.price = price, dispatch(updateHolding(asset));
+    });
+  };
+};
+var updateUserBuyingPower = function updateUserBuyingPower(userId, BPChange) {
+  return function (dispatch) {
+    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_1__["updateBuyingPower"])(userId, BPChange).then(function (buyingPower) {
+      return dispatch(receiveBuyingPower(buyingPower));
+    }, function (err) {
+      return dispatch(receivePurchaseErrors(err.responseJSON));
+    });
+  };
+};
+var sellAsset = function sellAsset(userId, holdingId, oldAmount, amountSell, price) {
+  return function (dispatch) {
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["updateHoldingAmount"](holdingId, oldAmount - amountSell).then(function (asset) {
+      asset.price = price, dispatch(updateHolding(asset));
+    }, function () {
+      return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_1__["updateBuyingPower"])(userId, amountSell * price);
+    }, function (buyingPower) {
+      return dispatch(receiveNewBuyingPower(buyingPower));
+    }, function (err) {
+      return dispatch(receivePurchaseErrors(err.responseJSON));
+    });
+  };
+};
+var buyAsset = function buyAsset(userId, holdingId, oldAmount, amountBuy, price) {
+  return function (dispatch) {
+    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_1__["updateBuyingPower"])(userId, amountBuy * price * -1).then(function (buyingPower) {
+      return dispatch(receiveNewBuyingPower(buyingPower));
+    }, function () {
+      return dispatch(updateHoldingAmount(holdingId, oldAmount + amountBuy, price));
+    }, function (err) {
+      return dispatch(receivePurchaseErrors(err.responseJSON));
+    });
+  };
+};
+var buyNewAsset = function buyNewAsset(userId, assetId, amount, price) {
+  return function (dispatch) {
+    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_1__["updateBuyingPower"])(userId, amountBuy * price * -1).then(function (buyingPower) {
+      return dispatch(receiveNewBuyingPower(buyingPower));
+    }, function () {
+      return dispatch(createHolding(assetId, userId, amount, price));
+    }, function (err) {
+      return dispatch(receivePurchaseErrors(err.responseJSON));
+    });
+  };
+};
+var updatePortfolio = function updatePortfolio(tickers, ownedAsset, buyingPower) {
+  return function (dispatch) {
+    var graphFetches = [];
+    var tickerKeyToData = {};
+    tickers.forEach(function (ticker) {
+      var graphFetch = Object(_util_external_util__WEBPACK_IMPORTED_MODULE_2__["fetchDailyGraphData"])(ticker);
+      tickerKeyToData[ticker] = graphFetch;
+      graphFetches.push(graphFetch);
+    });
+    return Promise.all(graphFetches).then(function () {
+      return dispatch(receivePortfolioData(tickerKeyToData, ownedAsset, buyingPower));
+    });
+  };
+};
+
+/***/ }),
+
 /***/ "./frontend/actions/session_actions.js":
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
@@ -109,10 +288,10 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
-var receiveCurrentUser = function receiveCurrentUser(currentUser) {
+var receiveCurrentUser = function receiveCurrentUser(currentResponse) {
   return {
     type: RECEIVE_CURRENT_USER,
-    currentUser: currentUser
+    currentResponse: currentResponse
   };
 };
 var logoutCurrentUser = function logoutCurrentUser() {
@@ -498,6 +677,7 @@ var SearchBar = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _sidebar_sidebar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sidebar/sidebar */ "./frontend/components/portfolio/sidebar/sidebar.jsx");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -522,6 +702,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
+
 var Portfolio = /*#__PURE__*/function (_Component) {
   _inherits(Portfolio, _Component);
 
@@ -536,12 +717,12 @@ var Portfolio = /*#__PURE__*/function (_Component) {
   _createClass(Portfolio, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.buyingPower;
+      this.props.updatePortfolio(Object.keys(this.props.ownedAssets).concat(Object.keys(this.props.watchedAssets)), this.props.owned, this.props.buyingPower);
     }
   }, {
     key: "render",
     value: function render() {
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Portfolio");
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Portfolio", /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_sidebar_sidebar__WEBPACK_IMPORTED_MODULE_1__["default"], null));
     }
   }]);
 
@@ -563,16 +744,246 @@ var Portfolio = /*#__PURE__*/function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _portfolio__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./portfolio */ "./frontend/components/portfolio/portfolio.jsx");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+
 
 
 
 var mapStateToProps = function mapStateToProps(state) {
   return {
-    buyingPower: state.session.currentUser.buyingPower
+    ownedAssets: state.entities.ownedAssets,
+    watchedAssets: state.entities.watchedAssets,
+    buyingPower: state.session.currentUser.buyingPower,
+    portfolioGraph: state.entities.portfolioGraph
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, null)(_portfolio__WEBPACK_IMPORTED_MODULE_0__["default"]));
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+  return {
+    updatePortfolio: function updatePortfolio(tickerSymbols, ownedAssets, buyingPower) {
+      return dispatch(Object(_actions_asset_actions__WEBPACK_IMPORTED_MODULE_2__["updatePortfolio"])(tickerSymbols, ownedAssets, buyingPower));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps, mapDispatchToProps)(_portfolio__WEBPACK_IMPORTED_MODULE_0__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset.jsx":
+/*!***************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/owned_asset/owned_asset.jsx ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _owned_asset_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./owned_asset_item */ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset_item.jsx");
+
+
+
+var OwnedAsset = function OwnedAsset(_ref) {
+  var assets = _ref.assets;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "owned-asset-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "Stocks"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "asset-list"
+  }, assets.map(function (asset) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_owned_asset_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: asset.id,
+      asset: asset
+    });
+  })), assets.length ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "empty-list-msg"
+  }, "Time to purchase stock"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (OwnedAsset);
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset_container.js":
+/*!************************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/owned_asset/owned_asset_container.js ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _owned_asset__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./owned_asset */ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset.jsx");
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    assets: Object.values(state.entities.ownedAssets)
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps)(_owned_asset__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset_item.jsx":
+/*!********************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/owned_asset/owned_asset_item.jsx ***!
+  \********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+var OwnedAssetItem = function OwnedAssetItem(_ref) {
+  var asset = _ref.asset;
+  var percentChangeMsgColor;
+
+  if (asset.percentChange < 0) {
+    percentChangeMsgColor = "pc-red";
+  } else if (asset.percentChange > 0) {
+    percentChangeMsgColor = "pc-green";
+  } else {
+    percentChangeMsgColor = "pc-black";
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/assets/".concat(asset.tickerSymbol.toLowerCase())
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, asset.tickerSymbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "".concat(asset.amount), " shares")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", asset.price), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "".concat(Number(asset.percentChange).toFixed(2), "%")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (OwnedAssetItem);
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/sidebar.jsx":
+/*!***********************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/sidebar.jsx ***!
+  \***********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _watched_asset_watched_asset_container__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./watched_asset/watched_asset_container */ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset_container.js");
+/* harmony import */ var _owned_asset_owned_asset_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./owned_asset/owned_asset_container */ "./frontend/components/portfolio/sidebar/owned_asset/owned_asset_container.js");
+
+
+
+
+var Sidebar = function Sidebar(props) {
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "portfolio-sidebar"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_owned_asset_owned_asset_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_watched_asset_watched_asset_container__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Sidebar);
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset.jsx":
+/*!*******************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/watched_asset/watched_asset.jsx ***!
+  \*******************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _watched_asset_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./watched_asset_item */ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset_item.jsx");
+
+
+
+var OwnedAsset = function OwnedAsset(_ref) {
+  var assets = _ref.assets;
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+    className: "watched-asset-container"
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "Watch List"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+    className: "watch-list"
+  }, assets.map(function (asset) {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_watched_asset_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      key: asset.id,
+      asset: asset
+    });
+  })), assets.length ? null : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+    className: "empty-list-msg"
+  }, "Add stock to your watch list"));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (OwnedAsset);
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset_container.js":
+/*!****************************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/watched_asset/watched_asset_container.js ***!
+  \****************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _watched_asset__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./watched_asset */ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset.jsx");
+
+
+
+var mapStateToProps = function mapStateToProps(state) {
+  return {
+    assets: Object.values(state.entities.watchedAssets)
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps)(_watched_asset__WEBPACK_IMPORTED_MODULE_1__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/portfolio/sidebar/watched_asset/watched_asset_item.jsx":
+/*!************************************************************************************!*\
+  !*** ./frontend/components/portfolio/sidebar/watched_asset/watched_asset_item.jsx ***!
+  \************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+var WatchedAssetItem = function WatchedAssetItem(_ref) {
+  var asset = _ref.asset;
+  var percentChangeMsgColor;
+
+  if (asset.percentChange < 0) {
+    percentChangeMsgColor = "pc-red";
+  } else if (asset.percentChange > 0) {
+    percentChangeMsgColor = "pc-green";
+  } else {
+    percentChangeMsgColor = "pc-black";
+  }
+
+  return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+    to: "/assets/".concat(asset.tickerSymbol.toLowerCase())
+  }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, asset.tickerSymbol), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "".concat(asset.amount), " shares")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", asset.price), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "".concat(Number(asset.percentChange).toFixed(2), "%")))));
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (WatchedAssetItem);
 
 /***/ }),
 
@@ -860,10 +1271,16 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
+/* harmony import */ var _watched_assets_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./watched_assets_reducer */ "./frontend/reducers/watched_assets_reducer.js");
+/* harmony import */ var _owned_assets_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./owned_assets_reducer */ "./frontend/reducers/owned_assets_reducer.js");
+
+
 
 
 var entitiesReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
+  users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  watchedAssets: _watched_assets_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  ownedAssets: _owned_assets_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (entitiesReducer);
 
@@ -886,6 +1303,124 @@ var errorsReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
   session: _session_errors_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (errorsReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/obtain_price_and_change.js":
+/*!******************************************************!*\
+  !*** ./frontend/reducers/obtain_price_and_change.js ***!
+  \******************************************************/
+/*! exports provided: obtainPricesAndChange */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "obtainPricesAndChange", function() { return obtainPricesAndChange; });
+var obtainPricesAndChange = function obtainPricesAndChange(tickerKeyToData) {
+  return Object.keys(tickerKeyToData).map(function (tickerSymbol) {
+    var tickerMap = {
+      tickerSymbol: tickerSymbol
+    };
+    var data = tickerKeyToData[tickerSymbol].responseJSON;
+    var i = data.length - 1;
+
+    while (!data[i].average) {
+      i--;
+    }
+
+    var endOfDayPrice = data[i].average;
+    var j = 0;
+
+    while (!data[j].average) {
+      j++;
+    }
+
+    var startOfDayPrice = data[j].average;
+    tickerMap["recentPrice"] = parseInt(endOfDayPrice * 100);
+    tickerMap["percentChange"] = (endOfDayPrice / startOfDayPrice - 1) * 100;
+    return tickerMap;
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/reducers/owned_assets_reducer.js":
+/*!***************************************************!*\
+  !*** ./frontend/reducers/owned_assets_reducer.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
+
+
+
+
+var ownedAssetsReducer = function ownedAssetsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var nextState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      if (action.currentResponse.assets) {
+        Object.values(action.currentResponse.assets).forEach(function (asset) {
+          if (asset.amount) {
+            nextState[asset.tickerSymbol] = asset;
+          }
+        });
+      }
+
+      return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
+      return {};
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_ASSET"]:
+      if (nextState[action.asset.tickerSymbol]) {
+        nextState[action.asset.tickerSymbol].price = action.asset.price;
+        return nextState;
+      } else {
+        return oldState;
+      }
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
+      if (action.asset.amount) {
+        nextState[action.asset.tickerSymbol] = action.asset;
+      } else {
+        delete nextState[action.asset.tickerSymbol];
+      }
+
+      return nextState;
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
+      if (action.asset.amount) {
+        nextState[action.asset.tickerSymbol] = action.asset;
+        return nextState;
+      } else {
+        return oldState;
+      }
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PORTFOLIO_DATA"]:
+      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
+        if (nextState[updateObject.tickerSymbol]) {
+          nextState[updateObject.tickerSymbol].price = updateObject.price;
+          nextState[updateObject.tickerSymbol].percentChange = updateObject.percentChange;
+        }
+      });
+      return nextState;
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ownedAssetsReducer);
 
 /***/ }),
 
@@ -958,6 +1493,8 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+
 
 
 var _nullUser = Object.freeze({
@@ -972,11 +1509,15 @@ var sessionReducer = function sessionReducer() {
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       return {
-        currentUser: action.currentUser
+        currentUser: action.currentResponse.user
       };
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
       return _nullUser;
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_BUYING_POWER"]:
+      var nextState = Object.assign({}, oldState);
+      nextState.currentUser.buyingPower = action.currentUser.buyingPower;
 
     default:
       return oldState;
@@ -1012,7 +1553,7 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return _objectSpread(_objectSpread({}, oldState), {}, _defineProperty({}, action.currentUser.id, action.currentUser));
+      return _objectSpread(_objectSpread({}, oldState), {}, _defineProperty({}, action.currentResponse.user.id, action.currentResponse.user));
 
     default:
       return oldState;
@@ -1020,6 +1561,96 @@ var usersReducer = function usersReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (usersReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/watched_assets_reducer.js":
+/*!*****************************************************!*\
+  !*** ./frontend/reducers/watched_assets_reducer.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
+
+
+
+
+var watchedAssetsReducer = function watchedAssetsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var nextState = Object.assign({}, oldState);
+
+  switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      console.log("test");
+
+      if (action.currentResponse.assets) {
+        //res for response data
+        Object.values(action.currentResponse.assets).forEach(function (asset) {
+          if (!asset.amount) {
+            nextState[asset.tickerSymbol] = asset;
+            delete nextState[asset.tickerSymbol].amount;
+          }
+        });
+      }
+
+      return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
+      return {};
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_ASSET"]:
+      if (nextState[action.asset.tickerSymbol]) {
+        nextState[action.asset.tickerSymbol].price = action.asset.price;
+        return nextState;
+      } else {
+        return oldState;
+      }
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UNWATCH_ASSET"]:
+      delete nextState[action.ticker];
+      return nextState;
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
+      if (action.asset.amount) {
+        delete nextState[action.asset.tickerSymbol];
+      } else {
+        nextState[action.asset.tickerSymbol] = action.asset;
+        delete nextState[action.asset.tickerSymbol].quantity;
+      }
+
+      return nextState;
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
+      if (action.asset.amount) {
+        return oldState;
+      } else {
+        nextState[action.asset.tickerSymbol] = action.asset;
+        delete nextState[action.asset.tickerSymbol].amount;
+        return nextState;
+      }
+
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PORTFOLIO_DATA"]:
+      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
+        if (nextState[updateObject.tickerSymbol]) {
+          nextState[updateObject.tickerSymbol].price = updateObject.price;
+          nextState[updateObject.tickerSymbol].percentChange = updateObject.percentChange;
+        }
+      });
+      return nextState;
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (watchedAssetsReducer);
 
 /***/ }),
 
@@ -1048,6 +1679,127 @@ var configureStore = function configureStore() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (configureStore);
+
+/***/ }),
+
+/***/ "./frontend/util/asset_util.js":
+/*!*************************************!*\
+  !*** ./frontend/util/asset_util.js ***!
+  \*************************************/
+/*! exports provided: fetchAsset, updateAssetPrice, createHolding, updateHoldingAmount, deleteHolding */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAsset", function() { return fetchAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAssetPrice", function() { return updateAssetPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHoldingAmount", function() { return updateHoldingAmount; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
+var fetchAsset = function fetchAsset(tickerSymbol) {
+  return $.ajax({
+    url: "api/asset/".concat(tickerSymbol)
+  });
+};
+var updateAssetPrice = function updateAssetPrice(assetId, newPrice) {
+  return $.ajax({
+    method: 'PATCH',
+    url: "api/assets/".concat(assetId),
+    data: {
+      price: newPrice
+    }
+  });
+};
+var createHolding = function createHolding(userId, assetId, amount) {
+  return $.ajax({
+    method: "POST",
+    url: "api/holdings",
+    data: {
+      holding: {
+        user_id: userId,
+        asset_id: assetId,
+        amount: amount
+      }
+    }
+  });
+};
+var updateHoldingAmount = function updateHoldingAmount(holdingId, newAmount) {
+  return $.ajax({
+    method: "PATCH",
+    url: "api/holdings/".concat(holdingId),
+    data: {
+      amount: newAmount
+    }
+  });
+};
+var deleteHolding = function deleteHolding(holdingId) {
+  return $.ajax({
+    method: "DELETE",
+    url: "api/holdings/".concat(holdingId)
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/buying_power_util.js":
+/*!********************************************!*\
+  !*** ./frontend/util/buying_power_util.js ***!
+  \********************************************/
+/*! exports provided: updateBuyingPower */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBuyingPower", function() { return updateBuyingPower; });
+var updateBuyingPower = function updateBuyingPower(userId, BPChange) {
+  return $.ajax({
+    method: 'PATCH',
+    url: "api/user/".concat(userId),
+    data: {
+      buingPower: BPChange
+    }
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/external_util.js":
+/*!****************************************!*\
+  !*** ./frontend/util/external_util.js ***!
+  \****************************************/
+/*! exports provided: fetchNews, fetchCompanyData, fetchCompanyNews, fetchDailyGraphData */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchNews", function() { return fetchNews; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCompanyData", function() { return fetchCompanyData; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCompanyNews", function() { return fetchCompanyNews; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDailyGraphData", function() { return fetchDailyGraphData; });
+var fetchNews = function fetchNews(amount) {
+  return $.ajax({
+    url: "https://cloud.iexapis.com/stable/stock/aapl/news/last/".concat(amount, "?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    method: "GET"
+  });
+};
+var fetchCompanyData = function fetchCompanyData(tickerSymbol) {
+  return $.ajax({
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol, "/company?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    method: "GET"
+  });
+};
+var fetchCompanyNews = function fetchCompanyNews(tickerSymbol) {
+  return $.ajax({
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/news/last/8?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    method: "GET"
+  });
+};
+var fetchDailyGraphData = function fetchDailyGraphData(tickerSymbol) {
+  return $.ajax({
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/intraday-prices?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    method: "GET"
+  });
+};
 
 /***/ }),
 

@@ -9,7 +9,7 @@ Holding.destroy_all
 User.destroy_all
 Asset.destroy_all
 
-User.create({id:19, username: "Admin", password: "helloWorld"})
+
 
 Asset.create({ company_name: "Apple", ticker_symbol: "AAPL" })
 Asset.create({ company_name: "Amazon", ticker_symbol: "AMZN" })
@@ -155,10 +155,10 @@ Asset.create({ company_name: "Zendesk", ticker_symbol: "ZEN" })
 Asset.create({ company_name: "ZoomInfo", ticker_symbol: "ZI" })
 Asset.create({ company_name: "Zebra Technologies", ticker_symbol: "ZBRA" })
 
-
-Holding.create({ user_id: 19, asset_id: 29, amount: 0 })
-Holding.create({ user_id: 19, asset_id: 8, amount: 0 })
-Holding.create({ user_id: 19, asset_id: 28, amount: 0 })
-Holding.create({ user_id: 19, asset_id: 15, amount: 6 })
-Holding.create({ user_id: 19, asset_id: 97, amount: 34 })
-Holding.create({ user_id: 19, asset_id: 78, amount: 12 })
+User.create({ id: 19, username: "Admin", password: "helloWorld" })
+Holding.create({ user_id: 19, asset_id: 1, amount: 0 })
+Holding.create({ user_id: 19, asset_id: 3, amount: 6 })
+Holding.create({ user_id: 19, asset_id: 5, amount: 0 })
+Holding.create({ user_id: 19, asset_id: 7, amount: 0 })
+Holding.create({ user_id: 19, asset_id: 20, amount: 34 })
+Holding.create({ user_id: 19, asset_id: 30, amount: 12 })

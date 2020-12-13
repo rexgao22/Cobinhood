@@ -4,7 +4,10 @@ const usersReducer = (oldState={}, action) => {
     Object.freeze(oldState);
     switch (action.type) {
       case RECEIVE_CURRENT_USER:
-        return { ...oldState, [action.currentUser.id]: action.currentUser };
+        return {
+          ...oldState,
+          [action.currentResponse.user.id]: action.currentResponse.user,
+        };
 
       default:
         return oldState;

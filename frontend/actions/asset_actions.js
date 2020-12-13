@@ -1,5 +1,6 @@
 import * as APIUtil from "../util/asset_util";
 import { updateBuyingPower } from "../util/buying_power_util";
+import { fetchDailyGraphData } from "../util/external_util";
 
 export const WATCH_ASSET = "WATCH_ASSET";
 export const UNWATCH_ASSET = "UNWATCH_ASSET";
@@ -26,25 +27,25 @@ export const updateAsset = (asset) => ({
 
 export const receiveNewBuyingPower = buyingPower =>({
     type: RECEIVE_NEW_BUYING_POWER,
-    buyingPower
-})
+    buyingPower,
+});
 
 export const updateHolding = (asset) => ({
   type: UPDATE_HOLDING,
   asset,
 });
 
-export const receivePortfolioData = (tickerKeyToData, ownedAsset, buyingPower) =({
+const receivePortfolioData = (tickerKeyToData, ownedAssets, buyingPower) => ({
   type: RECEIVE_PORTFOLIO_DATA,
   tickerKeyToData,
-  ownedAsset,
+  ownedAssets,
   buyingPower,
-})
+});
 
 export const purchaseErrors = errors => ({
   type: RECEIVE_PURCHASE_ERRORS,
   errors,
-})
+});
 
 export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
   APIUtil.createHolding(assetId, userId, amount).then((asset) => {

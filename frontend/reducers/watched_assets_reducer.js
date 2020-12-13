@@ -13,14 +13,16 @@ import {obtainPricesAndChange } from "./obtain_price_and_change"
 
 
 
-export const watchedAssetsReducer = (oldState = {}, action) => {
+const watchedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      if (action.res.assets) {  //res for response data
-        Object.values(action.res.assets).forEach((asset) => {
-          if (!asset.quantity) {
+      console.log("test");
+      if (action.currentResponse.assets) {
+        //res for response data
+        Object.values(action.currentResponse.assets).forEach((asset) => {
+          if (!asset.amount) {
             nextState[asset.tickerSymbol] = asset;
             delete nextState[asset.tickerSymbol].amount;
           }
@@ -68,3 +70,5 @@ export const watchedAssetsReducer = (oldState = {}, action) => {
       return oldState;
   }
 };
+
+export default watchedAssetsReducer;
