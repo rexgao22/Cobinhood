@@ -18,7 +18,6 @@ const watchedAssetsReducer = (oldState = {}, action) => {
   const nextState = Object.assign({}, oldState);
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      console.log("test");
       if (action.currentResponse.assets) {
         //res for response data
         Object.values(action.currentResponse.assets).forEach((asset) => {

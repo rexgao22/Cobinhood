@@ -1588,8 +1588,6 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      console.log("test");
-
       if (action.currentResponse.assets) {
         //res for response data
         Object.values(action.currentResponse.assets).forEach(function (asset) {
