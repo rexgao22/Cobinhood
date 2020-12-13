@@ -1,4 +1,4 @@
-idclass Api::UsersController < ApplicationController
+class Api::UsersController < ApplicationController
   # skip_before_action :verify_authenticity_token
   before_action :require_logged_out, only: [:create]
 
