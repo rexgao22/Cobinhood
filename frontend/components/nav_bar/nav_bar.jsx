@@ -9,10 +9,10 @@ const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
         <h1 className="navbar-name">Cobinhood</h1>
         <img className="logo" src={window.images.logo} />
       </div>
+      <div className="navbar-about-me">
+        <span>About Me</span>
+      </div>
       <div className="home-link">
-        <div>
-          <span>About Me</span>
-        </div>
         <Link id="login" className="home-link-child" to="/login">
           {" "}
           Log In

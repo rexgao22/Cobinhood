@@ -41,11 +41,8 @@ class SessionForm extends Component {
       <div className="session-form-container">
         <div className="session-display-form">
           <header className="session-header">Welcome to Cobinhood</header>
-          <button className="demo-button" onClick={this.handleDemo.bind(this)}>
-            Demo Log In
-          </button>
           <form onSubmit={this.handleSubmit} className="session-form">
-            <span className= "session-errors">{this.renderErrors()}</span>
+            <span className="session-errors">{this.renderErrors()}</span>
             <div className="login-form">
               <br />
               <label>
@@ -71,6 +68,9 @@ class SessionForm extends Component {
               <button type="submit">{this.props.formType}</button>
             </div>
           </form>
+          <button className="demo-button" onClick={this.handleDemo.bind(this)}>
+            Demo Log In
+          </button>
           <div className="session-link">
             <h3>{title}</h3>
             <Link to={path}>{test}</Link>
