@@ -4,9 +4,15 @@ import NavBar from "./nav_bar";
 import {withRouter} from "react-router"
 
 const mapStateToProps = (state,ownProps) => {
+  const ownedAssets = Object.values(state.entities.ownedAssets);
+  let holdingValue = 0;
+  ownedAssets.forEach((asset)=>{
+    holdingValue += asset.amount * asset.price
+  });
   return {
     currentUser: state.session.currentUser,
-    path: ownProps
+    holdingValue,
+    path: ownProps,
   };
 };
 const mapDispatchToProps = (dispatch) => ({

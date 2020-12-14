@@ -1,3 +1,4 @@
+import { divide } from 'lodash';
 import React, { Component } from 'react';
  
 class SearchBar extends Component {
@@ -7,9 +8,16 @@ class SearchBar extends Component {
     }
     render() { 
         return (
-            <div>
-                <input type="text" placeholder="Search" onChange={this.handleChange}/>
+          <div className="search-bar">
+            <div className="input-container">
+              <img className="search-icon" src={window.images.searchIcon} />
+              <input
+                type="text"
+                placeholder="Search"
+                onChange={this.handleChange}
+              />
             </div>
+          </div>
         );
     }
 }

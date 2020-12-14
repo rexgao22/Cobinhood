@@ -137,3 +137,32 @@
   margin-right: 5px;
   margin-left: 10px;
 }
+
+.input-container {
+  display: flex;
+  align-items: center;
+  z-index: 3;
+}
+.search-bar {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  right: 140px;
+  width: 400px;
+  height: auto;
+  border: 1px solid lightgray;
+  border-radius: 3px;
+  background-color: white;
+  box-shadow: lightgray;
+  z-index: 1;
+}
+.search-bar input {
+  outline: none;
+  width: 350px;
+  min-height: 30px;
+  border: none;
+}
+.search-icon{
+  height: 30px;
+  width: 30px;
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./search_bar";
 
-const NavBar = ({currentUser,logout,path}) => {
+const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
   const HomeNavBar = () => (
     <section className="navbar">
       <div className="navbar-logo">
@@ -38,11 +38,13 @@ const NavBar = ({currentUser,logout,path}) => {
           <header>{currentUser.username}</header>
           <div className="balances">
             <div className="total-value">
-              <div className="value">$999</div>
+              <div className="value">
+                ${holdingValue + Number(currentUser.buyingPower)}
+              </div>
               <span>Portfolio Value</span>
             </div>
             <div className="user-buying-power">
-              <div className="value">$10000</div>
+              <div className="value">{currentUser.buyingPower}</div>
               <span>Buying Power</span>
             </div>
           </div>
@@ -54,11 +56,13 @@ const NavBar = ({currentUser,logout,path}) => {
       </div>
     </section>
   );
-  if (path.history.location.pathname === "/login" || path.history.location.pathname === "/signup"){
+  if (
+    path.history.location.pathname === "/login" ||
+    path.history.location.pathname === "/signup"
+  ) {
     return null;
-  }else{
-
-  return currentUser ? PortfolioNavBar() : HomeNavBar();
+  } else {
+    return currentUser ? PortfolioNavBar() : HomeNavBar();
   }
 };
 

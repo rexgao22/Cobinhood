@@ -9,7 +9,7 @@ class Portfolio extends Component {
     componentDidMount() {
         this.props.updatePortfolio(
           Object.keys(this.props.ownedAssets).concat(Object.keys(this.props.watchedAssets)),
-          this.props.owned,
+          this.props.ownedAssets,
           this.props.buyingPower
         );
     }

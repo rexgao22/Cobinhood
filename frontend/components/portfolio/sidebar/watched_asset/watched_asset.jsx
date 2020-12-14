@@ -3,8 +3,10 @@ import WatchedAssetItem from "./watched_asset_item";
 const OwnedAsset = ({ assets }) => {
   return (
     <div className="watched-asset-container">
-      <header>Watch List</header>
-      <ul className="watch-list">
+      <div className="header-block">
+        <header className="list-header">Watch List</header>
+      </div>
+      <ul className="watched-asset-list">
         {assets.map((asset) => (
           <WatchedAssetItem key={asset.id} asset={asset} />
         ))}

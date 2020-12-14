@@ -3,8 +3,10 @@ import OwnedAseetItem from "./owned_asset_item"
 const OwnedAsset = ({ assets }) => {
   return (
     <div className="owned-asset-container">
-      <header>Stocks</header>
-      <ul className="asset-list">
+      <div className="header-block">
+        <header className="list-header">Stocks</header>
+      </div>
+      <ul className="owned-asset-list">
         {assets.map((asset) => (
           <OwnedAseetItem key={asset.id} asset={asset} />
         ))}

@@ -2,24 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const OwnedAssetItem = ({ asset }) => {
-  let percentChangeMsgColor
+  let pcColor
   if (asset.percentChange < 0) {
-    percentChangeMsgColor = "pc-red";
+    pcColor = "pc-red";
   } else if (asset.percentChange > 0) {
-    percentChangeMsgColor = "pc-green";
+    pcColor = "pc-green";
   } else {
-    percentChangeMsgColor = "pc-black";
+    pcColor = "pc-grey";
   }
   return (
     <Link to={`/assets/${asset.tickerSymbol.toLowerCase()}`}>
-      <li>
+      <li className="asset-list">
         <div>
-          <span>{asset.tickerSymbol}</span>
-          <span>{`${asset.amount}`} shares</span>
+          <span className="ticker-symbol">{asset.tickerSymbol}</span>
+          <span className="amount">{`${asset.amount}`} shares</span>
         </div>
         <div>
-          <span>${asset.price}</span>
-          <span>{`${Number(asset.percentChange).toFixed(2)}%`}</span>
+          <span className="price">${asset.price}</span>
+          <span className={pcColor}>{`${asset.percentChange}%`}</span>
         </div>
       </li>
     </Link>

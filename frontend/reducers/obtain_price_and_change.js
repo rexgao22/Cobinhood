@@ -12,8 +12,10 @@ export const obtainPricesAndChange = (tickerKeyToData) => {
       j++;
     }
     const startOfDayPrice = data[j].average;
-    tickerMap["recentPrice"] = parseInt(endOfDayPrice * 100);
-    tickerMap["percentChange"] = (endOfDayPrice / startOfDayPrice - 1) * 100;
+    tickerMap["price"] = Math.trunc(endOfDayPrice *100)/100;
+    tickerMap["percentChange"] = Math.trunc(
+      (endOfDayPrice / startOfDayPrice - 1) * 10000
+    )/100;
     return tickerMap;
   });
 };
