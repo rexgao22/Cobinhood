@@ -22,10 +22,44 @@
     width: 30px;
 }
 .navbar-about-me{
+  margin-right: 600px;
+  position: relative;
+}
+
+.dropdown-header{
   font-family: 'Langar', cursive;
   font-size: 18px;
-  margin-right: 600px;
 }
+
+.dropdown-header:hover {
+  cursor: pointer;
+  color: grey;
+}
+
+.about-me-dropdown{
+  display: none;
+  position: absolute;
+  background-color: rgb(231, 225, 225);
+  box-shadow: 0 0 15px rgb(187, 182, 182);
+  right: -20px;
+  top: 25px;
+  width: 120px;
+  height: 120px;
+  z-index: 1;
+  // margin-top: 10px;
+}
+.about-me-dropdown a{
+  padding: 5px;
+}
+
+.navbar-about-me:hover .about-me-dropdown {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
 .home-link{
   margin-right: 24px;
   font-family: 'Langar', cursive;

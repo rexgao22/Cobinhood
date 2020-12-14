@@ -10,7 +10,18 @@ const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
         <img className="logo" src={window.images.logo} />
       </div>
       <div className="navbar-about-me">
-        <span>About Me</span>
+        <span className="dropdown-header">About Me</span>
+        <div className="about-me-dropdown">
+          <a href="https://github.com/rexgao22">
+            <i class="fab fa-github-square fa-2x"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
+            <i class="fab fa-linkedin fa-2x"></i>
+          </a>
+          <a href="https://lolchess.gg/profile/na/ikebukuro">
+            <i class="fas fa-gamepad fa-2x"></i>
+          </a>
+        </div>
       </div>
       <div className="home-link">
         <Link id="login" className="home-link-child" to="/login">

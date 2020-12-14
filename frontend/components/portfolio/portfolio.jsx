@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from './sidebar/sidebar';
-
+import PortfolioGraph from "./portfolio_graph";
 
 class Portfolio extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class Portfolio extends Component {
     render() {     
         return (
           <div>
-            Portfolio
+          <PortfolioGraph />
           <Sidebar />
           </div>
         );
