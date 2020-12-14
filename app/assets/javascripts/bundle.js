@@ -1822,25 +1822,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchDailyGraphData", function() { return fetchDailyGraphData; });
 var fetchNews = function fetchNews(amount) {
   return $.ajax({
-    url: "https://cloud.iexapis.com/stable/stock/aapl/news/last/".concat(amount, "?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    url: "https://cloud.iexapis.com/stable/stock/aapl/news/last/".concat(amount, "?token=").concat(window.cloudIEXAPIKey),
     method: "GET"
   });
 };
 var fetchCompanyData = function fetchCompanyData(tickerSymbol) {
   return $.ajax({
-    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol, "/company?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol, "/company?token=").concat(window.cloudIEXAPIKey),
     method: "GET"
   });
 };
 var fetchCompanyNews = function fetchCompanyNews(tickerSymbol) {
   return $.ajax({
-    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/news/last/8?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/news/last/8?token=").concat(window.cloudIEXAPIKey),
     method: "GET"
   });
 };
 var fetchDailyGraphData = function fetchDailyGraphData(tickerSymbol) {
   return $.ajax({
-    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/intraday-prices?token=pk_10e22efda7b648c89a22a67f1cd90719"),
+    url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/intraday-prices?token=").concat(window.cloudIEXAPIKey),
     method: "GET"
   });
 };
