@@ -11,8 +11,6 @@ import {
 } from "../actions/asset_actions";
 import {obtainPricesAndChange } from "./obtain_price_and_change"
 
-
-
 const watchedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);

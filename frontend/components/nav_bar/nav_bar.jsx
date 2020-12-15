@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./search_bar";
 
-const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
+const NavBar = ({ currentUser, holdingValue,logout, path }) => {
   const HomeNavBar = () => (
     <section className="navbar">
       <div className="navbar-logo">
@@ -13,13 +13,13 @@ const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
         <span className="dropdown-header">About Me</span>
         <div className="about-me-dropdown">
           <a href="https://github.com/rexgao22">
-            <i class="fab fa-github-square fa-2x"></i>
+            <i className="fab fa-github-square fa-2x"></i>
           </a>
           <a href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
-            <i class="fab fa-linkedin fa-2x"></i>
+            <i className="fab fa-linkedin fa-2x"></i>
           </a>
           <a href="https://lolchess.gg/profile/na/ikebukuro">
-            <i class="fas fa-gamepad fa-2x"></i>
+            <i className="fas fa-gamepad fa-2x"></i>
           </a>
         </div>
       </div>
@@ -50,12 +50,18 @@ const NavBar = ({ currentUser, holdingValue, buyingPower,logout, path }) => {
           <div className="balances">
             <div className="total-value">
               <div className="value">
-                ${holdingValue + Number(currentUser.buyingPower)}
+                ${(holdingValue + currentUser.buyingPower).toLocaleString("en", {
+                  minimumFractionDigits: 2,
+                })}
               </div>
               <span>Portfolio Value</span>
             </div>
             <div className="user-buying-power">
-              <div className="value">{currentUser.buyingPower}</div>
+              <div className="value">
+                {currentUser.buyingPower.toLocaleString("en", {
+                  minimumFractionDigits: 2,
+                })}
+              </div>
               <span>Buying Power</span>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import WatchedAssetItem from "./watched_asset_item";
-const OwnedAsset = ({ assets }) => {
+
+const OwnedAsset = ({ assets ,fetchAssets}) => {
   return (
     <div className="watched-asset-container">
       <div className="header-block">

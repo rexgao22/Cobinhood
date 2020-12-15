@@ -35,7 +35,7 @@ export const updateHolding = (asset) => ({
   asset,
 });
 
-const receivePortfolioData = (tickerKeyToData, ownedAssets, buyingPower) => ({
+export const receivePortfolioData = (tickerKeyToData, ownedAssets, buyingPower) => ({
   type: RECEIVE_PORTFOLIO_DATA,
   tickerKeyToData,
   ownedAssets,
@@ -46,6 +46,9 @@ export const purchaseErrors = (errors) => ({
   type: RECEIVE_PURCHASE_ERRORS,
   errors,
 });
+
+
+
 
 export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
   APIUtil.createHolding(assetId, userId, amount).then((asset) => {
@@ -109,9 +112,10 @@ export const updatePortfolio = (tickerSymbols, ownedAssets, buyingPower) => (
   tickerSymbols.forEach((tickerSymbol) => {
     const graphFetch = fetchDailyGraphData(tickerSymbol);
     tickerKeyToData[tickerSymbol] = graphFetch;
-    graphFetches.push(graphFetch);
+    graphFetches.push(graphFetch)
   });
   return Promise.all(graphFetches).then(() =>
     dispatch(receivePortfolioData(tickerKeyToData, ownedAssets, buyingPower))
   );
 };
+

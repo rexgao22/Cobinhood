@@ -14,11 +14,25 @@ class Portfolio extends Component {
         );
     }
     
-    render() {     
+    render() { 
+      const graphPoints = this.props.portfolioGraph;
+      if (graphPoints.length === 0) return null;  
+      const portValueChange =
+        graphPoints[graphPoints.length - 1].portfolioValue -graphPoints[0].portfolioValue;
+      const percentChange = portValueChange/graphPoints[0].portfolioValue * 100;
+      const endValue = graphPoints[graphPoints.length - 1].portfolioValue
         return (
-          <div>
-          <PortfolioGraph />
-          <Sidebar />
+          <div className="portfolio">
+            <div className="main-section">
+              <PortfolioGraph
+                graphPoints={graphPoints}
+                portValueChange={portValueChange}
+                buyingPower={this.props.buyingPower}
+                percentChange={percentChange}
+                endValue={endValue}
+              />
+            </div>
+            <Sidebar />
           </div>
         );
     }

@@ -1,0 +1,38 @@
+.portfolio-graph {
+    position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #e6e9ed;
+  .account-change {
+    margin-bottom: 25px;
+  }
+  header {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  span {
+    font-size: 12px;
+    margin-right: 3px;
+  }
+  span:last-child {
+    color: gray;
+  }
+}
+
+.recharts-tooltip-wrapper {
+  top: -105px !important;
+  right: 585px;
+  -webkit-transform: 0ms linear 0s !important;
+  width: 80px;
+  height: 30px;
+  background-color: transparent !important;
+  overflow: hidden;
+  .recharts-default-tooltip {
+    border: none !important;
+    background-color: transparent !important;
+    p {
+      font-size: 13px;
+      color: gray;
+    }
+  }
+}
