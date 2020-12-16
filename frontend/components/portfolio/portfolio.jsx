@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Sidebar from './sidebar/sidebar';
 import PortfolioGraph from "./portfolio_graph";
-
+import NewsContainer from "./news/news_container"
 class Portfolio extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +31,7 @@ class Portfolio extends Component {
                 percentChange={percentChange}
                 endValue={endValue}
               />
+              <NewsContainer />
             </div>
             <Sidebar />
           </div>

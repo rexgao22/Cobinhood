@@ -1,4 +1,11 @@
 class Api::AssetsController < ApplicationController
+
+    def index 
+        @assets = current_user.assets
+        @holdings = current_user.holdings 
+        render :index
+    end
+
     def show 
         @asset = Asset.find_by(ticker: params[:id])
     end

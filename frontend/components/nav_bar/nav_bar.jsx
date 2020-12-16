@@ -38,9 +38,8 @@ const NavBar = ({ currentUser, holdingValue,logout, path }) => {
     <section className="navbar">
       <div className="navbar-logo">
         <Link className="navbar-name" to="/portfolio">
-          Cobinhood
-        </Link>
         <img className="logo" src={window.images.logo} />
+        </Link>
       </div>
       <SearchBar />
       <div className="user-dropdown">

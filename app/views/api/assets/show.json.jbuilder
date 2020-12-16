@@ -1,1 +1,2 @@
-json.extract! @asset, :id, :company_name, :ticker_symbol
+json.partial! "asset", asset: @asset
+

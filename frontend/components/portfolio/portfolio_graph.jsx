@@ -27,7 +27,6 @@ class PortfolioGraph extends React.Component {
   }
 
   render() {
-    console.log(this.props.percentChange);
     if (this.props.graphPoints.length === 0)
       return (
         <div className="portfolio-graph-container">
