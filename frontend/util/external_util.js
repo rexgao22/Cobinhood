@@ -1,6 +1,6 @@
-export const fetchNews = (amount) => {
+export const fetchNews = () => {
   return $.ajax({
-    url: `https://cloud.iexapis.com/stable/stock/aapl/news/last/${amount}?token=${window.cloudIEXAPIKey}`,
+    url: `https://financialmodelingprep.com/api/v3/stock_news?limit=5?&apikey=${window.cloudIEXAPIKey}`,
     method: "GET",
   });
 };

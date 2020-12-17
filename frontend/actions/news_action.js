@@ -7,5 +7,5 @@ const receiveNews = (news) => ({
   news,
 });
 
-export const requestNews = (amount) => (dispatch) =>
-  fetchNews(amount).then((news) => dispatch(receiveNews(news)));
+export const requestNews = () => (dispatch) =>
+  fetchNews().then((news) => dispatch(receiveNews(news)));

@@ -5,8 +5,8 @@ const NewsIndex = ({ story }) => (
     <a className="news-index" href={story.url} target="_blank">
       <img  src={story.image} />
       <main>
-        <h4>{story.source}</h4>
-        <h3>{story.headline}</h3>
+        <h4>{story.site}</h4>
+        <h3>{story.title}</h3>
       </main>
     </a>
   </li>

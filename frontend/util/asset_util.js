@@ -1,6 +1,6 @@
 export const fetchAsset = tickerSymbol =>(
     $.ajax({
-        url: `api/asset/${tickerSymbol}`
+        url: `api/assets/${tickerSymbol}`
     })
 );
 

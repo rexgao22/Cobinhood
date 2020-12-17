@@ -7,7 +7,8 @@ class Api::AssetsController < ApplicationController
     end
 
     def show 
-        @asset = Asset.find_by(ticker: params[:id])
+        @asset = Asset.find_by(ticker_symbol: params[:id])
+        render :show
     end
 
     def search 

@@ -6,7 +6,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-    requestNews : ()=>dispatch(requestNews(10))
+    requestNews : ()=>dispatch(requestNews())
 });
 
 export default connect(mapStateToProps,mapDispatchToProps)(News)

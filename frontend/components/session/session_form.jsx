@@ -19,7 +19,7 @@ class SessionForm extends Component {
     e.preventDefault();
     this.props
       .action(this.state)
-      .then(() => this.props.history.push("/portfolio"));
+
   }
 
   renderErrors() {
@@ -33,7 +33,7 @@ class SessionForm extends Component {
   }
   handleDemo(e){
     e.preventDefault();
-    this.props.demoLogin().then(() => this.props.history.push("/portfolio"));
+    this.props.demoLogin();
   }
   render() {
     const [title, test, path] = this.props.logProp;
