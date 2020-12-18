@@ -89,29 +89,18 @@ class AssetGraph extends React.Component {
       <div className="asset-graph">
         <div className="company-name">{this.props.companyName}</div>
         <header>
-          {`$${this.state.price.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`}
+          {`$${this.state.price.toFixed(2).toLocaleString("en-US")}`}
         </header>
         <div className="asset-change">
           <span>
-            {`${sign}$${Math.abs(this.state.priceChange).toLocaleString(
-              "en-US",
-              {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }
-            )}`}
+            {`${sign}$${Math.abs(this.state.priceChange)
+              .toFixed(2)
+              .toLocaleString("en-US")}`}
           </span>
           <span>
-            {`(${sign}${Math.abs(this.state.percentChange).toLocaleString(
-              "en-US",
-              {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }
-            )}%)`}
+            {`(${sign}${Math.abs(this.state.percentChange)
+              .toFixed(2)
+              .toLocaleString("en-US")}%)`}
           </span>
           <span>Today</span>
         </div>

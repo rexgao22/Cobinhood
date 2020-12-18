@@ -1,0 +1,26 @@
+.company-info p {
+    font-size: 19px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid rgb(231, 229, 229);
+    line-height: 1.3em;
+}
+.company-info h2 {
+  font-size: 23px;
+ 
+}
+
+.others-info {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 50px;
+  font-size: 15px;
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+  div span:first-child {
+      padding-bottom: 10px;
+      font-weight: bolder;
+    }
+}

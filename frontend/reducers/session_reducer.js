@@ -13,7 +13,7 @@ const sessionReducer = (oldState = _nullUser, action) => {
       return _nullUser;
     case RECEIVE_NEW_BUYING_POWER:
       const nextState = Object.assign({},oldState);
-      nextState.currentUser.buyingPower = action.currentUser.buyingPower;
+      nextState.currentUser.buyingPower = action.buyingPower;
     default:
       return oldState;
   }

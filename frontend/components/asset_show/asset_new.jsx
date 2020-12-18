@@ -1,6 +1,6 @@
 import React from "react";
-import { fetchCompanyNews } from "../../util/external_api_util";
-
+import { fetchCompanyNews } from "../../util/external_util";
+import NewsIndex from "../portfolio/news/news_index"
 
 class AssetNews extends React.Component {
   constructor(props) {
@@ -9,44 +9,24 @@ class AssetNews extends React.Component {
   }
 
   componentDidMount() {
-    fetchCompanyNews(this.props.ticker).then((news) =>
-      this.setState({ news: this.filterStories(news) })
-    );
+    fetchCompanyNews(this.props.tickerSymbol).then((news)=>this.setState({ news}));
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.ticker !== prevProps.ticker) {
-      fetchCompanyNews(this.props.ticker).then((news) =>
-        this.setState({ news: this.filterStories(news) })
+    if (this.props.tickerSymbol !== prevProps.tickerSymbol) {
+      fetchCompanyNews(this.props.tickerSymbol).then((news) =>
+        this.setState({ news })
       );
     }
   }
 
-  filterStories(news) {
-    const englishStories = [];
-    news.forEach((story) => {
-      if (story.lang === "en") {
-        englishStories.push(story);
-      }
-    });
-    return englishStories;
-  }
-
   render() {
     return (
-      <div className="asset-news-container">
+      <div className="news">
         <h2>News</h2>
-        <ul className="asset-news-index">
-          {this.state.news.map((story) => (
-            <a target="_blank" href={story.url} key={story.datetime}>
-              <li className="asset-news-story">
-                <div>
-                  <h4 className="asset-news-source">{story.source}</h4>
-                  <span className="asset-news-headline">{story.headline}</span>
-                </div>
-                <img className="asset-news-img" src={story.image} />
-              </li>
-            </a>
+        <ul>
+          {this.state.news.map((story, idx) => (
+            <NewsIndex story={story} key={idx} />
           ))}
         </ul>
       </div>

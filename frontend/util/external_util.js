@@ -13,7 +13,7 @@ export const fetchCompanyData = (tickerSymbol) =>
 
 export const fetchCompanyNews = (tickerSymbol) =>
   $.ajax({
-    url: `https://financialmodelingprep.com/api/v3/stock_news?tickers=${tickerSymbol}&limit=5&apikey=${window.fmpAPIKey}`,
+    url: `https://financialmodelingprep.com/api/v3/stock_news?tickers=${tickerSymbol.toUpperCase()}&limit=5&apikey=${window.fmpAPIKey}`,
     method: "GET",
   });
 

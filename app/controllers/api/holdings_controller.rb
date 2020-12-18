@@ -9,7 +9,7 @@ class Api::HoldingsController < ApplicationController
     end
 
     def update
-        @holding = Holding.find_by(id: params[:id]) 
+        @holding = Holding.find(params[:id])
         int_amount = @holding.amount  
         @holding.amount = params[:amount]
         if @holding.save

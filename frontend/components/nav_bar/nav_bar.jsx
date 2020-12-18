@@ -38,7 +38,7 @@ const NavBar = ({ currentUser, holdingValue,logout, path }) => {
     <section className="navbar">
       <div className="navbar-logo">
         <Link className="navbar-name" to="/portfolio">
-        <img className="logo" src={window.images.logo} />
+          <img className="logo" src={window.images.logo} />
         </Link>
       </div>
       <SearchBar />
@@ -49,17 +49,16 @@ const NavBar = ({ currentUser, holdingValue,logout, path }) => {
           <div className="balances">
             <div className="total-value">
               <div className="value">
-                ${(holdingValue + currentUser.buyingPower).toLocaleString("en", {
-                  minimumFractionDigits: 2,
-                })}
+                $
+                {(holdingValue + currentUser.buyingPower)
+                  .toFixed(2)
+                  .toLocaleString("en")}
               </div>
               <span>Portfolio Value</span>
             </div>
             <div className="user-buying-power">
               <div className="value">
-                {currentUser.buyingPower.toLocaleString("en", {
-                  minimumFractionDigits: 2,
-                })}
+                {currentUser.buyingPower.toFixed(2).toLocaleString("en")}
               </div>
               <span>Buying Power</span>
             </div>

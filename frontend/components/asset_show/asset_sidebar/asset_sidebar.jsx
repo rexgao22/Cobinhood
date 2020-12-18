@@ -8,9 +8,9 @@ class AssetSidebar extends Component {
     this.displayBuyOnlyForm = this.displayBuyOnlyForm.bind(this);
     this.display = this.display.bind(this);
   }
-  setSuccessMsg(msg) {
-    this.setState({ successMsg: msg });
-  }
+  // successMsg(msg) {
+  //   this.setState({ successMsg: msg });
+  // }
   displayTradeFrom() {
     return (
       <div>
@@ -48,7 +48,7 @@ class AssetSidebar extends Component {
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.currentUser.amount}
           assetType="Watched Asset"
-          successMessage={(msg) => this.successMsg(msg)}
+          // successMsg={(msg) => this.successMsg(msg)}
           assetAction={() =>
             this.props.deleteHolding(this.props.watchedAsset.holdingId)
           }

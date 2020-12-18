@@ -20,7 +20,7 @@ class BuyOnlyForm extends Component {
         shares: e.target.value,
         cost: (
           this.props.asset.price * parseInt(e.target.value)
-        ).toLocaleString("en", { minimumFractionDigits: 2 }),
+        ).toFixed(2).toLocaleString("en"),
         inputStatu: valid,
         showPurchaseError: false,
       });
@@ -60,7 +60,7 @@ class BuyOnlyForm extends Component {
     } else if (typeof input === "undefind" || input < 0) {
       return false;
     } else {
-      return false;
+      return true;
     }
   }
   render() {
@@ -99,9 +99,7 @@ class BuyOnlyForm extends Component {
             </div>
             <span>
               $
-              {this.props.asset.price.toLocaleString("en", {
-                minimumFractionDigits: 2,
-              })}
+              {this.props.asset.price.toFixed(2).toLocaleString("en")}
             </span>
           </div>
           <div className="estimate-content">
@@ -120,9 +118,7 @@ class BuyOnlyForm extends Component {
         <div className="portValue-display">
           <span>
             {`$
-            ${this.props.buyingPower.toLocaleString("en", {
-              minimumFractionDigits: 2,
-            })}
+            ${this.props.buyingPower.toFixed(2).toLocaleString("en")}
             Buying Power Available `}
           </span>
         </div>

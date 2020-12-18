@@ -42,7 +42,7 @@ export const receivePortfolioData = (tickerKeyToData, ownedAssets, buyingPower) 
   buyingPower,
 });
 
-export const purchaseErrors = (errors) => ({
+export const receivePurchaseErrors = (errors) => ({
   type: RECEIVE_PURCHASE_ERRORS,
   errors,
 });

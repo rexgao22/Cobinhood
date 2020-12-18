@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import AssetNews from './asset_new';
 import AssetGraph from './asset_graph';
+import CompanyInfo from './company_info'
 import AssetSideBarContainer from './asset_sidebar/asset_sidebar_container'
 import {fetchDailyGraphData} from '../../util/external_util';
 import { fetchAsset} from '../../util/asset_util'
+
 class AssetShow extends Component {
     constructor(props) {
         super(props);
@@ -102,7 +104,12 @@ class AssetShow extends Component {
                   percentChange={this.state.percentChange}
                   portValueChange={this.state.portValueChange}
                 />
-                <AssetNews tickerSymbol={this.props.match.params.tickerSymbol}/>
+                <CompanyInfo
+                  tickerSymbol={this.props.match.params.tickerSymbol}
+                />
+                <AssetNews
+                  tickerSymbol={this.props.match.params.tickerSymbol}
+                />
               </div>
               {this.assetSidebarDisplay()}
             </div>

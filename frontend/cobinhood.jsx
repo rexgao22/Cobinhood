@@ -6,6 +6,7 @@ import { logout } from "./util/session_util";
 import throttle from "lodash/throttle";
 import { loadState, saveState } from "./local_storage";
 
+
 document.addEventListener("DOMContentLoaded", () => {
   // let store;
   let preloadedState = {};

@@ -31,10 +31,7 @@ class PortfolioGraph extends React.Component {
       return (
         <div className="portfolio-graph-container">
           <header>
-            {`$${this.props.buyingPower.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}`}
+            {`$${this.props.buyingPower.toFixed(2).toLocaleString("en-US")}`}
           </header>
           <p>Welcome to RobinGood!</p>
         </div>
@@ -44,26 +41,18 @@ class PortfolioGraph extends React.Component {
     return (
       <div className="portfolio-graph">
         <header>
-          {`$${this.state.value.toLocaleString("en-US", {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}`}
+          {`$${this.state.value.toFixed(2).toLocaleString("en-US")}`}
         </header>
         <div className="account-change">
           <span>
-            {`${sign}$${Math.abs(this.state.valueChange).toLocaleString(
-              "en-US",
-              {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }
-            )}`}
+            {`${sign}$${Math.abs(this.state.valueChange)
+              .toFixed(2)
+              .toLocaleString("en-US")}`}
           </span>
-          <span >
-            {`(${sign}${Math.abs(this.state.perChange).toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}%)`}
+          <span>
+            {`(${sign}${Math.abs(this.state.perChange)
+              .toFixed(2)
+              .toLocaleString("en-US")}%)`}
           </span>
           <span>Today</span>
         </div>

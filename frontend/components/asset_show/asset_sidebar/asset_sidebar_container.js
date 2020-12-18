@@ -8,14 +8,15 @@ import {
 } from "../../../actions/asset_actions";
 import AssetSidebar from "./asset_sidebar";
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = (state, ownProps) => {
+  return({
   currentUser: state.session.currentUser,
   asset: ownProps.asset,
   ownedAsset: state.entities.ownedAssets[ownProps.asset.tickerSymbol],
-  watchedAsset: state.entities.watchedAssets[ownProps.asset.tickerSymbol],
-});
+  watchedAsset: state.entities.watchedAssets[ownProps.asset.tickerSymbol],})
+};
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch,ownProps) => ({
   deleteHolding: (holdingId) => dispatch(deleteHolding(holdingId)),
   sellAsset: (userId, holdingId, oldAmount, amountSell) =>
     dispatch(sellAsset(userId, holdingId, oldAmount, amountSell,ownProps.asset.price)),

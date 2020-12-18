@@ -24,7 +24,7 @@ class TradeForm extends React.Component {
     } else if (typeof input === "undefind" || input < 0) {
       return false;
     } else {
-      return false;
+      return true;
     }
   }
 
@@ -39,7 +39,7 @@ class TradeForm extends React.Component {
         shares: e.target.value,
         cost: (
           this.props.asset.price * parseInt(e.target.value)
-        ).toLocaleString("en-US", { minimumFractionDigits: 2 }),
+        ).toFixed(2).toLocaleString("en-US"),
         inputStatu: valid,
         showPurchaseError: false,
       });
@@ -55,10 +55,10 @@ class TradeForm extends React.Component {
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
-      this.props.buyAction(parseInt(this.state.shares));
-      this.props.successMsg(
-        `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-      );
+      this.props.buyAsset(parseInt(this.state.shares));
+      // this.props.successMsg(
+      //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+      // );
     } else {
       this.setState({ showPurchaseError: true });
     }
@@ -71,9 +71,7 @@ class TradeForm extends React.Component {
       this.state.status === "buy" ? (
         <span>
           {`$
-            ${this.props.buyingPower.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-            })}
+            ${this.props.buyingPower.toFixed(2).toLocaleString("en-US")}
             Buying Power Available `}
         </span>
       ) : (
@@ -108,11 +106,7 @@ class TradeForm extends React.Component {
               <i className="far fa-question-circle"></i>
             </div>
             <span>
-              $
-              {this.props.asset.price.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              ${this.props.asset.price.toFixed(2).toLocaleString("en-US")}
             </span>
           </div>
           <div className="estimate-content">
@@ -120,7 +114,7 @@ class TradeForm extends React.Component {
             <span>${this.state.cost}</span>
           </div>
           <div className="sidebar-errors">
-            <div className= {errorClass}>
+            <div className={errorClass}>
               <i className="fas fa-exclamation-circle"></i>
               <span>Error</span>
             </div>
