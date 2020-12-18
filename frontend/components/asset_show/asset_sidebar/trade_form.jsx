@@ -11,7 +11,7 @@ class TradeForm extends React.Component {
       inputStatu: false,
       showPurchaseError: false,
     };
-    this.selectTab = this.selectTab.bind(this);
+    this.selectedTab = this.selectedTab.bind(this);
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -39,7 +39,7 @@ class TradeForm extends React.Component {
         shares: e.target.value,
         cost: (
           this.props.asset.price * parseInt(e.target.value)
-        ).toLocaleString("en", { minimumFractionDigits: 2 }),
+        ).toLocaleString("en-US", { minimumFractionDigits: 2 }),
         inputStatu: valid,
         showPurchaseError: false,
       });
@@ -65,12 +65,13 @@ class TradeForm extends React.Component {
   }
 
   render() {
+    const errorClass = this.state.showPurchaseError ? "error-show" : "error-hide";
     const spanText = this.state.status === "buy" ? "Cost" : "Credit";
     const portValueDisplay =
       this.state.status === "buy" ? (
         <span>
           {`$
-            ${this.props.buyingPower.toLocaleString("en", {
+            ${this.props.buyingPower.toLocaleString("en-US", {
               minimumFractionDigits: 2,
             })}
             Buying Power Available `}
@@ -78,6 +79,7 @@ class TradeForm extends React.Component {
       ) : (
         <span>{this.props.amount} shares Available</span>
       );
+
     const errorMsg = this.state.showPurchaseError ? (
       <span>Please enter a valid number of shares.</span>
     ) : null;
@@ -85,13 +87,13 @@ class TradeForm extends React.Component {
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (
       <div className={`asset-sidebar ${colorClass}`}>
-        <Headers
+        <TradeFormHeader
           status={this.state.status}
           selectedTab={this.selectedTab}
           tickerSymbol={this.props.asset.tickerSymbol}
         />
-        <div>
-          <div>
+        <div className="trade-form">
+          <div className="trade-form-part">
             <span>Shares</span>
             <input
               type="text"
@@ -100,31 +102,29 @@ class TradeForm extends React.Component {
               onChange={this.update}
             />
           </div>
-          <div>
+          <div className="trade-form-part">
             <div>
               <span>Market Price</span>
               <i className="far fa-question-circle"></i>
             </div>
             <span>
               $
-              {this.props.asset.price.toLocaleString("en", {
+              {this.props.asset.price.toLocaleString("en-US", {
                 minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
               })}
             </span>
           </div>
-          <div>
+          <div className="estimate-content">
             <span>Estimated {spanText}</span>
             <span>${this.state.cost}</span>
           </div>
-          <div className="sidebar-form-errors">
-            <div>
-              <i class="fas fa-exclamation-circle"></i>
+          <div className="sidebar-errors">
+            <div className= {errorClass}>
+              <i className="fas fa-exclamation-circle"></i>
               <span>Error</span>
             </div>
-            {errorMsg}
-            {this.props.errors.map((error) => (
-              <span>{error}</span>
-            ))}
+            <span>{errorMsg}</span>
           </div>
           <button onClick={this.handleSubmit}>{"Review Order"}</button>
         </div>

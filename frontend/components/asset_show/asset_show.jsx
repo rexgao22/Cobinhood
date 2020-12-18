@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import News from '../portfolio/news/news';
+import AssetNews from './asset_new';
 import AssetGraph from './asset_graph';
 import AssetSideBarContainer from './asset_sidebar/asset_sidebar_container'
 import {fetchDailyGraphData} from '../../util/external_util';
@@ -9,8 +9,8 @@ class AssetShow extends Component {
         super(props);
         this.state = {  
             assetId: "",
-            ticker: "",
-            name: "",
+            tickerSymbol: "",
+            companyName: "",
             price: "",
             percentChange: "",
             portValueChange: "",
@@ -23,11 +23,11 @@ class AssetShow extends Component {
           .then((asset) =>
             this.setState({
               assetId: asset.id,
-              ticker: asset.tickerSymbol,
-              name: asset.companyName,
+              tickerSymbol: asset.tickerSymbol,
+              companyName: asset.companyName,
             })
           )
-          .then(() => fetchDailyGraphData(this.state.ticker))
+          .then(() => fetchDailyGraphData(this.state.tickerSymbol))
           .then((data) => {
             let i = data.length - 1;
             while (!data[i].average) {
@@ -47,41 +47,41 @@ class AssetShow extends Component {
           });
     }
 
-    componentDidUpdate(prevProps) {
-        fetchAsset(this.props.match.params.tickerSymbol.toUpperCase())
-          .then((asset) =>
-            this.setState({
-              assetId: asset.id,
-              ticker: asset.tickerSymbol,
-              name: asset.companyName,
-            })
-          )
-          .then(() => fetchDailyGraphData(this.state.ticker))
-          .then((data) => {
-            let i = data.length - 1;
-            while (!data[i].average) {
-              i--;
-            }
-            const endOfDayPrice = data[i].average;
-            let j = 0;
-            while (!data[j].average) {
-              j++;
-            }
-            const startOfDayPrice = data[j].average;
-            this.setState({
-              price: endOfDayPrice,
-              percentChange: (endOfDayPrice / startOfDayPrice - 1) * 100,
-              portValueChange: endOfDayPrice - startOfDayPrice,
-            });
-          });
-    }
+    // componentDidUpdate(prevProps) {
+    //     fetchAsset(this.props.match.params.tickerSymbol.toUpperCase())
+    //       .then((asset) =>
+    //         this.setState({
+    //           assetId: asset.id,
+    //           tickerSymbol: asset.tickerSymbol,
+    //           companyName: asset.companyName,
+    //         })
+    //       )
+    //       .then(() => fetchDailyGraphData(this.state.tickerSymbol))
+    //       .then((data) => {
+    //         let i = data.length - 1;
+    //         while (!data[i].average) {
+    //           i--;
+    //         }
+    //         const endOfDayPrice = data[i].average;
+    //         let j = 0;
+    //         while (!data[j].average) {
+    //           j++;
+    //         }
+    //         const startOfDayPrice = data[j].average;
+    //         this.setState({
+    //           price: endOfDayPrice,
+    //           percentChange: (endOfDayPrice / startOfDayPrice - 1) * 100,
+    //           portValueChange: endOfDayPrice - startOfDayPrice,
+    //         });
+    //       });
+    // }
 
     assetSidebarDisplay(){
         if(this.state.price){
-            <AssetSideBarContainer
+            return <AssetSideBarContainer
               asset={{
                 id: this.state.assetId,
-                ticker: this.state.ticker,
+                tickerSymbol: this.state.tickerSymbol,
                 price: this.state.price,
                 percentChange: this.state.percentChange,
               }}
@@ -93,8 +93,17 @@ class AssetShow extends Component {
     render() { 
         return (
           <div>
-            <div>
-              <div></div>
+            <div className="asset-show">
+              <div className="asset-show-left">
+                <AssetGraph
+                  tickerSymbol={this.props.match.params.tickerSymbol}
+                  companyName={this.state.companyName}
+                  price={this.state.price}
+                  percentChange={this.state.percentChange}
+                  portValueChange={this.state.portValueChange}
+                />
+                <AssetNews tickerSymbol={this.props.match.params.tickerSymbol}/>
+              </div>
               {this.assetSidebarDisplay()}
             </div>
           </div>

@@ -64,6 +64,9 @@ class BuyOnlyForm extends Component {
     }
   }
   render() {
+    const errorClass = this.state.showPurchaseError
+      ? "error-show"
+      : "error-hide";
     const buttonText =
       this.props.assetType === "Watched Asset"
         ? `Unwatch ${this.props.asset.tickerSymbol}`
@@ -76,11 +79,11 @@ class BuyOnlyForm extends Component {
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (
       <div className={`asset-sidebar ${colorClass}`}>
-        <div>
+        <div className="buy-only-header">
           <header>{`Buy ${this.props.asset.tickerSymbol}`}</header>
         </div>
-        <div>
-          <div>
+        <div className="trade-form">
+          <div className="trade-form-part">
             <span>Shares</span>
             <input
               type="text"
@@ -89,7 +92,7 @@ class BuyOnlyForm extends Component {
               onChange={this.update}
             />
           </div>
-          <div>
+          <div className="trade-form-part">
             <div>
               <span>Market Price</span>
               <i className="far fa-question-circle"></i>
@@ -101,19 +104,16 @@ class BuyOnlyForm extends Component {
               })}
             </span>
           </div>
-          <div>
+          <div className="estimate-content">
             <span>Estimated Cost</span>
             <span>${this.state.cost}</span>
           </div>
-          <div className="sidebar-form-errors">
-            <div>
-              <i class="fas fa-exclamation-circle"></i>
+          <div className="sidebar-errors">
+            <div className={errorClass}>
+              <i className="fas fa-exclamation-circle"></i>
               <span>Error</span>
             </div>
             {errorMsg}
-            {this.props.errors.map((error) => (
-              <span>{error}</span>
-            ))}
           </div>
           <button onClick={this.handleSubmit}>{"Review Order"}</button>
         </div>
@@ -126,7 +126,7 @@ class BuyOnlyForm extends Component {
             Buying Power Available `}
           </span>
         </div>
-        <div>
+        <div className= "watch-button">
           <button onClick={() => this.props.assetAction()}>{buttonText}</button>
         </div>
       </div>

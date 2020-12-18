@@ -1,6 +1,5 @@
 .portfolio-graph {
-
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'DM Sans', sans-serif;
   padding-bottom: 30px;
   border-bottom: 1px solid #e6e9ed;
   .account-change {
@@ -22,7 +21,6 @@
 .recharts-tooltip-wrapper {
   top: -105px !important;
   right: 585px;
-  -webkit-transform: 0ms linear 0s !important;
   width: 80px;
   height: 30px;
   background-color: transparent !important;
@@ -34,5 +32,28 @@
       font-size: 13px;
       color: gray;
     }
+  }
+}
+
+.asset-graph {
+  font-family: 'DM Sans', sans-serif;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #e6e9ed;
+  .company-name{
+    font-size: 32px;
+  }
+  .account-change {
+    margin-bottom: 25px;
+  }
+  header {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  span {
+    font-size: 12px;
+    margin-right: 3px;
+  }
+  span:last-child {
+    color: gray;
   }
 }

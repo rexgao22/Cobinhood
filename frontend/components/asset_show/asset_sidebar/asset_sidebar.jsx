@@ -6,6 +6,7 @@ class AssetSidebar extends Component {
     super(props);
     this.displayTradeFrom = this.displayTradeFrom.bind(this);
     this.displayBuyOnlyForm = this.displayBuyOnlyForm.bind(this);
+    this.display = this.display.bind(this);
   }
   setSuccessMsg(msg) {
     this.setState({ successMsg: msg });
@@ -16,8 +17,7 @@ class AssetSidebar extends Component {
         <TradeForm
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
-          amount={this.props.currentUser.amount}
-          errors={this.props.errors}
+          amount={this.props.ownedAsset.amount}
           successMessage={(msg) => this.successMsg(msg)}
           buyAsset={(amountBuy) =>
             this.props.buyAsset(
@@ -42,13 +42,12 @@ class AssetSidebar extends Component {
 
   displayBuyOnlyForm() {
     return (
-      <div>
+      <div >
         <BuyOnlyForm
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.currentUser.amount}
           assetType="Watched Asset"
-          errors={this.props.errors}
           successMessage={(msg) => this.successMsg(msg)}
           assetAction={() =>
             this.props.deleteHolding(this.props.watchedAsset.holdingId)
@@ -72,7 +71,6 @@ class AssetSidebar extends Component {
         <BuyOnlyForm
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
-          errors={this.props.errors}
           assetType="New Asset"
           successMessage={(msg) => this.successMsg(msg)}
           assetAction={() =>
@@ -85,7 +83,7 @@ class AssetSidebar extends Component {
       </div>
     );
   }
-  render() {
+  display() {
     if (this.props.watchedAsset) {
       return this.displayBuyOnlyForm();
     } else if (this.props.ownedAsset) {
@@ -93,6 +91,14 @@ class AssetSidebar extends Component {
     } else {
       return this.displayBuyOnlyForNewAssetForm();
     }
+  }
+  render() {
+  
+    return(
+      <div className="asset-sidebar-container"> 
+        {this.display()}
+      </div>
+    )
   }
 }
 

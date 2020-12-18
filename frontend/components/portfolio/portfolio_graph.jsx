@@ -5,8 +5,8 @@ class PortfolioGraph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      val: props.endValue,
-      netChange: props.portValueChange,
+      value: props.endValue,
+      valueChange: props.portValueChange,
       perChange: props.percentChange,
     };
   }
@@ -14,8 +14,8 @@ class PortfolioGraph extends React.Component {
   handleMouseMove(lineData) {
     if (!lineData.isTooltipActive) return;
     this.setState({
-      val: lineData.activePayload[0].value,
-      netChange:
+      value: lineData.activePayload[0].value,
+      valueChange:
         lineData.activePayload[0].value -
         this.props.graphPoints[0].portfolioValue,
       perChange:
@@ -31,7 +31,7 @@ class PortfolioGraph extends React.Component {
       return (
         <div className="portfolio-graph-container">
           <header>
-            {`$${(this.props.buyingPower).toLocaleString("en", {
+            {`$${this.props.buyingPower.toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}`}
@@ -40,27 +40,27 @@ class PortfolioGraph extends React.Component {
         </div>
       );
     const color = this.props.portValueChange > 0 ? "#82ca9d" : "#f45531";
-    const sign = this.state.netChange < 0 ? "-" : "+";
+    const sign = this.state.valueChange < 0 ? "-" : "+";
     return (
       <div className="portfolio-graph">
         <header>
-          {`$${this.state.val.toLocaleString("en", {
+          {`$${this.state.value.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}`}
         </header>
         <div className="account-change">
-          <span className="bold-me">
-            {`${sign}$${Math.abs(this.state.netChange).toLocaleString(
-              "en",
+          <span>
+            {`${sign}$${Math.abs(this.state.valueChange).toLocaleString(
+              "en-US",
               {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               }
             )}`}
           </span>
-          <span className="bold-me">
-            {`(${sign}${Math.abs(this.state.perChange).toLocaleString("en", {
+          <span >
+            {`(${sign}${Math.abs(this.state.perChange).toLocaleString("en-US", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}%)`}
@@ -76,7 +76,7 @@ class PortfolioGraph extends React.Component {
           onMouseLeave={() =>
             this.setState({
               val: this.props.endValue,
-              netChange: this.props.portValueChange,
+              valueChange: this.props.portValueChange,
               perChange: this.props.percentChange,
             })
           }

@@ -1,6 +1,6 @@
 export const fetchNews = () => {
   return $.ajax({
-    url: `https://financialmodelingprep.com/api/v3/stock_news?limit=5?&apikey=${window.cloudIEXAPIKey}`,
+    url: `https://financialmodelingprep.com/api/v3/stock_news?limit=5?&apikey=${window.fmpAPIKey}`,
     method: "GET",
   });
 };
@@ -13,9 +13,7 @@ export const fetchCompanyData = (tickerSymbol) =>
 
 export const fetchCompanyNews = (tickerSymbol) =>
   $.ajax({
-    url: `https://cloud.iexapis.com/stable/stock/${tickerSymbol.toLowerCase()}/news/last/8?token=${
-      window.cloudIEXAPIKey
-    }`,
+    url: `https://financialmodelingprep.com/api/v3/stock_news?tickers=${tickerSymbol}&limit=5&apikey=${window.fmpAPIKey}`,
     method: "GET",
   });
 

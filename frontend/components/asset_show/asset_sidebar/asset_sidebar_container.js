@@ -13,7 +13,6 @@ const mapStateToProps = (state, ownProps) => ({
   asset: ownProps.asset,
   ownedAsset: state.entities.ownedAssets[ownProps.asset.tickerSymbol],
   watchedAsset: state.entities.watchedAssets[ownProps.asset.tickerSymbol],
-  errors: state.errors.purchase,
 });
 
 const mapDispatchToProps = (dispatch) => ({
