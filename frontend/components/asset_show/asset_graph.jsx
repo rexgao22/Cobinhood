@@ -1,6 +1,6 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
-import { fetchDailyGraphData } from "../../util/external_util";
+import { fetchDailyGraphData } from "../../util/asset_util";
 
 class AssetGraph extends React.Component {
   constructor(props) {

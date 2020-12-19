@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchCompanyData } from "../../util/external_util";
+import { fetchCompanyData } from "../../util/asset_util";
 
 class CompanyInfo extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchCompanyNews } from "../../util/external_util";
+import { fetchCompanyNews } from "../../util/news_util";
 import NewsIndex from "../portfolio/news/news_index"
 
 class AssetNews extends React.Component {

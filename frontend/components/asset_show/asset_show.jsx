@@ -3,7 +3,7 @@ import AssetNews from './asset_new';
 import AssetGraph from './asset_graph';
 import CompanyInfo from './company_info'
 import AssetSideBarContainer from './asset_sidebar/asset_sidebar_container'
-import {fetchDailyGraphData} from '../../util/external_util';
+import {fetchDailyGraphData} from '../../util/asset_util';
 import { fetchAsset} from '../../util/asset_util'
 
 class AssetShow extends Component {

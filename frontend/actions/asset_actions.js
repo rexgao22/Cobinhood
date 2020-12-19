@@ -1,6 +1,7 @@
 import * as APIUtil from "../util/asset_util";
+import * as HOLDUtil from "../util/holding_util";
 import { updateBuyingPower } from "../util/buying_power_util";
-import { fetchDailyGraphData } from "../util/external_util";
+import { fetchDailyGraphData } from "../util/asset_util";
 
 export const WATCH_ASSET = "WATCH_ASSET";
 export const UNWATCH_ASSET = "UNWATCH_ASSET";
@@ -51,12 +52,12 @@ export const receivePurchaseErrors = (errors) => ({
 
 
 export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
-  APIUtil.createHolding(assetId, userId, amount).then((asset) => {
+  HOLDUtil.createHolding(assetId, userId, amount).then((asset) => {
     (asset.price = price), dispatch(watchAsset(asset));
   });
 
 export const deleteHolding = (holdingId) => (dispatch) =>
-  APIUtil.deleteHolding(holdingId).then((asset) =>
+  HOLDUtil.deleteHolding(holdingId).then((asset) =>
     dispatch(unwatchAsset(asset.tickerSymbol))
   );
 
@@ -65,10 +66,8 @@ export const updateAssetPrice = (assetId, newPrice) => (dispatch) =>
     dispatch(updateAsset(asset))
   );
 
-export const updateHoldingAmount = (holdingId, newAmount, price) => (
-  dispatch
-) =>
-  APIUtil.updateHoldingAmount(holdingId, newAmount).then((asset) => {
+export const updateHoldingAmount = (holdingId, newAmount, price) => (dispatch) =>
+  HOLDUtil.updateHoldingAmount(holdingId, newAmount).then((asset) => {
     (asset.price = price), dispatch(updateHolding(asset));
   });
 
@@ -80,7 +79,7 @@ export const updateUserBuyingPower = (userId, BPChange) => (dispatch) =>
 export const sellAsset = (userId, holdingId, oldAmount, amountSell, price) => (
   dispatch
 ) =>
-  APIUtil.updateHoldingAmount(holdingId, oldAmount - amountSell)
+  HOLDUtil.updateHoldingAmount(holdingId, oldAmount - amountSell)
     .then((asset) => {
       (asset.price = price), dispatch(updateHolding(asset));
     })

@@ -4,6 +4,11 @@ export const fetchAsset = tickerSymbol =>(
     })
 );
 
+export const fetchAssets =() =>(
+    $.ajax({
+        url: 'api/assets'
+    })
+)
 export const updateAssetPrice =(assetId, newPrice) =>(
     $.ajax({
         method: 'PATCH',
@@ -12,26 +17,18 @@ export const updateAssetPrice =(assetId, newPrice) =>(
     })
 );
 
-export const createHolding = (userId, assetId, amount) => (
-    $.ajax({
-        method: "POST",
-        url: "api/holdings",
-        data:{holding: {user_id: userId, asset_id: assetId, amount}}
-    })
-);
 
-export const updateHoldingAmount = (holdingId, newAmount) => (
-    $.ajax({
-        method: "PATCH",
-        url: `api/holdings/${holdingId}`,
-        data: {amount: newAmount}
-    })
-)
+export const fetchCompanyData = (tickerSymbol) =>
+  $.ajax({
+    url: `https://cloud.iexapis.com/stable/stock/${tickerSymbol}/company?token=${window.cloudIEXAPIKey}`,
+    method: "GET",
+  });
 
-export const deleteHolding = (holdingId) =>(
+  export const fetchDailyGraphData = (tickerSymbol) =>
     $.ajax({
-        method: "DELETE",
-        url: `api/holdings/${holdingId}`,
-    })
-)
+      url: `https://cloud.iexapis.com/stable/stock/${tickerSymbol.toLowerCase()}/intraday-prices?token=${
+        window.cloudIEXAPIKey
+      }`,
+      method: "GET",
+    });
 
