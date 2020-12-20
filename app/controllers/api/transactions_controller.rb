@@ -14,11 +14,10 @@ class Api::TransactionsController < ApplicationController
     @transaction.user_id = current_user.id
 
     transaction_amount = @transaction.price * @transaction.num_shares
-    shares_owned = current_user.shares_owned(@transaction.stock_id)
-
-    if @transaction.num_shares > current_user.buying_power && @transaction.order_type == "buy"
+    asset_owned = current_user.holdings.find_by(asset_id: @transaction.asset_id)
+    if transaction_amount > current_user.buying_power && @transaction.order_type == "buy"
       render json: ["Not Enough Buying Power"], status: 401
-    elsif @transaction.num_shares > @asset.holding_amount && @transaction.order_type == "sell"
+    elsif @transaction.num_shares > asset_owned && @transaction.order_type == "sell"
       render json: ["Not Enough Shares"], status: 401
     else
       if @transaction.save

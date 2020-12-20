@@ -5,15 +5,12 @@ class Asset < ApplicationRecord
     foreign_key: :asset_id,
     class_name: :Holding
 
-  has_many :users,
-    through: :holdings,
-    source: :user
-
-  has_many :transactions
+  has_many :transactions,
     foreign_key: :asset_id, 
     class_name: :Transaction
 
   def holding_amount
+      debugger
       Holding.where(user_id: current_user.id).find_by(asset_id:this.id).amount
   end
 

@@ -90,75 +90,47 @@
 /*!*******************************************!*\
   !*** ./frontend/actions/asset_actions.js ***!
   \*******************************************/
-/*! exports provided: WATCH_ASSET, UNWATCH_ASSET, UPDATE_ASSET, UPDATE_HOLDING, RECEIVE_NEW_BUYING_POWER, RECEIVE_PORTFOLIO_DATA, RECEIVE_PURCHASE_ERRORS, watchAsset, unwatchAsset, updateAsset, receiveNewBuyingPower, updateHolding, receivePortfolioData, receivePurchaseErrors, createHolding, deleteHolding, updateAssetPrice, updateHoldingAmount, updateUserBuyingPower, updatePortfolio */
+/*! exports provided: RECEIVE_ASSET, RECEIVE_ASSETS, UPDATE_ASSET, RECEIVE_PORTFOLIO_DATA, fetchAsset, fetchAssets, updateAssetPrice, updatePortfolio */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WATCH_ASSET", function() { return WATCH_ASSET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNWATCH_ASSET", function() { return UNWATCH_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ASSET", function() { return RECEIVE_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_ASSETS", function() { return RECEIVE_ASSETS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_ASSET", function() { return UPDATE_ASSET; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_HOLDING", function() { return UPDATE_HOLDING; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_BUYING_POWER", function() { return RECEIVE_NEW_BUYING_POWER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PORTFOLIO_DATA", function() { return RECEIVE_PORTFOLIO_DATA; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_PURCHASE_ERRORS", function() { return RECEIVE_PURCHASE_ERRORS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "watchAsset", function() { return watchAsset; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "unwatchAsset", function() { return unwatchAsset; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAsset", function() { return updateAsset; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveNewBuyingPower", function() { return receiveNewBuyingPower; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHolding", function() { return updateHolding; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePortfolioData", function() { return receivePortfolioData; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receivePurchaseErrors", function() { return receivePurchaseErrors; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAsset", function() { return fetchAsset; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAssets", function() { return fetchAssets; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAssetPrice", function() { return updateAssetPrice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHoldingAmount", function() { return updateHoldingAmount; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserBuyingPower", function() { return updateUserBuyingPower; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePortfolio", function() { return updatePortfolio; });
 /* harmony import */ var _util_asset_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/asset_util */ "./frontend/util/asset_util.js");
-/* harmony import */ var _util_holding_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/holding_util */ "./frontend/util/holding_util.js");
-/* harmony import */ var _util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../util/buying_power_util */ "./frontend/util/buying_power_util.js");
 
-
-
-
-var WATCH_ASSET = "WATCH_ASSET";
-var UNWATCH_ASSET = "UNWATCH_ASSET";
+var RECEIVE_ASSET = "RECEIVE_ASSET";
+var RECEIVE_ASSETS = "RECEIVE_ASSETS";
 var UPDATE_ASSET = "UPDATE_ASSET";
-var UPDATE_HOLDING = "UPDATE_HOLDING";
-var RECEIVE_NEW_BUYING_POWER = "RECEIVE_NEW_BUYING_POWER";
 var RECEIVE_PORTFOLIO_DATA = "RECEIVE_PORTFOLIO_DATA";
-var RECEIVE_PURCHASE_ERRORS = "RECEIVE_PURCHASE_ERRORS";
-var watchAsset = function watchAsset(asset) {
+
+var receiveAsset = function receiveAsset(asset) {
   return {
-    type: WATCH_ASSET,
+    type: RECEIVE_ASSET,
     asset: asset
   };
 };
-var unwatchAsset = function unwatchAsset(tickerSymbol) {
+
+var receiveAssets = function receiveAssets(assets) {
   return {
-    type: DELETE_HOLDING,
-    tickerSymbol: tickerSymbol
+    type: RECEIVE_ASSETS,
+    assets: assets
   };
 };
+
 var updateAsset = function updateAsset(asset) {
   return {
     type: UPDATE_ASSET,
     asset: asset
   };
 };
-var receiveNewBuyingPower = function receiveNewBuyingPower(buyingPower) {
-  return {
-    type: RECEIVE_NEW_BUYING_POWER,
-    buyingPower: buyingPower
-  };
-};
-var updateHolding = function updateHolding(asset) {
-  return {
-    type: UPDATE_HOLDING,
-    asset: asset
-  };
-};
+
 var receivePortfolioData = function receivePortfolioData(tickerKeyToData, ownedAssets, buyingPower) {
   return {
     type: RECEIVE_PORTFOLIO_DATA,
@@ -167,23 +139,18 @@ var receivePortfolioData = function receivePortfolioData(tickerKeyToData, ownedA
     buyingPower: buyingPower
   };
 };
-var receivePurchaseErrors = function receivePurchaseErrors(errors) {
-  return {
-    type: RECEIVE_PURCHASE_ERRORS,
-    errors: errors
-  };
-};
-var createHolding = function createHolding(assetId, userId, amount, price) {
+
+var fetchAsset = function fetchAsset(tickerSymbol) {
   return function (dispatch) {
-    return _util_holding_util__WEBPACK_IMPORTED_MODULE_1__["createHolding"](assetId, userId, amount).then(function (asset) {
-      asset.price = price, dispatch(watchAsset(asset));
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["fetchAsset"](tickerSymbol).then(function (asset) {
+      return dispatch(receiveAsset(asset));
     });
   };
 };
-var deleteHolding = function deleteHolding(holdingId) {
+var fetchAssets = function fetchAssets() {
   return function (dispatch) {
-    return _util_holding_util__WEBPACK_IMPORTED_MODULE_1__["deleteHolding"](holdingId).then(function (asset) {
-      return dispatch(unwatchAsset(asset.tickerSymbol));
+    return _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["fetchAssets"]().then(function (assets) {
+      return dispatch(receiveAssets(assets));
     });
   };
 };
@@ -194,28 +161,12 @@ var updateAssetPrice = function updateAssetPrice(assetId, newPrice) {
     });
   };
 };
-var updateHoldingAmount = function updateHoldingAmount(holdingId, newAmount, price) {
-  return function (dispatch) {
-    return _util_holding_util__WEBPACK_IMPORTED_MODULE_1__["updateHoldingAmount"](holdingId, newAmount).then(function (asset) {
-      asset.price = price, dispatch(updateHolding(asset));
-    });
-  };
-};
-var updateUserBuyingPower = function updateUserBuyingPower(userId, BPChange) {
-  return function (dispatch) {
-    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__["updateBuyingPower"])(userId, BPChange).then(function (buyingPower) {
-      return dispatch(receiveBuyingPower(buyingPower));
-    }).fail(function (err) {
-      return dispatch(receivePurchaseErrors(err.responseJSON));
-    });
-  };
-};
 var updatePortfolio = function updatePortfolio(tickerSymbols, ownedAssets, buyingPower) {
   return function (dispatch) {
     var graphFetches = [];
     var tickerKeyToData = {};
     tickerSymbols.forEach(function (tickerSymbol) {
-      var graphFetch = Object(_util_asset_util__WEBPACK_IMPORTED_MODULE_0__["fetchDailyGraphData"])(tickerSymbol);
+      var graphFetch = _util_asset_util__WEBPACK_IMPORTED_MODULE_0__["fetchDailyGraphData"](tickerSymbol);
       tickerKeyToData[tickerSymbol] = graphFetch;
       graphFetches.push(graphFetch);
     });
@@ -3383,12 +3334,12 @@ var fetchAsset = function fetchAsset(tickerSymbol) {
 };
 var fetchAssets = function fetchAssets() {
   return $.ajax({
-    url: 'api/assets'
+    url: "api/assets"
   });
 };
 var updateAssetPrice = function updateAssetPrice(assetId, newPrice) {
   return $.ajax({
-    method: 'PATCH',
+    method: "PATCH",
     url: "api/assets/".concat(assetId),
     data: {
       price: newPrice
@@ -3405,71 +3356,6 @@ var fetchDailyGraphData = function fetchDailyGraphData(tickerSymbol) {
   return $.ajax({
     url: "https://cloud.iexapis.com/stable/stock/".concat(tickerSymbol.toLowerCase(), "/intraday-prices?token=").concat(window.cloudIEXAPIKey),
     method: "GET"
-  });
-};
-
-/***/ }),
-
-/***/ "./frontend/util/buying_power_util.js":
-/*!********************************************!*\
-  !*** ./frontend/util/buying_power_util.js ***!
-  \********************************************/
-/*! exports provided: updateBuyingPower */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBuyingPower", function() { return updateBuyingPower; });
-var updateBuyingPower = function updateBuyingPower(userId, BPChange) {
-  return $.ajax({
-    method: 'PATCH',
-    url: "api/users/".concat(userId),
-    data: {
-      buingPower: BPChange
-    }
-  });
-};
-
-/***/ }),
-
-/***/ "./frontend/util/holding_util.js":
-/*!***************************************!*\
-  !*** ./frontend/util/holding_util.js ***!
-  \***************************************/
-/*! exports provided: createHolding, updateHoldingAmount, deleteHolding */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHoldingAmount", function() { return updateHoldingAmount; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
-var createHolding = function createHolding(userId, assetId, amount) {
-  return $.ajax({
-    method: "POST",
-    url: "api/holdings",
-    data: {
-      holding: {
-        user_id: userId,
-        asset_id: assetId,
-        amount: amount
-      }
-    }
-  });
-};
-var updateHoldingAmount = function updateHoldingAmount(holdingId, newAmount) {
-  return $.ajax({
-    method: "PATCH",
-    url: "api/holdings/".concat(holdingId),
-    data: {
-      amount: newAmount
-    }
-  });
-};
-var deleteHolding = function deleteHolding(holdingId) {
-  return $.ajax({
-    method: "DELETE",
-    url: "api/holdings/".concat(holdingId)
   });
 };
 

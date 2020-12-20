@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     end
     resource :session, only: [:create, :destroy]
     resources :assets, only: [:show]
-    resources :holdings, only: [:create, :update, :destroy]
+    resources :holdings, only: [:create, :update, :destroy, :index]
     resources :transactions, except: [:index, :show, :create]
     get '/assets/search/:searchbar', to:'assets#search', as: 'search_assets'
   end

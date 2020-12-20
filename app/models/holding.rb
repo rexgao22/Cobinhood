@@ -15,11 +15,10 @@ class Holding < ApplicationRecord
 
   def purchase(amount, type)
     if type == "sell"
-        self.amount -= sell_amount
+      self.amount -= sell_amount
     else
-        self.amout -= buy_amount
+      self.amout -= buy_amount
     end
     save!
   end
-
 end

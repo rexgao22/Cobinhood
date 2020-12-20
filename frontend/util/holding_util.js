@@ -6,17 +6,14 @@ export const createHolding = (userId, assetId, amount) => (
     })
 );
 
-export const updateHoldingAmount = (holdingId, newAmount) => (
-    $.ajax({
-        method: "PATCH",
-        url: `api/holdings/${holdingId}`,
-        data: {amount: newAmount}
-    })
-)
-
 export const deleteHolding = (holdingId) =>(
     $.ajax({
         method: "DELETE",
         url: `api/holdings/${holdingId}`,
     })
 )
+
+export const fetchHoldings = () =>
+  $.ajax({
+    url: "api/holdings",
+  });
