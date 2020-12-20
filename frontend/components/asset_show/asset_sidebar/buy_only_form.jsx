@@ -18,9 +18,9 @@ class BuyOnlyForm extends Component {
     if (valid) {
       this.setState({
         shares: e.target.value,
-        cost: (
-          this.props.asset.price * parseInt(e.target.value)
-        ).toFixed(2).toLocaleString("en"),
+        cost: (this.props.asset.price * parseInt(e.target.value))
+          .toFixed(2)
+          .toLocaleString("en"),
         inputStatu: valid,
         showPurchaseError: false,
       });
@@ -36,22 +36,11 @@ class BuyOnlyForm extends Component {
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
-      if (this.state.status === "buy") {
-        this.props.buyAsset(parseInt(this.state.shares));
-        this.props.successMsg(
-          `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        );
-      } else {
-        this.props.sellAsset(parseInt(this.state.shares));
-        this.props.successMsg(
-          `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        );
-      }
+      this.props.purchaseAction(parseInt(this.state.shares));
     } else {
       this.setState({ showPurchaseError: true });
     }
   }
-
   checkInput(userInput) {
     const input = parseInt(userInput);
     if (userInput.trim() !== input.toString()) {
@@ -98,8 +87,7 @@ class BuyOnlyForm extends Component {
               <i className="far fa-question-circle"></i>
             </div>
             <span>
-              $
-              {this.props.asset.price.toFixed(2).toLocaleString("en")}
+              ${this.props.asset.price.toFixed(2).toLocaleString("en")}
             </span>
           </div>
           <div className="estimate-content">
@@ -122,7 +110,7 @@ class BuyOnlyForm extends Component {
             Buying Power Available `}
           </span>
         </div>
-        <div className= "watch-button">
+        <div className="watch-button">
           <button onClick={() => this.props.assetAction()}>{buttonText}</button>
         </div>
       </div>

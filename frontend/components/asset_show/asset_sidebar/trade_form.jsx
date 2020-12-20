@@ -37,9 +37,9 @@ class TradeForm extends React.Component {
     if (valid) {
       this.setState({
         shares: e.target.value,
-        cost: (
-          this.props.asset.price * parseInt(e.target.value)
-        ).toFixed(2).toLocaleString("en-US"),
+        cost: (this.props.asset.price * parseInt(e.target.value))
+          .toFixed(2)
+          .toLocaleString("en-US"),
         inputStatu: valid,
         showPurchaseError: false,
       });
@@ -55,17 +55,26 @@ class TradeForm extends React.Component {
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
-      this.props.buyAsset(parseInt(this.state.shares));
-      // this.props.successMsg(
-      //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-      // );
+      if (this.state.status === "buy") {
+        this.props.buyAsset(parseInt(this.state.shares));
+        this.props.successMsg(
+          `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+        );
+      } else {
+        this.props.sellAsset(parseInt(this.state.shares));
+        this.props.successMsg(
+          `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+        );
+      }
     } else {
       this.setState({ showPurchaseError: true });
     }
   }
 
   render() {
-    const errorClass = this.state.showPurchaseError ? "error-show" : "error-hide";
+    const errorClass = this.state.showPurchaseError
+      ? "error-show"
+      : "error-hide";
     const spanText = this.state.status === "buy" ? "Cost" : "Credit";
     const portValueDisplay =
       this.state.status === "buy" ? (

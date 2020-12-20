@@ -36,7 +36,11 @@ export const updateHolding = (asset) => ({
   asset,
 });
 
-export const receivePortfolioData = (tickerKeyToData, ownedAssets, buyingPower) => ({
+export const receivePortfolioData = (
+  tickerKeyToData,
+  ownedAssets,
+  buyingPower
+) => ({
   type: RECEIVE_PORTFOLIO_DATA,
   tickerKeyToData,
   ownedAssets,
@@ -47,9 +51,6 @@ export const receivePurchaseErrors = (errors) => ({
   type: RECEIVE_PURCHASE_ERRORS,
   errors,
 });
-
-
-
 
 export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
   HOLDUtil.createHolding(assetId, userId, amount).then((asset) => {
@@ -66,7 +67,9 @@ export const updateAssetPrice = (assetId, newPrice) => (dispatch) =>
     dispatch(updateAsset(asset))
   );
 
-export const updateHoldingAmount = (holdingId, newAmount, price) => (dispatch) =>
+export const updateHoldingAmount = (holdingId, newAmount, price) => (
+  dispatch
+) =>
   HOLDUtil.updateHoldingAmount(holdingId, newAmount).then((asset) => {
     (asset.price = price), dispatch(updateHolding(asset));
   });
@@ -74,33 +77,6 @@ export const updateHoldingAmount = (holdingId, newAmount, price) => (dispatch) =
 export const updateUserBuyingPower = (userId, BPChange) => (dispatch) =>
   updateBuyingPower(userId, BPChange)
     .then((buyingPower) => dispatch(receiveBuyingPower(buyingPower)))
-    .fail((err) => dispatch(receivePurchaseErrors(err.responseJSON)));
-
-export const sellAsset = (userId, holdingId, oldAmount, amountSell, price) => (
-  dispatch
-) =>
-  HOLDUtil.updateHoldingAmount(holdingId, oldAmount - amountSell)
-    .then((asset) => {
-      (asset.price = price), dispatch(updateHolding(asset));
-    })
-    .then(() => updateBuyingPower(userId, amountSell * price))
-    .then((buyingPower) => dispatch(receiveNewBuyingPower(buyingPower)))
-    .fail((err) => dispatch(receivePurchaseErrors(err.responseJSON)));
-
-export const buyAsset = (userId, holdingId, oldAmount, amountBuy, price) => (
-  dispatch
-) =>
-  updateBuyingPower(userId, amountBuy * price * -1)
-    .then((buyingPower) => dispatch(receiveNewBuyingPower(buyingPower)))
-    .then(() =>
-      dispatch(updateHoldingAmount(holdingId, oldAmount + amountBuy, price))
-    )
-    .fail((err) => dispatch(receivePurchaseErrors(err.responseJSON)));
-
-export const buyNewAsset = (userId, assetId, amount, price) => (dispatch) =>
-  updateBuyingPower(userId, amountBuy * price * -1)
-    .then((buyingPower) => dispatch(receiveNewBuyingPower(buyingPower)))
-    .then(() => dispatch(createHolding(assetId, userId, amount, price)))
     .fail((err) => dispatch(receivePurchaseErrors(err.responseJSON)));
 
 export const updatePortfolio = (tickerSymbols, ownedAssets, buyingPower) => (
@@ -111,7 +87,7 @@ export const updatePortfolio = (tickerSymbols, ownedAssets, buyingPower) => (
   tickerSymbols.forEach((tickerSymbol) => {
     const graphFetch = fetchDailyGraphData(tickerSymbol);
     tickerKeyToData[tickerSymbol] = graphFetch;
-    graphFetches.push(graphFetch)
+    graphFetches.push(graphFetch);
   });
   return Promise.all(graphFetches).then(() =>
     dispatch(receivePortfolioData(tickerKeyToData, ownedAssets, buyingPower))

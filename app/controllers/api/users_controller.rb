@@ -24,13 +24,12 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find_by(id: params[:id])
-    @user.buying_power += params[:change].to_i
 
-    if @user.buying_power >= 0 && @user
-      @user.save!
+    if params[:amount] =~ /[-0-9.]+/
+     @user.deposite(params[:amount].to_f)
       render json: @user.buying_power
     else
-      render json: ["Not enough buying power"], status: 422
+      render json: ["Invalid deposite amount"], status: 422
     end
   end
 

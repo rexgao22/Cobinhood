@@ -90,7 +90,7 @@
 /*!*******************************************!*\
   !*** ./frontend/actions/asset_actions.js ***!
   \*******************************************/
-/*! exports provided: WATCH_ASSET, UNWATCH_ASSET, UPDATE_ASSET, UPDATE_HOLDING, RECEIVE_NEW_BUYING_POWER, RECEIVE_PORTFOLIO_DATA, RECEIVE_PURCHASE_ERRORS, watchAsset, unwatchAsset, updateAsset, receiveNewBuyingPower, updateHolding, receivePortfolioData, receivePurchaseErrors, createHolding, deleteHolding, updateAssetPrice, updateHoldingAmount, updateUserBuyingPower, sellAsset, buyAsset, buyNewAsset, updatePortfolio */
+/*! exports provided: WATCH_ASSET, UNWATCH_ASSET, UPDATE_ASSET, UPDATE_HOLDING, RECEIVE_NEW_BUYING_POWER, RECEIVE_PORTFOLIO_DATA, RECEIVE_PURCHASE_ERRORS, watchAsset, unwatchAsset, updateAsset, receiveNewBuyingPower, updateHolding, receivePortfolioData, receivePurchaseErrors, createHolding, deleteHolding, updateAssetPrice, updateHoldingAmount, updateUserBuyingPower, updatePortfolio */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -114,9 +114,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateAssetPrice", function() { return updateAssetPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHoldingAmount", function() { return updateHoldingAmount; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateUserBuyingPower", function() { return updateUserBuyingPower; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sellAsset", function() { return sellAsset; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buyAsset", function() { return buyAsset; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buyNewAsset", function() { return buyNewAsset; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updatePortfolio", function() { return updatePortfolio; });
 /* harmony import */ var _util_asset_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/asset_util */ "./frontend/util/asset_util.js");
 /* harmony import */ var _util_holding_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/holding_util */ "./frontend/util/holding_util.js");
@@ -208,41 +205,6 @@ var updateUserBuyingPower = function updateUserBuyingPower(userId, BPChange) {
   return function (dispatch) {
     return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__["updateBuyingPower"])(userId, BPChange).then(function (buyingPower) {
       return dispatch(receiveBuyingPower(buyingPower));
-    }).fail(function (err) {
-      return dispatch(receivePurchaseErrors(err.responseJSON));
-    });
-  };
-};
-var sellAsset = function sellAsset(userId, holdingId, oldAmount, amountSell, price) {
-  return function (dispatch) {
-    return _util_holding_util__WEBPACK_IMPORTED_MODULE_1__["updateHoldingAmount"](holdingId, oldAmount - amountSell).then(function (asset) {
-      asset.price = price, dispatch(updateHolding(asset));
-    }).then(function () {
-      return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__["updateBuyingPower"])(userId, amountSell * price);
-    }).then(function (buyingPower) {
-      return dispatch(receiveNewBuyingPower(buyingPower));
-    }).fail(function (err) {
-      return dispatch(receivePurchaseErrors(err.responseJSON));
-    });
-  };
-};
-var buyAsset = function buyAsset(userId, holdingId, oldAmount, amountBuy, price) {
-  return function (dispatch) {
-    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__["updateBuyingPower"])(userId, amountBuy * price * -1).then(function (buyingPower) {
-      return dispatch(receiveNewBuyingPower(buyingPower));
-    }).then(function () {
-      return dispatch(updateHoldingAmount(holdingId, oldAmount + amountBuy, price));
-    }).fail(function (err) {
-      return dispatch(receivePurchaseErrors(err.responseJSON));
-    });
-  };
-};
-var buyNewAsset = function buyNewAsset(userId, assetId, amount, price) {
-  return function (dispatch) {
-    return Object(_util_buying_power_util__WEBPACK_IMPORTED_MODULE_2__["updateBuyingPower"])(userId, amountBuy * price * -1).then(function (buyingPower) {
-      return dispatch(receiveNewBuyingPower(buyingPower));
-    }).then(function () {
-      return dispatch(createHolding(assetId, userId, amount, price));
     }).fail(function (err) {
       return dispatch(receivePurchaseErrors(err.responseJSON));
     });
@@ -1239,13 +1201,7 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       if (this.state.inputStatu) {
-        if (this.state.status === "buy") {
-          this.props.buyAsset(parseInt(this.state.shares));
-          this.props.successMsg("You bought ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
-        } else {
-          this.props.sellAsset(parseInt(this.state.shares));
-          this.props.successMsg("You sold ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
-        }
+        this.props.purchaseAction(parseInt(this.state.shares));
       } else {
         this.setState({
           showPurchaseError: true
@@ -1429,9 +1385,13 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       if (this.state.inputStatu) {
-        this.props.buyAsset(parseInt(this.state.shares)); // this.props.successMsg(
-        //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        // );
+        if (this.state.status === "buy") {
+          this.props.buyAsset(parseInt(this.state.shares));
+          this.props.successMsg("You bought ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
+        } else {
+          this.props.sellAsset(parseInt(this.state.shares));
+          this.props.successMsg("You sold ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
+        }
       } else {
         this.setState({
           showPurchaseError: true
