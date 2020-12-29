@@ -15,6 +15,7 @@ class Api::TransactionsController < ApplicationController
 
     transaction_amount = @transaction.price * @transaction.num_shares
     asset_owned = current_user.holdings.find_by(asset_id: @transaction.asset_id)
+
     if transaction_amount > current_user.buying_power && @transaction.order_type == "buy"
       render json: ["Not Enough Buying Power"], status: 401
     elsif @transaction.num_shares > asset_owned && @transaction.order_type == "sell"
@@ -26,7 +27,7 @@ class Api::TransactionsController < ApplicationController
         render json: @transaction.errors.full_messages, status: 422
       end
     end
-
+  end
   private
 
   def transaction_params
