@@ -4,8 +4,7 @@ class Transaction < ApplicationRecord
     validates :order_type, inclusion: { in: TYPES }  
     validates :amount, :price, numericality: true
      
-    belongs_to :user,
-    belongs_to :asset,
+    belongs_to :user
 
     after_save :update_holdings, :update_buying_power
 
