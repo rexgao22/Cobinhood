@@ -9,7 +9,7 @@ class TradeForm extends React.Component {
       shares: "",
       cost: "0.00",
       inputStatu: false,
-      showPurchaseError: false,
+      transacionError: false,
     };
     this.selectedTab = this.selectedTab.bind(this);
     this.update = this.update.bind(this);
@@ -29,7 +29,7 @@ class TradeForm extends React.Component {
   }
 
   selectedTab(type) {
-    this.setState({ status: type, showPurchaseError: false });
+    this.setState({ status: type, transacionError: false });
   }
 
   update(e) {
@@ -41,14 +41,14 @@ class TradeForm extends React.Component {
           .toFixed(2)
           .toLocaleString("en-US"),
         inputStatu: valid,
-        showPurchaseError: false,
+        transacionError: false,
       });
     } else {
       this.setState({
         shares: e.target.value,
         cost: "0.00",
         inputStatu: valid,
-        showPurchaseError: false,
+        transacionError: false,
       });
     }
   }
@@ -56,23 +56,23 @@ class TradeForm extends React.Component {
   handleSubmit(e) {
     if (this.state.inputStatu) {
       if (this.state.status === "buy") {
-        this.props.buyAsset(parseInt(this.state.shares));
+        this.props.createTransaction(parseInt(this.state.shares));
         this.props.successMsg(
           `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
         );
       } else {
-        this.props.sellAsset(parseInt(this.state.shares));
+        this.props.createTransaction(parseInt(this.state.shares));
         this.props.successMsg(
           `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
         );
       }
     } else {
-      this.setState({ showPurchaseError: true });
+      this.setState({ transacionError: true });
     }
   }
 
   render() {
-    const errorClass = this.state.showPurchaseError
+    const errorClass = this.state.transacionError
       ? "error-show"
       : "error-hide";
     const spanText = this.state.status === "buy" ? "Cost" : "Credit";
@@ -87,7 +87,7 @@ class TradeForm extends React.Component {
         <span>{this.props.amount} shares Available</span>
       );
 
-    const errorMsg = this.state.showPurchaseError ? (
+    const errorMsg = this.state.transacionError ? (
       <span>Please enter a valid number of shares.</span>
     ) : null;
 

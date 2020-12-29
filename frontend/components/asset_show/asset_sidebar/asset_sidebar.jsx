@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TradeForm from "./trade_form";
 import BuyOnlyForm from "./buy_only_form";
+
 class AssetSidebar extends Component {
   constructor(props) {
     super(props);
@@ -8,9 +9,7 @@ class AssetSidebar extends Component {
     this.displayBuyOnlyForm = this.displayBuyOnlyForm.bind(this);
     this.display = this.display.bind(this);
   }
-  // successMsg(msg) {
-  //   this.setState({ successMsg: msg });
-  // }
+
   displayTradeFrom() {
     return (
       <div>
@@ -18,23 +17,7 @@ class AssetSidebar extends Component {
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.ownedAsset.amount}
-          successMessage={(msg) => this.successMsg(msg)}
-          buyAsset={(amountBuy) =>
-            this.props.buyAsset(
-              this.props.currentUser.id,
-              this.props.ownedAsset.holdingId,
-              this.props.ownedAsset.amount,
-              amountBuy
-            )
-          }
-          sellAsset={(amountSell) =>
-            this.props.buyAsset(
-              this.props.currentUser.id,
-              this.props.ownedAsset.holdingId,
-              this.props.ownedAsset.amount,
-              amountSell
-            )
-          }
+          createTransaction={this.props.createTransaction}
         />
       </div>
     );
@@ -42,24 +25,16 @@ class AssetSidebar extends Component {
 
   displayBuyOnlyForm() {
     return (
-      <div >
+      <div>
         <BuyOnlyForm
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.currentUser.amount}
           assetType="Watched Asset"
-          // successMsg={(msg) => this.successMsg(msg)}
           assetAction={() =>
-            this.props.deleteHolding(this.props.watchedAsset.holdingId)
+            this.props.unwatchAsset(this.props.watchedAsset.holdingId)
           }
-          purchaseAction={(amountBuy) =>
-            this.props.buyAsset(
-              this.props.currentUser.id,
-              this.props.watchedAsset.holdingId,
-              0,
-              amountBuy
-            )
-          }
+          createTransaction={this.props.createTransaction}
         />
       </div>
     );
@@ -72,13 +47,8 @@ class AssetSidebar extends Component {
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           assetType="New Asset"
-          successMessage={(msg) => this.successMsg(msg)}
-          assetAction={() =>
-            this.props.createHolding(this.props.currentUser.id)
-          }
-          purchaseAction={(amountBuy) =>
-            this.props.buyNewAsset(this.props.currentUser.id, amountBuy)
-          }
+          assetAction={() => this.props.watchAsset(this.props.currentUser.id)}
+          createTransaction={this.props.createTransaction}
         />
       </div>
     );
@@ -93,12 +63,7 @@ class AssetSidebar extends Component {
     }
   }
   render() {
-  
-    return(
-      <div className="asset-sidebar-container"> 
-        {this.display()}
-      </div>
-    )
+    return <div className="asset-sidebar-container">{this.display()}</div>;
   }
 }
 

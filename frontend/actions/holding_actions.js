@@ -18,7 +18,7 @@ const receiveHoldings = (holdings) => ({
   holdings,
 });
 
-export const createHolding = (assetId, userId, amount, price) => (dispatch) =>
+export const createHolding = (assetId, userId, amount) => (dispatch) =>
   HOLDUtil.createHolding(assetId, userId, amount).then((asset) => {
     (asset.price = price), dispatch(watchAsset(asset));
   });
@@ -29,4 +29,4 @@ export const deleteHolding = (holdingId) => (dispatch) =>
   );
 
 export const fetchHoldings = () => (dispatch) =>
-  HOLDUtil.createHolding().then((holdings) => dispatch(receiveHoldings(holdings)));
+  HOLDUtil.fetchHoldings().then((holdings) => dispatch(receiveHoldings(holdings)));

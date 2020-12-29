@@ -1,31 +1,22 @@
 import { connect } from "react-redux";
-import {
-  deleteHolding,
-  sellAsset,
-  buyAsset,
-  buyNewAsset,
-  createHolding,
-} from "../../../actions/asset_actions";
+import { updateAssetPrice } from "../../../actions/asset_actions";
+import { deleteHolding, createHolding } from "../../../actions/holding_actions";
+import { createTransaction } from "../../../actions/transaction_actions";
 import AssetSidebar from "./asset_sidebar";
 
 const mapStateToProps = (state, ownProps) => {
-  return({
-  currentUser: state.session.currentUser,
-  asset: ownProps.asset,
-  ownedAsset: state.entities.ownedAssets[ownProps.asset.tickerSymbol],
-  watchedAsset: state.entities.watchedAssets[ownProps.asset.tickerSymbol],})
+  return {
+    ownedAsset: state.entities.ownedAssets[ownProps.asset.ticker],
+    watchedAsset: state.entities.watchedAssets[ownProps.asset.ticker],
+    currentUser: state.session.currentUser,
+    asset: ownProps.asset,
+  };
 };
 
 const mapDispatchToProps = (dispatch,ownProps) => ({
-  deleteHolding: (holdingId) => dispatch(deleteHolding(holdingId)),
-  sellAsset: (userId, holdingId, oldAmount, amountSell) =>
-    dispatch(sellAsset(userId, holdingId, oldAmount, amountSell,ownProps.asset.price)),
-  buyAsset: (userId, holdingId, oldAmount, amountBuy) =>
-    dispatch(buyAsset(userId, holdingId, oldAmount, amountBuy, ownProps.asset.price)),
-  buyNewAsset: (userId, amount) =>
-    dispatch(buyNewAsset(userId, ownProps.asset.id, amount, ownProps.asset.price)),
-  createHolding: (userId) =>
-    dispatch(createHolding(ownProps.asset.id, userId, 0, price)),
+  unwatchAsset: (holdingId) => dispatch(deleteHolding(holdingId)),
+  watchAsset: (userId) => dispatch(createHolding(ownProps.asset.id, userId, 0)),
+  createTransaction: (transaction) => dispatch(createTransaction(transaction))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AssetSidebar);

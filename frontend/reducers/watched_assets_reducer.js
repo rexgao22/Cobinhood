@@ -1,12 +1,8 @@
 import {
   RECEIVE_CURRENT_USER,
-  LOGOUT_CURRENT_USER,
 } from "../actions/session_actions";
 import {
-  WATCH_ASSET, //RECEIVE_NEW_ASSET,
-  UNWATCH_ASSET,
-  UPDATE_ASSET, //UPDATE_ASSET_PRICE
-  UPDATE_HOLDING,
+  UPDATE_ASSET, 
   RECEIVE_PORTFOLIO_DATA,
 } from "../actions/asset_actions";
 import {obtainPricesAndChange } from "./obtain_price_and_change"
@@ -17,7 +13,6 @@ const watchedAssetsReducer = (oldState = {}, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
       if (action.currentResponse.assets) {
-        //res for response data
         Object.values(action.currentResponse.assets).forEach((asset) => {
           if (!asset.amount) {
             nextState[asset.tickerSymbol] = asset;
@@ -26,33 +21,13 @@ const watchedAssetsReducer = (oldState = {}, action) => {
         });
       }
       return nextState;
-    case LOGOUT_CURRENT_USER:
-      return {};
+
     case UPDATE_ASSET:
       if (nextState[action.asset.tickerSymbol]) {
         nextState[action.asset.tickerSymbol].price = action.asset.price;
         return nextState;
       } else {
         return oldState;
-      }
-    case UNWATCH_ASSET:
-      delete nextState[action.ticker]; 
-      return nextState;
-    case UPDATE_HOLDING:
-      if (action.asset.amount) {
-        delete nextState[action.asset.tickerSymbol];
-      } else {
-        nextState[action.asset.tickerSymbol] = action.asset;
-        delete nextState[action.asset.tickerSymbol].quantity;
-      }
-      return nextState;
-    case WATCH_ASSET:
-      if (action.asset.amount) {
-        return oldState;
-      } else {
-        nextState[action.asset.tickerSymbol] = action.asset;
-        delete nextState[action.asset.tickerSymbol].amount;
-        return nextState;
       }
     case RECEIVE_PORTFOLIO_DATA:
       obtainPricesAndChange(action.tickerKeyToData).forEach((updateObject) => {

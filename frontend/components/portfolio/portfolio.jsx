@@ -12,6 +12,7 @@ class Portfolio extends Component {
           this.props.ownedAssets,
           this.props.buyingPower
         );
+        this.props.fetchHoldings();
     }
     
     render() { 

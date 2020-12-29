@@ -7,7 +7,7 @@ class BuyOnlyForm extends Component {
       shares: "",
       cost: "0.00",
       inputStatu: false,
-      showPurchaseError: false,
+      transacionError: false,
     };
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -20,25 +20,25 @@ class BuyOnlyForm extends Component {
         shares: e.target.value,
         cost: (this.props.asset.price * parseInt(e.target.value))
           .toFixed(2)
-          .toLocaleString("en"),
+          .toLocaleString("en-US"),
         inputStatu: valid,
-        showPurchaseError: false,
+        transacionError: false,
       });
     } else {
       this.setState({
         shares: e.target.value,
         cost: "0.00",
         inputStatu: valid,
-        showPurchaseError: false,
+        transacionError: false,
       });
     }
   }
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
-      this.props.purchaseAction(parseInt(this.state.shares));
+      this.props.createTransaction(parseInt(this.state.shares));
     } else {
-      this.setState({ showPurchaseError: true });
+      this.setState({ transacionError: true });
     }
   }
   checkInput(userInput) {
@@ -53,7 +53,7 @@ class BuyOnlyForm extends Component {
     }
   }
   render() {
-    const errorClass = this.state.showPurchaseError
+    const errorClass = this.state.transacionError
       ? "error-show"
       : "error-hide";
     const buttonText =
@@ -61,7 +61,7 @@ class BuyOnlyForm extends Component {
         ? `Unwatch ${this.props.asset.tickerSymbol}`
         : `Watch ${this.props.asset.tickerSymbol}`;
 
-    const errorMsg = this.state.showPurchaseError ? (
+    const errorMsg = this.state.transacionError ? (
       <span>Please enter a valid number of shares.</span>
     ) : null;
 
