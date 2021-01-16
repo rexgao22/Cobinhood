@@ -18,3 +18,8 @@ class Api::AssetsController < ApplicationController
         render :search
     end
 end
+
+# def search
+#   @products = Product.where("title LIKE ?", "%#{params[:search_term]}%")
+#   render "api/products/index"
+# end

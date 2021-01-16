@@ -7,21 +7,23 @@ class Portfolio extends Component {
         super(props);
     }
     componentDidMount() {
+      this.props.fetchHoldings().then(()=>{
         this.props.updatePortfolio(
           Object.keys(this.props.ownedAssets).concat(Object.keys(this.props.watchedAssets)),
           this.props.ownedAssets,
           this.props.buyingPower
         );
-        this.props.fetchHoldings();
+      })
     }
     
     render() { 
       const graphPoints = this.props.portfolioGraph;
+      console.log("graphPoints", graphPoints);
       if (graphPoints.length === 0) return null;  
       const portValueChange =
         graphPoints[graphPoints.length - 1].portfolioValue -graphPoints[0].portfolioValue;
       const percentChange = portValueChange/graphPoints[0].portfolioValue * 100;
-      const endValue = graphPoints[graphPoints.length - 1].portfolioValue
+      const endValue = graphPoints[graphPoints.length - 1].portfolioValue;
         return (
           <div className="portfolio">
             <div className="main-section">
