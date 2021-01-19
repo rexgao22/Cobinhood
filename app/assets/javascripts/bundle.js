@@ -3004,11 +3004,9 @@ var obtainPricesAndChange = function obtainPricesAndChange(tickerKeyToData) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
-/* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
-/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
-
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+/* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
+/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
 
 
 
@@ -3020,18 +3018,7 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
   var nextState = Object.assign({}, oldState);
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      if (action.currentResponse.assets) {
-        Object.values(action.currentResponse.assets).forEach(function (asset) {
-          if (asset.amount) {
-            nextState[asset.tickerSymbol] = asset;
-          }
-        });
-      }
-
-      return nextState;
-
-    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_HOLDINGS"]:
+    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_HOLDINGS"]:
       if (action.holdings) {
         Object.values(action.holdings).forEach(function (asset) {
           if (asset.amount) {
@@ -3042,7 +3029,7 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
 
       return nextState;
 
-    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_ASSET"]:
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_ASSET"]:
       if (nextState[action.asset.tickerSymbol]) {
         nextState[action.asset.tickerSymbol].price = action.asset.price;
         return nextState;
@@ -3050,8 +3037,8 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
         return oldState;
       }
 
-    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PORTFOLIO_DATA"]:
-      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_3__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PORTFOLIO_DATA"]:
+      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
         if (nextState[updateObject.tickerSymbol]) {
           nextState[updateObject.tickerSymbol].price = updateObject.price;
           nextState[updateObject.tickerSymbol].percentChange = updateObject.percentChange;
@@ -3311,11 +3298,9 @@ var usersReducer = function usersReducer() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
-/* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
-/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
-
+/* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
+/* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
+/* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
 
 
 
@@ -3327,19 +3312,7 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
   var nextState = Object.assign({}, oldState);
 
   switch (action.type) {
-    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      if (action.currentResponse.assets) {
-        Object.values(action.currentResponse.assets).forEach(function (asset) {
-          if (!asset.amount) {
-            nextState[asset.tickerSymbol] = asset;
-            delete nextState[asset.tickerSymbol].amount;
-          }
-        });
-      }
-
-      return nextState;
-
-    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_HOLDINGS"]:
+    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_HOLDINGS"]:
       if (action.holdings) {
         Object.values(action.holdings).forEach(function (asset) {
           if (!asset.amount) {
@@ -3351,7 +3324,7 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
 
       return nextState;
 
-    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_ASSET"]:
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_ASSET"]:
       if (nextState[action.asset.tickerSymbol]) {
         nextState[action.asset.tickerSymbol].price = action.asset.price;
         return nextState;
@@ -3359,8 +3332,8 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
         return oldState;
       }
 
-    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_PORTFOLIO_DATA"]:
-      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_3__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
+    case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PORTFOLIO_DATA"]:
+      Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
         if (nextState[updateObject.tickerSymbol]) {
           nextState[updateObject.tickerSymbol].price = updateObject.price;
           nextState[updateObject.tickerSymbol].percentChange = updateObject.percentChange;

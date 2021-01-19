@@ -1,6 +1,4 @@
-import {
-  RECEIVE_CURRENT_USER,
-} from "../actions/session_actions";
+
 import {
   UPDATE_ASSET, 
   RECEIVE_PORTFOLIO_DATA,
@@ -12,16 +10,7 @@ const watchedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);
   switch (action.type) {
-    case RECEIVE_CURRENT_USER:
-      if (action.currentResponse.assets) {
-        Object.values(action.currentResponse.assets).forEach((asset) => {
-          if (!asset.amount) {
-            nextState[asset.tickerSymbol] = asset;
-            delete nextState[asset.tickerSymbol].amount;
-          }
-        });
-      }
-      return nextState;
+    
     case RECEIVE_HOLDINGS:
       if (action.holdings) {
         Object.values(action.holdings).forEach((asset) => {
