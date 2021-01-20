@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :assets, only: [:show]
     resources :holdings, only: [:create, :update, :destroy, :index]
     resources :transactions, except: [:index, :show, :create]
-    get '/assets/search/:searchbar', to:'assets#search', as: 'search_assets'
+    get '/assets/search/:search', to:'assets#search', as: 'search_assets'
   end
   root to: "staticpages#root"
   # match "*path", to: "welcome#index", via: [:get]

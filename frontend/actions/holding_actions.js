@@ -29,4 +29,4 @@ export const deleteHolding = (holdingId) => (dispatch) =>
   );
 
 export const fetchHoldings = () => (dispatch) =>
-  HOLDUtil.fetchHoldings().then((holdings) => {dispatch(receiveHoldings(holdings)),console.log("holdings", holdings)});
+  HOLDUtil.fetchHoldings().then((holdings) => dispatch(receiveHoldings(holdings)));
