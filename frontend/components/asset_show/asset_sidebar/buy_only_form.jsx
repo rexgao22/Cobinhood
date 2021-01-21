@@ -8,9 +8,12 @@ class BuyOnlyForm extends Component {
       cost: "0.00",
       inputStatu: false,
       transacionError: false,
+      watchType: this.props.assetType,
+      holdingId: this.props.holdingId
     };
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleWatch = this.handleWatch.bind(this);
   }
 
   update(e) {
@@ -34,6 +37,25 @@ class BuyOnlyForm extends Component {
     }
   }
 
+  handleWatch(e){
+    e.preventDefault();
+    if (this.state.watchType === 'Watched Asset') {
+      this.props.assetAction(this.props.holdingId);
+      this.setState({watchType: 'New Asset'})
+    } else {
+      
+      this.props
+        .assetAction(
+          this.props.asset.id,
+          this.props.user.id,
+          0,
+          this.props.asset.price
+        ).then((res) => {console.log(res)});
+        
+      this.setState({ watchType: "Watched Asset" });
+    }
+  }
+
   handleSubmit(e) {
     if (this.state.inputStatu) {
       this.props.createTransaction(parseInt(this.state.shares));
@@ -53,6 +75,7 @@ class BuyOnlyForm extends Component {
     }
   }
   render() {
+    // console.log("test", this.props.test[0].holdingId);
     const errorClass = this.state.transacionError
       ? "error-show"
       : "error-hide";
@@ -111,7 +134,7 @@ class BuyOnlyForm extends Component {
           </span>
         </div>
         <div className="watch-button">
-          <button onClick={() => this.props.assetAction()}>{buttonText}</button>
+          <button onClick={this.handleWatch}>{buttonText}</button>
         </div>
       </div>
     );

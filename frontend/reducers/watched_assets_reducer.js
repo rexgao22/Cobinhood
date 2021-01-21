@@ -3,14 +3,17 @@ import {
   UPDATE_ASSET, 
   RECEIVE_PORTFOLIO_DATA,
 } from "../actions/asset_actions";
-import { RECEIVE_HOLDINGS } from "../actions/holding_actions";
+import {
+  RECEIVE_HOLDINGS,
+  WATCH_ASSET,
+  UNWATCH_ASSET,
+} from "../actions/holding_actions";
 import {obtainPricesAndChange } from "./obtain_price_and_change"
 
 const watchedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);
   switch (action.type) {
-    
     case RECEIVE_HOLDINGS:
       if (action.holdings) {
         Object.values(action.holdings).forEach((asset) => {
@@ -28,6 +31,19 @@ const watchedAssetsReducer = (oldState = {}, action) => {
       } else {
         return oldState;
       }
+    case WATCH_ASSET:
+      if (action.asset.amount === 0) {
+        
+        nextState[action.asset.tickerSymbol] = action.asset;
+        delete nextState[action.asset.tickerSymbol].amount;
+        console.log(nextState);
+        return nextState;
+      } else {
+        return oldState;
+      }
+      case UNWATCH_ASSET:
+        delete nextState[action.tickerSymbol]
+        return nextState;
     case RECEIVE_PORTFOLIO_DATA:
       obtainPricesAndChange(action.tickerKeyToData).forEach((updateObject) => {
         if (nextState[updateObject.tickerSymbol]) {

@@ -7,7 +7,7 @@ class Api::HoldingsController < ApplicationController
   def create
     @holding = Holding.new(holding_params)
     if @holding.save!
-      render :show
+      render "api/holdings/show"
     else
       render json: @holding.errors.full_messages, status: 422
     end
