@@ -18,6 +18,7 @@ class Portfolio extends Component {
     
     render() { 
       const graphPoints = this.props.portfolioGraph;
+  
       if (graphPoints.length === 0) return null;  
       const portValueChange =
         graphPoints[graphPoints.length - 1].portfolioValue -graphPoints[0].portfolioValue;

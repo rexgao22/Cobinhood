@@ -40,7 +40,7 @@ class AssetGraph extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.tickerSymbol !== prevProps.tickerSymbol) {
-      fetchDailyGraphData(this.props.ticker).then((data) => {
+      fetchDailyGraphData(this.props.tickerSymbol).then((data) => {
         const dataPoint = [];
         for (let i = 0; i < data.length; i += 5) {
           while (!data[i].average) {
@@ -63,6 +63,7 @@ class AssetGraph extends React.Component {
       });
     }
     if (this.props.price !== prevProps.price) {
+   
       this.setState({
         price: this.props.price,
         priceChange: this.props.portValueChange,

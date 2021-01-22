@@ -50,7 +50,7 @@ class BuyOnlyForm extends Component {
           this.props.user.id,
           0,
           this.props.asset.price
-        ).then((res) => {console.log(res)});
+        ).then((res)=>{console.log(res)});
         
       this.setState({ watchType: "Watched Asset" });
     }
@@ -75,7 +75,6 @@ class BuyOnlyForm extends Component {
     }
   }
   render() {
-    // console.log("test", this.props.test[0].holdingId);
     const errorClass = this.state.transacionError
       ? "error-show"
       : "error-hide";

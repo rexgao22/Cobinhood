@@ -10,7 +10,7 @@ class Asset < ApplicationRecord
     class_name: :Transaction
 
   def holding_amount
-      debugger
+    
       Holding.where(user_id: current_user.id).find_by(asset_id:this.id).amount
   end
 

@@ -229,7 +229,7 @@ var receiveHoldings = function receiveHoldings(holdings) {
 var createHolding = function createHolding(assetId, userId, amount, price) {
   return function (dispatch) {
     return _util_holding_util__WEBPACK_IMPORTED_MODULE_0__["createHolding"](assetId, userId, amount).then(function (asset) {
-      dispatch(watchAsset(_objectSpread(_objectSpread({}, asset), {}, {
+      return dispatch(watchAsset(_objectSpread(_objectSpread({}, asset), {}, {
         price: price
       })));
     });
@@ -624,7 +624,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
       var _this3 = this;
 
       if (this.props.tickerSymbol !== prevProps.tickerSymbol) {
-        Object(_util_asset_util__WEBPACK_IMPORTED_MODULE_2__["fetchDailyGraphData"])(this.props.ticker).then(function (data) {
+        Object(_util_asset_util__WEBPACK_IMPORTED_MODULE_2__["fetchDailyGraphData"])(this.props.tickerSymbol).then(function (data) {
           var dataPoint = [];
 
           for (var _i2 = 0; _i2 < data.length; _i2 += 5) {
@@ -1321,7 +1321,6 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      // console.log("test", this.props.test[0].holdingId);
       var errorClass = this.state.transacionError ? "error-show" : "error-hide";
       var buttonText = this.props.assetType === "Watched Asset" ? "Unwatch ".concat(this.props.asset.tickerSymbol) : "Watch ".concat(this.props.asset.tickerSymbol);
       var errorMsg = this.state.transacionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
