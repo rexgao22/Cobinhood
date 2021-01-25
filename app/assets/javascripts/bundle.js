@@ -226,9 +226,9 @@ var receiveHoldings = function receiveHoldings(holdings) {
   };
 };
 
-var createHolding = function createHolding(assetId, userId, amount, price) {
+var createHolding = function createHolding(userId, assetId, amount, price) {
   return function (dispatch) {
-    return _util_holding_util__WEBPACK_IMPORTED_MODULE_0__["createHolding"](assetId, userId, amount).then(function (asset) {
+    return _util_holding_util__WEBPACK_IMPORTED_MODULE_0__["createHolding"](userId, assetId, amount).then(function (asset) {
       return dispatch(watchAsset(_objectSpread(_objectSpread({}, asset), {}, {
         price: price
       })));
@@ -577,7 +577,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       data: null,
       graphColor: null,
-      price: 0,
+      value: 0,
       priceChange: 0,
       percentChange: 0
     };
@@ -656,7 +656,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
 
       if (this.props.price !== prevProps.price) {
         this.setState({
-          price: this.props.price,
+          value: this.props.price,
           priceChange: this.props.portValueChange,
           percentChange: this.props.percentChange
         });
@@ -668,7 +668,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
       if (!lineData.isTooltipActive) return;
       if (lineData.activePayload === undefined) return;
       this.setState({
-        price: lineData.activePayload[0].value,
+        value: lineData.activePayload[0].value,
         priceChange: lineData.activePayload[0].value - this.state.data[0].average,
         percentChange: (lineData.activePayload[0].value / this.state.data[0].average - 1) * 100
       });
@@ -683,7 +683,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
         className: "asset-graph"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "company-name"
-      }, this.props.companyName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "$".concat(this.state.price.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.companyName), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "$".concat(this.state.value.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "asset-change"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "".concat(sign, "$").concat(Math.abs(this.state.priceChange).toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "(".concat(sign).concat(Math.abs(this.state.percentChange).toFixed(2).toLocaleString("en-US"), "%)")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Today")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
         width: 710,
@@ -700,7 +700,7 @@ var AssetGraph = /*#__PURE__*/function (_React$Component) {
         },
         onMouseLeave: function onMouseLeave() {
           return _this4.setState({
-            price: _this4.props.price,
+            value: _this4.props.price,
             priceChange: _this4.props.portValueChange,
             percentChange: _this4.props.percentChange
           });
@@ -1091,17 +1091,14 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
   }, {
     key: "displayBuyOnlyForm",
     value: function displayBuyOnlyForm() {
-      // if (this.props.test.length === 0){
-      //   return null
-      // }
-      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_buy_only_form__WEBPACK_IMPORTED_MODULE_2__["default"] // test={this.props.test}
-      , {
+      return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_buy_only_form__WEBPACK_IMPORTED_MODULE_2__["default"], {
         user: this.props.currentUser,
         asset: this.props.asset,
         buyingPower: this.props.currentUser.buyingPower,
         amount: this.props.currentUser.amount,
         assetType: "Watched Asset",
-        assetAction: this.props.unwatchAsset,
+        watchAsset: this.props.watchAsset,
+        unwatchAsset: this.props.unwatchAsset,
         createTransaction: this.props.createTransaction,
         holdingId: this.props.watchedAsset.holdingId
       }));
@@ -1114,7 +1111,8 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
         asset: this.props.asset,
         buyingPower: this.props.currentUser.buyingPower,
         assetType: "New Asset",
-        assetAction: this.props.watchAsset,
+        watchAsset: this.props.watchAsset,
+        unwatchAsset: this.props.unwatchAsset,
         createTransaction: this.props.createTransaction,
         holdingId: ""
       }));
@@ -1123,7 +1121,6 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
     key: "display",
     value: function display() {
       if (this.props.watchedAsset) {
-        // console.log("test2", this.props.test);
         return this.displayBuyOnlyForm();
       } else if (this.props.ownedAsset) {
         return this.displayTradeFrom();
@@ -1180,8 +1177,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     unwatchAsset: function unwatchAsset(holdingId) {
       return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["deleteHolding"])(holdingId));
     },
-    watchAsset: function watchAsset(assetId, userId, amount, price) {
-      return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["createHolding"])(assetId, userId, amount, price));
+    watchAsset: function watchAsset(userId, assetId, amount, price) {
+      return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["createHolding"])(userId, assetId, amount, price));
     },
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["createTransaction"])(transaction));
@@ -1277,19 +1274,21 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleWatch",
     value: function handleWatch(e) {
+      var _this2 = this;
+
       e.preventDefault();
 
-      if (this.state.watchType === 'Watched Asset') {
-        this.props.assetAction(this.props.holdingId);
+      if (this.state.watchType === "Watched Asset") {
+        this.props.unwatchAsset(this.state.holdingId);
         this.setState({
-          watchType: 'New Asset'
+          watchType: "New Asset"
         });
       } else {
-        this.props.assetAction(this.props.asset.id, this.props.user.id, 0, this.props.asset.price).then(function (res) {
-          console.log(res);
-        });
-        this.setState({
-          watchType: "Watched Asset"
+        this.props.watchAsset(this.props.user.id, this.props.asset.id, 0, this.props.asset.price).then(function (res) {
+          _this2.setState({
+            holdingId: res.asset.holdingId,
+            watchType: "Watched Asset"
+          });
         });
       }
     }
@@ -1321,8 +1320,9 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      console.log("holdingId", this.props.asset.id);
       var errorClass = this.state.transacionError ? "error-show" : "error-hide";
-      var buttonText = this.props.assetType === "Watched Asset" ? "Unwatch ".concat(this.props.asset.tickerSymbol) : "Watch ".concat(this.props.asset.tickerSymbol);
+      var buttonText = this.state.watchType === "Watched Asset" ? "Unwatch ".concat(this.props.asset.tickerSymbol) : "Watch ".concat(this.props.asset.tickerSymbol);
       var errorMsg = this.state.transacionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
       var colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -3142,7 +3142,7 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
       }
 
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
-      if (action.asset.amount !== 0) {
+      if (action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
         return nextState;
       } else {
@@ -3445,10 +3445,10 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
       }
 
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
-      if (action.asset.amount === 0) {
+      if (!action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
-        delete nextState[action.asset.tickerSymbol].amount;
         console.log(nextState);
+        delete nextState[action.asset.tickerSymbol].amount;
         return nextState;
       } else {
         return oldState;
@@ -3556,7 +3556,7 @@ var fetchDailyGraphData = function fetchDailyGraphData(tickerSymbol) {
 /*!***************************************!*\
   !*** ./frontend/util/holding_util.js ***!
   \***************************************/
-/*! exports provided: createHolding, deleteHolding, fetchHoldings */
+/*! exports provided: createHolding, deleteHolding, fetchHoldings, updateHolding */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3564,6 +3564,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchHoldings", function() { return fetchHoldings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHolding", function() { return updateHolding; });
 var createHolding = function createHolding(userId, assetId, amount) {
   return $.ajax({
     method: "POST",
@@ -3586,6 +3587,15 @@ var deleteHolding = function deleteHolding(holdingId) {
 var fetchHoldings = function fetchHoldings() {
   return $.ajax({
     url: "api/holdings"
+  });
+};
+var updateHolding = function updateHolding(holdingId, newAmount) {
+  return $.ajax({
+    method: "PATCH",
+    url: "/api/holdings/".concat(holdingId),
+    data: {
+      amount: newAmount
+    }
   });
 };
 

@@ -17,3 +17,10 @@ export const fetchHoldings = () =>
   $.ajax({
     url: "api/holdings",
   });
+
+export const updateHolding = (holdingId, newAmount) =>
+  $.ajax({
+    method: "PATCH",
+    url: `/api/holdings/${holdingId}`,
+    data: { amount: newAmount },
+  });

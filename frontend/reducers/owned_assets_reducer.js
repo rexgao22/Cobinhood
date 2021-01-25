@@ -24,7 +24,7 @@ const ownedAssetsReducer = (oldState = {}, action) => {
         return oldState;
       }
     case WATCH_ASSET:
-      if (action.asset.amount !== 0) {
+      if (action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
         return nextState;
       } else {

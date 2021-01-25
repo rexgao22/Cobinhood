@@ -32,11 +32,10 @@ const watchedAssetsReducer = (oldState = {}, action) => {
         return oldState;
       }
     case WATCH_ASSET:
-      if (action.asset.amount === 0) {
-        
+      if (!action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
+        console.log(nextState)
         delete nextState[action.asset.tickerSymbol].amount;
-        console.log(nextState);
         return nextState;
       } else {
         return oldState;

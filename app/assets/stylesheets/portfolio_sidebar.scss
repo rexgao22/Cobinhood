@@ -8,12 +8,12 @@
   margin-top: 85px;
   margin-left: 800px;
   min-height: 50px;
-  max-height: calc(100vh - 150px);
+  max-height: calc(73vh - 150px);
   font-family: sans-serif;
   color: black;
   box-shadow: 0 0 15px lightgray;
   position: fixed;
-  overflow: scroll;
+  overflow: auto;
 }
 
 .header-block {

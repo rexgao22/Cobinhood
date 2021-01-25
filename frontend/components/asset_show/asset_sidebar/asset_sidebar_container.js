@@ -15,8 +15,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => ({
   unwatchAsset: (holdingId) => dispatch(deleteHolding(holdingId)),
-  watchAsset: (assetId, userId, amount, price) =>
-    dispatch(createHolding(assetId, userId, amount, price)),
+  watchAsset: (userId, assetId, amount, price) =>
+    dispatch(createHolding(userId, assetId, amount, price)),
   createTransaction: (transaction) => dispatch(createTransaction(transaction)),
 });
 

@@ -8,7 +8,7 @@ class AssetGraph extends React.Component {
     this.state = {
       data: null,
       graphColor: null,
-      price: 0,
+      value: 0,
       priceChange: 0,
       percentChange: 0,
     };
@@ -65,7 +65,7 @@ class AssetGraph extends React.Component {
     if (this.props.price !== prevProps.price) {
    
       this.setState({
-        price: this.props.price,
+        value: this.props.price,
         priceChange: this.props.portValueChange,
         percentChange: this.props.percentChange,
       });
@@ -76,7 +76,7 @@ class AssetGraph extends React.Component {
     if (!lineData.isTooltipActive) return;
     if (lineData.activePayload === undefined) return;
     this.setState({
-      price: lineData.activePayload[0].value,
+      value: lineData.activePayload[0].value,
       priceChange: lineData.activePayload[0].value - this.state.data[0].average,
       percentChange:
         (lineData.activePayload[0].value / this.state.data[0].average - 1) *
@@ -90,7 +90,7 @@ class AssetGraph extends React.Component {
       <div className="asset-graph">
         <div className="company-name">{this.props.companyName}</div>
         <header>
-          {`$${this.state.price.toFixed(2).toLocaleString("en-US")}`}
+          {`$${this.state.value.toFixed(2).toLocaleString("en-US")}`}
         </header>
         <div className="asset-change">
           <span>
@@ -113,7 +113,7 @@ class AssetGraph extends React.Component {
           onMouseMove={(lineData) => this.handleMouseMove(lineData)}
           onMouseLeave={() =>
             this.setState({
-              price: this.props.price,
+              value: this.props.price,
               priceChange: this.props.portValueChange,
               percentChange: this.props.percentChange,
             })

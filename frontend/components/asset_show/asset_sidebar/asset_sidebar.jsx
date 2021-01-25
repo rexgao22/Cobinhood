@@ -24,21 +24,18 @@ class AssetSidebar extends Component {
   }
 
   displayBuyOnlyForm() {
-    // if (this.props.test.length === 0){
-    //   return null
-    // }
     return (
       <div>
         <BuyOnlyForm
-          // test={this.props.test}
           user={this.props.currentUser}
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.currentUser.amount}
           assetType="Watched Asset"
-          assetAction={this.props.unwatchAsset}
+          watchAsset={this.props.watchAsset}
+          unwatchAsset={this.props.unwatchAsset}
           createTransaction={this.props.createTransaction}
-          holdingId = {this.props.watchedAsset.holdingId}
+          holdingId={this.props.watchedAsset.holdingId}
         />
       </div>
     );
@@ -52,16 +49,16 @@ class AssetSidebar extends Component {
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           assetType="New Asset"
-          assetAction={this.props.watchAsset}
+          watchAsset={this.props.watchAsset}
+          unwatchAsset={this.props.unwatchAsset}
           createTransaction={this.props.createTransaction}
-          holdingId= ""
+          holdingId=""
         />
       </div>
     );
   }
   display() {
     if (this.props.watchedAsset) {
-      // console.log("test2", this.props.test);
       return this.displayBuyOnlyForm();
     } else if (this.props.ownedAsset) {
       return this.displayTradeFrom();
