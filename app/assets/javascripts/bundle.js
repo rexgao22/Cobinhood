@@ -307,7 +307,7 @@ var requestNews = function requestNews() {
 /*!*********************************************!*\
   !*** ./frontend/actions/session_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, receiveCurrentUser, logoutCurrentUser, receiveErrors, signup, login, logout */
+/*! exports provided: RECEIVE_CURRENT_USER, LOGOUT_CURRENT_USER, RECEIVE_SESSION_ERRORS, CLEAR_ERRORS, receiveCurrentUser, logoutCurrentUser, receiveErrors, clearErrors, signup, login, logout */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -315,9 +315,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_CURRENT_USER", function() { return RECEIVE_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "LOGOUT_CURRENT_USER", function() { return LOGOUT_CURRENT_USER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SESSION_ERRORS", function() { return RECEIVE_SESSION_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_ERRORS", function() { return CLEAR_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveCurrentUser", function() { return receiveCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logoutCurrentUser", function() { return logoutCurrentUser; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveErrors", function() { return receiveErrors; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearErrors", function() { return clearErrors; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "signup", function() { return signup; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "login", function() { return login; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "logout", function() { return logout; });
@@ -326,6 +328,7 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
+var CLEAR_ERRORS = "CLEAR_ERRORS";
 var receiveCurrentUser = function receiveCurrentUser(currentUser) {
   return {
     type: RECEIVE_CURRENT_USER,
@@ -341,6 +344,11 @@ var receiveErrors = function receiveErrors(errors) {
   return {
     type: RECEIVE_SESSION_ERRORS,
     errors: errors
+  };
+};
+var clearErrors = function clearErrors() {
+  return {
+    type: CLEAR_ERRORS
   };
 };
 var signup = function signup(user) {
@@ -1133,10 +1141,12 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
     key: "displayTradeFrom",
     value: function displayTradeFrom() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_trade_form__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        user: this.props.currentUser,
         asset: this.props.asset,
         buyingPower: this.props.currentUser.buyingPower,
         amount: this.props.ownedAsset.amount,
         updateHolding: this.props.updateHolding,
+        holdingId: this.props.ownedAsset.holdingId,
         updateBuyingPower: this.props.updateBuyingPower
       }));
     }
@@ -1173,10 +1183,10 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
   }, {
     key: "display",
     value: function display() {
-      if (this.props.watchedAsset) {
-        return this.displayBuyOnlyForm();
-      } else if (this.props.ownedAsset) {
+      if (this.props.ownedAsset) {
         return this.displayTradeFrom();
+      } else if (this.props.watchedAsset) {
+        return this.displayBuyOnlyForm();
       } else {
         return this.displayBuyOnlyForNewAssetForm();
       }
@@ -1237,8 +1247,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["createTransaction"])(transaction));
     },
-    updateHolding: function updateHolding(holdingId, newAmount, price) {
-      return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["updateHolding"])(holdingId, newAmount, price));
+    updateHolding: function updateHolding(holdingId, amount, price) {
+      return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["updateHolding"])(holdingId, amount, price));
     },
     updateBuyingPower: function updateBuyingPower(userId, amount) {
       return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateBuyingPower"])(userId, amount));
@@ -1298,12 +1308,13 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
     _this = _super.call(this, props);
     _this.state = {
       shares: "",
-      cost: "0.00",
+      cost: 0,
       inputStatu: false,
       inputError: false,
       transactionError: false,
       watchType: _this.props.assetType,
-      holdingId: _this.props.holdingId
+      holdingId: _this.props.holdingId,
+      buyingPower: _this.props.buyingPower
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -1320,14 +1331,14 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
       if (valid) {
         this.setState({
           shares: e.target.value,
-          cost: (this.props.asset.price * parseInt(e.target.value)).toFixed(2).toLocaleString("en-US"),
+          cost: this.props.asset.price * parseInt(e.target.value),
           inputStatu: valid,
           inputError: false
         });
       } else {
         this.setState({
           shares: e.target.value,
-          cost: "0.00",
+          cost: 0,
           inputStatu: valid,
           inputError: false
         });
@@ -1359,15 +1370,29 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
     value: function handleSubmit(e) {
       var _this3 = this;
 
+      console.log("no", parseInt(this.state.shares));
+
       if (this.state.inputStatu) {
         if (this.checkBuyingPower()) {
           if (this.state.watchType === "Watched Asset") {
             this.props.updateHolding(this.state.holdingId, parseInt(this.state.shares), this.props.asset.price).then(function () {
-              _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.user.buyingPower - _this3.state.cost);
+              _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.buyingPower - _this3.state.cost);
+            }).then(function (res) {
+              _this3.setState({
+                buyingPower: res,
+                shares: "0",
+                cost: 0
+              });
             });
           } else {
             this.props.watchAsset(this.props.user.id, this.props.asset.id, parseInt(this.state.shares), this.props.asset.price).then(function () {
               _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.user.buyingPower - _this3.state.cost);
+            }).then(function (res) {
+              _this3.setState({
+                buyingPower: res,
+                shares: "0",
+                cost: 0
+              });
             });
           }
         } else {
@@ -1409,7 +1434,6 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      console.log("user", this.props.user.id);
       var errorClass = this.state.inputError ? "error-show" : "error-hide";
       var buttonText = this.state.watchType === "Watched Asset" ? "Unwatch ".concat(this.props.asset.tickerSymbol) : "Watch ".concat(this.props.asset.tickerSymbol);
       var inputErrorMsg = this.state.inputError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
@@ -1434,7 +1458,7 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
         className: "far fa-question-circle"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.props.asset.price.toFixed(2).toLocaleString("en"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "estimate-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Estimated Cost"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.state.cost)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Estimated Cost"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.state.cost.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-errors"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: errorClass
@@ -1442,7 +1466,7 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
         className: "fas fa-exclamation-circle"
       }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Error")), inputErrorMsg, transcationErrorMsg), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
-      }, "Review Order")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Place Order")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "portValue-display"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$\n            ".concat(this.props.buyingPower.toFixed(2).toLocaleString("en"), "\n            Buying Power Available "))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "watch-button"
@@ -1510,13 +1534,20 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
     _this.state = {
       status: "buy",
       shares: "",
-      cost: "0.00",
+      cost: 0,
       inputStatu: false,
-      transacionError: false
+      inputError: false,
+      transactionError: false,
+      sellError: false,
+      successMsg: false,
+      buyingPower: _this.props.user.buyingPower,
+      amount: _this.props.amount
     };
     _this.selectedTab = _this.selectedTab.bind(_assertThisInitialized(_this));
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.checkBuyingPower = _this.checkBuyingPower.bind(_assertThisInitialized(_this));
+    _this.checkAmount = _this.checkAmount.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1539,7 +1570,7 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
     value: function selectedTab(type) {
       this.setState({
         status: type,
-        transacionError: false
+        inputError: false
       });
     }
   }, {
@@ -1550,43 +1581,108 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
       if (valid) {
         this.setState({
           shares: e.target.value,
-          cost: (this.props.asset.price * parseInt(e.target.value)).toFixed(2).toLocaleString("en-US"),
+          cost: this.props.asset.price * parseInt(e.target.value),
           inputStatu: valid,
-          transacionError: false
+          inputError: false
         });
       } else {
         this.setState({
           shares: e.target.value,
-          cost: "0.00",
+          cost: 0,
           inputStatu: valid,
-          transacionError: false
+          inputError: false
         });
       }
     }
   }, {
+    key: "checkBuyingPower",
+    value: function checkBuyingPower() {
+      var newBuyingPower = this.props.user.buyingPower - parseInt(this.state.shares) * this.props.asset.price;
+
+      if (newBuyingPower >= 0) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
+    key: "checkAmount",
+    value: function checkAmount() {
+      var newAmount = this.props.amount - parseInt(this.state.shares);
+
+      if (newAmount >= 0) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this2 = this;
+
       if (this.state.inputStatu) {
         if (this.state.status === "buy") {
-          this.props.createTransaction(parseInt(this.state.shares));
-          this.props.successMsg("You bought ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
+          if (this.checkBuyingPower()) {
+            this.props.updateHolding(this.props.holdingId, parseInt(this.state.shares) + this.state.amount, this.props.asset.price).then(function () {
+              _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower - _this2.state.cost);
+            }).then(function (res) {
+              _this2.setState({
+                buyingPower: res,
+                amount: _this2.state.amount + parseInt(_this2.state.shares),
+                successMsg: true,
+                shares: "0",
+                cost: 0
+              });
+            });
+          } else {
+            this.setState({
+              transactionError: true,
+              successMsg: false
+            });
+          } // this.props.successMsg(
+          //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+          // );
+
         } else {
-          this.props.createTransaction(parseInt(this.state.shares));
-          this.props.successMsg("You sold ".concat(this.state.shares, " shares of ").concat(this.props.asset.tickerSymbol));
+          if (this.checkAmount()) {
+            this.props.updateHolding(this.props.holdingId, this.state.amount - parseInt(this.state.shares), this.props.asset.price).then(function () {
+              _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower + _this2.state.cost);
+            }).then(function (res) {
+              _this2.setState({
+                buyingPower: res,
+                amount: _this2.state.amount - parseInt(_this2.state.shares),
+                successMsg: true,
+                shares: "0",
+                cost: 0
+              });
+            });
+          } else {
+            this.setState({
+              sellError: true,
+              successMsg: false
+            });
+          } // this.props.successMsg(
+          //   `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+          // );
+
         }
       } else {
         this.setState({
-          transacionError: true
+          inputError: true,
+          successMsg: false
         });
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var errorClass = this.state.transacionError ? "error-show" : "error-hide";
+      var errorClass = this.state.inputError ? "error-show" : "error-hide";
       var spanText = this.state.status === "buy" ? "Cost" : "Credit";
-      var portValueDisplay = this.state.status === "buy" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$\n            ".concat(this.props.buyingPower.toFixed(2).toLocaleString("en-US"), "\n            Buying Power Available ")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, this.props.amount, " shares Available");
-      var errorMsg = this.state.transacionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
+      var portValueDisplay = this.state.status === "buy" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$\n            ".concat(this.props.buyingPower.toFixed(2).toLocaleString("en-US"), "\n            Buying Power Available ")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, this.state.amount, " shares Available");
+      var errorMsg = this.state.inputError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
+      var transcationErrorMsg = this.state.transactionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Not enough buyingPower") : null;
+      var sellErrorMsg = this.state.sellError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "exceed ", this.state.amount, " shares to sell") : null;
       var colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "asset-sidebar ".concat(colorClass)
@@ -1609,15 +1705,15 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
         className: "far fa-question-circle"
       })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.props.asset.price.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "estimate-content"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Estimated ", spanText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.state.cost)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Estimated ", spanText), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$", this.state.cost.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "sidebar-errors"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: errorClass
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-exclamation-circle"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Error")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, errorMsg)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Error")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, errorMsg, transcationErrorMsg, sellErrorMsg)), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
-      }, "Review Order")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Place Order")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "portValue-display"
       }, portValueDisplay));
     }
@@ -1832,7 +1928,7 @@ var HomePage = function HomePage(props) {
     className: "homepage-header"
   }, "Investing for Greater Good"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
     className: "homepage-text"
-  }, "Commission-free investing, No regret! You are next Bill and Steve.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  }, "Commission-free investing, plus the tools you need to put your money in motion. Sign up and get your first stock for free. Certain limitations apply.")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     className: "home-gif",
     src: window.images.CobVid
   })));
@@ -2053,6 +2149,8 @@ var SearchBar = /*#__PURE__*/function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.display = _this.display.bind(_assertThisInitialized(_this));
     _this.handleClick = _this.handleClick.bind(_assertThisInitialized(_this));
+    _this.dropDownRef = /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createRef();
+    _this.handleClickOutside = _this.handleClickOutside.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -2084,6 +2182,27 @@ var SearchBar = /*#__PURE__*/function (_Component) {
         searchInput: "",
         returnAsset: null
       });
+    }
+  }, {
+    key: "handleClickOutside",
+    value: function handleClickOutside(e) {
+      if (this.state.returnAsset === null) return;
+
+      if (this.dropDownRef && !this.dropDownRef.current.contains(e.target)) {
+        this.setState({
+          returnAsset: null
+        });
+      }
+    }
+  }, {
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      document.addEventListener("mousedown", this.handleClickOutside);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      document.removeEventListener("mousedown", this.handleClickOutside);
     }
   }, {
     key: "display",
@@ -2121,7 +2240,8 @@ var SearchBar = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "search-bar"
+        className: "search-bar",
+        ref: this.dropDownRef
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-container"
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
@@ -2850,6 +2970,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     action: function action(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["login"])(user));
     },
+    clearErrors: function clearErrors() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])());
+    },
     demoLogin: function demoLogin() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["login"])({
         username: "Admin",
@@ -2949,6 +3072,11 @@ var SessionForm = /*#__PURE__*/function (_Component) {
       this.props.action(this.state);
     }
   }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      this.props.clearErrors();
+    }
+  }, {
     key: "renderErrors",
     value: function renderErrors() {
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, this.props.errors.map(function (error, i) {
@@ -3042,6 +3170,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
   return {
     action: function action(user) {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["signup"])(user));
+    },
+    clearErrors: function clearErrors() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["clearErrors"])());
     },
     demoLogin: function demoLogin() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["login"])({
@@ -3234,6 +3365,8 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
       }
 
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
+      console.log(action.asset);
+
       if (action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
         return nextState;
@@ -3242,6 +3375,8 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
       }
 
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
+      console.log("yes", action.asset);
+
       if (action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
       } else {
@@ -3421,6 +3556,9 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       return [];
 
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["CLEAR_ERRORS"]:
+      return [];
+
     default:
       return oldState;
   }
@@ -3560,7 +3698,6 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["WATCH_ASSET"]:
       if (!action.asset.amount) {
         nextState[action.asset.tickerSymbol] = action.asset;
-        console.log(nextState);
         delete nextState[action.asset.tickerSymbol].amount;
         return nextState;
       } else {
@@ -3572,7 +3709,7 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
       return nextState;
 
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
-      if (action.asset.quantity) {
+      if (action.asset.amount) {
         delete nextState[action.asset.tickerSymbol];
       } else {
         nextState[action.asset.tickerSymbol] = action.asset;
@@ -3912,7 +4049,6 @@ var fetchTransactions = function fetchTransactions() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBuyingPower", function() { return updateBuyingPower; });
 var updateBuyingPower = function updateBuyingPower(userId, amount) {
-  console.log("yes", userId);
   return $.ajax({
     url: "/api/users/".concat(userId),
     method: "PATCH",

@@ -12,6 +12,8 @@ class SearchBar extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.display = this.display.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.dropDownRef = React.createRef();
+    this.handleClickOutside = this.handleClickOutside.bind(this);
   }
   handleChange(e) {
     this.setState({ searchInput: e.target.value });
@@ -28,8 +30,23 @@ class SearchBar extends Component {
     this.setState({ searchInput: "", returnAsset: null });
   }
 
+  handleClickOutside(e) {
+    if (this.state.returnAsset === null) return;
+    if (this.dropDownRef && !this.dropDownRef.current.contains(e.target)) {
+      this.setState({ returnAsset: null });
+    }
+  }
+  
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
   display() {
-    let displayResult ;
+    let displayResult;
 
     if (this.state.returnAsset === null) {
       displayResult = null;
@@ -63,7 +80,7 @@ class SearchBar extends Component {
   }
   render() {
     return (
-      <div className="search-bar">
+      <div className="search-bar" ref={this.dropDownRef}>
         <div className="input-container">
           <img className="search-icon" src={window.images.searchIcon} />
           <input

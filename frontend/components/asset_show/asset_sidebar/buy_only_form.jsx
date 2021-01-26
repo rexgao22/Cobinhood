@@ -5,12 +5,13 @@ class BuyOnlyForm extends Component {
     super(props);
     this.state = {
       shares: "",
-      cost: "0.00",
+      cost: 0,
       inputStatu: false,
       inputError: false,
       transactionError: false,
       watchType: this.props.assetType,
       holdingId: this.props.holdingId,
+      buyingPower: this.props.buyingPower,
     };
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,16 +24,14 @@ class BuyOnlyForm extends Component {
     if (valid) {
       this.setState({
         shares: e.target.value,
-        cost: (this.props.asset.price * parseInt(e.target.value))
-          .toFixed(2)
-          .toLocaleString("en-US"),
+        cost: this.props.asset.price * parseInt(e.target.value),
         inputStatu: valid,
         inputError: false,
       });
     } else {
       this.setState({
         shares: e.target.value,
-        cost: "0.00",
+        cost: 0,
         inputStatu: valid,
         inputError: false,
       });
@@ -62,6 +61,7 @@ class BuyOnlyForm extends Component {
   }
 
   handleSubmit(e) {
+    console.log("no", parseInt(this.state.shares));
     if (this.state.inputStatu) {
       if (this.checkBuyingPower()) {
         if (this.state.watchType === "Watched Asset") {
@@ -74,8 +74,15 @@ class BuyOnlyForm extends Component {
             .then(() => {
               this.props.updateBuyingPower(
                 this.props.user.id,
-                this.props.user.buyingPower - this.state.cost
+                this.props.buyingPower - this.state.cost
               );
+            })
+            .then((res) => {
+              this.setState({
+                buyingPower: res,
+                shares: "0",
+                cost: 0,
+              });
             });
         } else {
           this.props
@@ -88,8 +95,15 @@ class BuyOnlyForm extends Component {
             .then(() => {
               this.props.updateBuyingPower(
                 this.props.user.id,
-                this.props.user.buyingPower -this.state.cost
+                this.props.user.buyingPower - this.state.cost
               );
+            })
+            .then((res) => {
+              this.setState({
+                buyingPower: res,
+                shares: "0",
+                cost: 0,
+              });
             });
         }
       } else {
@@ -122,7 +136,6 @@ class BuyOnlyForm extends Component {
     return false;
   }
   render() {
-    console.log("user", this.props.user.id);
     const errorClass = this.state.inputError ? "error-show" : "error-hide";
     const buttonText =
       this.state.watchType === "Watched Asset"
@@ -163,7 +176,7 @@ class BuyOnlyForm extends Component {
           </div>
           <div className="estimate-content">
             <span>Estimated Cost</span>
-            <span>${this.state.cost}</span>
+            <span>${this.state.cost.toFixed(2).toLocaleString("en-US")}</span>
           </div>
           <div className="sidebar-errors">
             <div className={errorClass}>
@@ -173,7 +186,7 @@ class BuyOnlyForm extends Component {
             {inputErrorMsg}
             {transcationErrorMsg}
           </div>
-          <button onClick={this.handleSubmit}>{"Review Order"}</button>
+          <button onClick={this.handleSubmit}>{"Place Order"}</button>
         </div>
         <div className="portValue-display">
           <span>

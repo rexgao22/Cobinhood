@@ -7,13 +7,20 @@ class TradeForm extends React.Component {
     this.state = {
       status: "buy",
       shares: "",
-      cost: "0.00",
+      cost: 0,
       inputStatu: false,
-      transacionError: false,
+      inputError: false,
+      transactionError: false,
+      sellError: false,
+      successMsg: false,
+      buyingPower: this.props.user.buyingPower,
+      amount: this.props.amount,
     };
     this.selectedTab = this.selectedTab.bind(this);
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkBuyingPower = this.checkBuyingPower.bind(this);
+    this.checkAmount = this.checkAmount.bind(this);
   }
 
   checkInput(userInput) {
@@ -29,7 +36,7 @@ class TradeForm extends React.Component {
   }
 
   selectedTab(type) {
-    this.setState({ status: type, transacionError: false });
+    this.setState({ status: type, inputError: false });
   }
 
   update(e) {
@@ -37,44 +44,106 @@ class TradeForm extends React.Component {
     if (valid) {
       this.setState({
         shares: e.target.value,
-        cost: (this.props.asset.price * parseInt(e.target.value))
-          .toFixed(2)
-          .toLocaleString("en-US"),
+        cost: this.props.asset.price * parseInt(e.target.value),
         inputStatu: valid,
-        transacionError: false,
+        inputError: false,
       });
     } else {
       this.setState({
         shares: e.target.value,
-        cost: "0.00",
+        cost: 0,
         inputStatu: valid,
-        transacionError: false,
+        inputError: false,
       });
     }
+  }
+
+  checkBuyingPower() {
+    const newBuyingPower =
+      this.props.user.buyingPower -
+      parseInt(this.state.shares) * this.props.asset.price;
+    if (newBuyingPower >= 0) {
+      return true;
+    }
+    return false;
+  }
+
+  checkAmount() {
+    const newAmount = this.props.amount - parseInt(this.state.shares);
+    if (newAmount >= 0) {
+      return true;
+    }
+    return false;
   }
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
       if (this.state.status === "buy") {
-        this.props.createTransaction(parseInt(this.state.shares));
-        this.props.successMsg(
-          `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        );
+        if (this.checkBuyingPower()) {
+          this.props
+            .updateHolding(
+              this.props.holdingId,
+              parseInt(this.state.shares) + this.state.amount,
+              this.props.asset.price
+            )
+            .then(() => {
+              this.props.updateBuyingPower(
+                this.props.user.id,
+                this.props.buyingPower - this.state.cost
+              );
+            })
+            .then((res) => {
+              this.setState({
+                buyingPower: res,
+                amount: this.state.amount + parseInt(this.state.shares),
+                successMsg: true,
+                shares: "0",
+                cost: 0,
+              });
+            });
+        } else {
+          this.setState({ transactionError: true, successMsg: false });
+        }
+        // this.props.successMsg(
+        //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+        // );
       } else {
-        this.props.createTransaction(parseInt(this.state.shares));
-        this.props.successMsg(
-          `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        );
+        if (this.checkAmount()) {
+          this.props
+            .updateHolding(
+              this.props.holdingId,
+              this.state.amount - parseInt(this.state.shares),
+              this.props.asset.price
+            )
+            .then(() => {
+              this.props.updateBuyingPower(
+                this.props.user.id,
+                this.props.buyingPower + this.state.cost
+              );
+            })
+            .then((res) => {
+              this.setState({
+                buyingPower: res,
+                amount: this.state.amount - parseInt(this.state.shares),
+                successMsg: true,
+                shares: "0",
+                cost: 0,
+              });
+            });
+        } else {
+          this.setState({ sellError: true, successMsg: false });
+        }
+        // this.props.successMsg(
+        //   `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
+        // );
       }
     } else {
-      this.setState({ transacionError: true });
+      this.setState({ inputError: true, successMsg: false });
     }
   }
 
   render() {
-    const errorClass = this.state.transacionError
-      ? "error-show"
-      : "error-hide";
+    const errorClass = this.state.inputError ? "error-show" : "error-hide";
     const spanText = this.state.status === "buy" ? "Cost" : "Credit";
     const portValueDisplay =
       this.state.status === "buy" ? (
@@ -84,11 +153,19 @@ class TradeForm extends React.Component {
             Buying Power Available `}
         </span>
       ) : (
-        <span>{this.props.amount} shares Available</span>
+        <span>{this.state.amount} shares Available</span>
       );
 
-    const errorMsg = this.state.transacionError ? (
+    const errorMsg = this.state.inputError ? (
       <span>Please enter a valid number of shares.</span>
+    ) : null;
+
+    const transcationErrorMsg = this.state.transactionError ? (
+      <span>Not enough buyingPower</span>
+    ) : null;
+
+    const sellErrorMsg = this.state.sellError ? (
+      <span>exceed {this.state.amount} shares to sell</span>
     ) : null;
 
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
@@ -120,16 +197,20 @@ class TradeForm extends React.Component {
           </div>
           <div className="estimate-content">
             <span>Estimated {spanText}</span>
-            <span>${this.state.cost}</span>
+            <span>${this.state.cost.toFixed(2).toLocaleString("en-US")}</span>
           </div>
           <div className="sidebar-errors">
             <div className={errorClass}>
               <i className="fas fa-exclamation-circle"></i>
               <span>Error</span>
             </div>
-            <span>{errorMsg}</span>
+            <span>
+              {errorMsg}
+              {transcationErrorMsg}
+              {sellErrorMsg}
+            </span>
           </div>
-          <button onClick={this.handleSubmit}>{"Review Order"}</button>
+          <button onClick={this.handleSubmit}>{"Place Order"}</button>
         </div>
         <div className="portValue-display">{portValueDisplay}</div>
       </div>

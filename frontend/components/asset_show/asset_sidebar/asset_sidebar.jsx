@@ -14,10 +14,12 @@ class AssetSidebar extends Component {
     return (
       <div>
         <TradeForm
+          user={this.props.currentUser}
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.ownedAsset.amount}
           updateHolding={this.props.updateHolding}
+          holdingId={this.props.ownedAsset.holdingId}
           updateBuyingPower={this.props.updateBuyingPower}
         />
       </div>
@@ -60,10 +62,10 @@ class AssetSidebar extends Component {
     );
   }
   display() {
-    if (this.props.watchedAsset) {
-      return this.displayBuyOnlyForm();
-    } else if (this.props.ownedAsset) {
+    if (this.props.ownedAsset) {
       return this.displayTradeFrom();
+    } else if (this.props.watchedAsset) {
+      return this.displayBuyOnlyForm();
     } else {
       return this.displayBuyOnlyForNewAssetForm();
     }

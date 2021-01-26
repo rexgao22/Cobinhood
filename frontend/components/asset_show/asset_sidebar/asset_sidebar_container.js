@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
   watchAsset: (userId, assetId, amount, price) =>
     dispatch(createHolding(userId, assetId, amount, price)),
   createTransaction: (transaction) => dispatch(createTransaction(transaction)),
-  updateHolding: (holdingId, newAmount, price) => dispatch(updateHolding(holdingId, newAmount, price)),
+  updateHolding: (holdingId, amount, price) => dispatch(updateHolding(holdingId, amount, price)),
   updateBuyingPower: (userId, amount) => dispatch(updateBuyingPower(userId, amount)),
 });
 

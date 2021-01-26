@@ -17,9 +17,11 @@ class SessionForm extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.props
-      .action(this.state)
+    this.props.action(this.state);
+  }
 
+  componentWillUnmount() {
+    this.props.clearErrors();
   }
 
   renderErrors() {
@@ -31,7 +33,7 @@ class SessionForm extends Component {
       </ul>
     );
   }
-  handleDemo(e){
+  handleDemo(e) {
     e.preventDefault();
     this.props.demoLogin();
   }

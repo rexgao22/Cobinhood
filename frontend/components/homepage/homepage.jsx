@@ -10,7 +10,9 @@ const HomePage = (props) => {
             Investing for Greater Good
           </header>
           <div className="homepage-text">
-            Commission-free investing, No regret! You are next Bill and Steve.
+            Commission-free investing, plus the tools you need to put your money
+            in motion. Sign up and get your first stock for free. Certain
+            limitations apply.
           </div>
         </div>
         <img className="home-gif" src={window.images.CobVid} />
