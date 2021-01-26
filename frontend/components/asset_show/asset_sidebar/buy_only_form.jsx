@@ -7,13 +7,15 @@ class BuyOnlyForm extends Component {
       shares: "",
       cost: "0.00",
       inputStatu: false,
-      transacionError: false,
+      inputError: false,
+      transactionError: false,
       watchType: this.props.assetType,
       holdingId: this.props.holdingId,
     };
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleWatch = this.handleWatch.bind(this);
+    this.checkBuyingPower = this.checkBuyingPower.bind(this);
   }
 
   update(e) {
@@ -25,14 +27,14 @@ class BuyOnlyForm extends Component {
           .toFixed(2)
           .toLocaleString("en-US"),
         inputStatu: valid,
-        transacionError: false,
+        inputError: false,
       });
     } else {
       this.setState({
         shares: e.target.value,
         cost: "0.00",
         inputStatu: valid,
-        transacionError: false,
+        inputError: false,
       });
     }
   }
@@ -61,11 +63,43 @@ class BuyOnlyForm extends Component {
 
   handleSubmit(e) {
     if (this.state.inputStatu) {
-      this.props.createTransaction(parseInt(this.state.shares));
+      if (this.checkBuyingPower()) {
+        if (this.state.watchType === "Watched Asset") {
+          this.props
+            .updateHolding(
+              this.state.holdingId,
+              parseInt(this.state.shares),
+              this.props.asset.price
+            )
+            .then(() => {
+              this.props.updateBuyingPower(
+                this.props.user.id,
+                this.props.user.buyingPower - this.state.cost
+              );
+            });
+        } else {
+          this.props
+            .watchAsset(
+              this.props.user.id,
+              this.props.asset.id,
+              parseInt(this.state.shares),
+              this.props.asset.price
+            )
+            .then(() => {
+              this.props.updateBuyingPower(
+                this.props.user.id,
+                this.props.user.buyingPower -this.state.cost
+              );
+            });
+        }
+      } else {
+        this.setState({ transactionError: true });
+      }
     } else {
-      this.setState({ transacionError: true });
+      this.setState({ inputError: true });
     }
   }
+
   checkInput(userInput) {
     const input = parseInt(userInput);
     if (userInput.trim() !== input.toString()) {
@@ -77,18 +111,31 @@ class BuyOnlyForm extends Component {
       return true;
     }
   }
+
+  checkBuyingPower() {
+    const newBuyingPower =
+      this.props.user.buyingPower -
+      parseInt(this.state.shares) * this.props.asset.price;
+    if (newBuyingPower >= 0) {
+      return true;
+    }
+    return false;
+  }
   render() {
-    console.log("holdingId", this.props.asset.id);
-    const errorClass = this.state.transacionError ? "error-show" : "error-hide";
+    console.log("user", this.props.user.id);
+    const errorClass = this.state.inputError ? "error-show" : "error-hide";
     const buttonText =
       this.state.watchType === "Watched Asset"
         ? `Unwatch ${this.props.asset.tickerSymbol}`
         : `Watch ${this.props.asset.tickerSymbol}`;
 
-    const errorMsg = this.state.transacionError ? (
+    const inputErrorMsg = this.state.inputError ? (
       <span>Please enter a valid number of shares.</span>
     ) : null;
 
+    const transcationErrorMsg = this.state.transactionError ? (
+      <span>Not enough buyingPower</span>
+    ) : null;
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (
       <div className={`asset-sidebar ${colorClass}`}>
@@ -123,7 +170,8 @@ class BuyOnlyForm extends Component {
               <i className="fas fa-exclamation-circle"></i>
               <span>Error</span>
             </div>
-            {errorMsg}
+            {inputErrorMsg}
+            {transcationErrorMsg}
           </div>
           <button onClick={this.handleSubmit}>{"Review Order"}</button>
         </div>

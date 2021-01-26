@@ -17,7 +17,7 @@ class Api::HoldingsController < ApplicationController
     @holding = Holding.find(params[:id])
     int_amount = @holding.amount
     @holding.amount = params[:amount]
-    if @holding.update
+    if @holding.save
       render :show
     else
       render json: ["exceed #{int_amount} shares to sell"], status: 422

@@ -17,7 +17,8 @@ class AssetSidebar extends Component {
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
           amount={this.props.ownedAsset.amount}
-          createTransaction={this.props.createTransaction}
+          updateHolding={this.props.updateHolding}
+          updateBuyingPower={this.props.updateBuyingPower}
         />
       </div>
     );
@@ -30,12 +31,12 @@ class AssetSidebar extends Component {
           user={this.props.currentUser}
           asset={this.props.asset}
           buyingPower={this.props.currentUser.buyingPower}
-          amount={this.props.currentUser.amount}
           assetType="Watched Asset"
           watchAsset={this.props.watchAsset}
           unwatchAsset={this.props.unwatchAsset}
-          createTransaction={this.props.createTransaction}
+          updateHolding={this.props.updateHolding}
           holdingId={this.props.watchedAsset.holdingId}
+          updateBuyingPower={this.props.updateBuyingPower}
         />
       </div>
     );
@@ -51,8 +52,9 @@ class AssetSidebar extends Component {
           assetType="New Asset"
           watchAsset={this.props.watchAsset}
           unwatchAsset={this.props.unwatchAsset}
-          createTransaction={this.props.createTransaction}
+          updateHolding={this.props.updateHolding}
           holdingId=""
+          updateBuyingPower={this.props.updateBuyingPower}
         />
       </div>
     );

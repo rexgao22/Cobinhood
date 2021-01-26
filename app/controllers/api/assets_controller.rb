@@ -29,7 +29,6 @@ def result(return_assets, str)
     result << asset if asset.ticker_symbol.start_with?(str.upcase)
   end
   result.sort_by! { |asset| asset.ticker_symbol.length }
-  puts(result)
   name_starts_with = []
   return_assets.each do |asset|
     name_starts_with << asset if asset.company_name.downcase.start_with?(str.downcase)

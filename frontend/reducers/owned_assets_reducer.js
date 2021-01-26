@@ -1,8 +1,11 @@
-
 import { UPDATE_ASSET, RECEIVE_PORTFOLIO_DATA} from "../actions/asset_actions";
-import { RECEIVE_HOLDINGS, WATCH_ASSET } from "../actions/holding_actions";
+import {
+  RECEIVE_HOLDINGS,
+  WATCH_ASSET,
+  UPDATE_HOLDING,
+} from "../actions/holding_actions";
 import { obtainPricesAndChange } from "./obtain_price_and_change";
-
+import { LOGOUT_CURRENT_USER } from "../actions/session_actions";
 const ownedAssetsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   const nextState = Object.assign({}, oldState);
@@ -30,6 +33,15 @@ const ownedAssetsReducer = (oldState = {}, action) => {
       } else {
         return oldState;
       }
+    case UPDATE_HOLDING:
+      if (action.asset.amount) {
+        nextState[action.asset.tickerSymbol] = action.asset;
+      } else {
+        delete nextState[action.asset.tickerSymbol];
+      }
+      return nextState;
+    case LOGOUT_CURRENT_USER:
+      return {};
     case RECEIVE_PORTFOLIO_DATA:
       obtainPricesAndChange(action.tickerKeyToData).forEach((updateObject) => {
         if (nextState[updateObject.tickerSymbol]) {

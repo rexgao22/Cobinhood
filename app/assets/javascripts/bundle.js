@@ -182,7 +182,7 @@ var updatePortfolio = function updatePortfolio(tickerSymbols, ownedAssets, buyin
 /*!*********************************************!*\
   !*** ./frontend/actions/holding_actions.js ***!
   \*********************************************/
-/*! exports provided: RECEIVE_HOLDINGS, WATCH_ASSET, UNWATCH_ASSET, createHolding, deleteHolding, fetchHoldings */
+/*! exports provided: RECEIVE_HOLDINGS, WATCH_ASSET, UNWATCH_ASSET, UPDATE_HOLDING, createHolding, deleteHolding, fetchHoldings, updateHolding */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -190,9 +190,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_HOLDINGS", function() { return RECEIVE_HOLDINGS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WATCH_ASSET", function() { return WATCH_ASSET; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNWATCH_ASSET", function() { return UNWATCH_ASSET; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_HOLDING", function() { return UPDATE_HOLDING; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createHolding", function() { return createHolding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteHolding", function() { return deleteHolding; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchHoldings", function() { return fetchHoldings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateHolding", function() { return updateHolding; });
 /* harmony import */ var _util_holding_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/holding_util */ "./frontend/util/holding_util.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
@@ -204,6 +206,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var RECEIVE_HOLDINGS = "RECEIVE_HOLDINGS";
 var WATCH_ASSET = "WATCH_ASSET";
 var UNWATCH_ASSET = "UNWATCH_ASSET";
+var UPDATE_HOLDING = 'UPDATE_HOLDING';
 
 var watchAsset = function watchAsset(asset) {
   return {
@@ -223,6 +226,13 @@ var receiveHoldings = function receiveHoldings(holdings) {
   return {
     type: RECEIVE_HOLDINGS,
     holdings: holdings
+  };
+};
+
+var receiveNewAmounts = function receiveNewAmounts(asset) {
+  return {
+    type: UPDATE_HOLDING,
+    asset: asset
   };
 };
 
@@ -246,6 +256,15 @@ var fetchHoldings = function fetchHoldings() {
   return function (dispatch) {
     return _util_holding_util__WEBPACK_IMPORTED_MODULE_0__["fetchHoldings"]().then(function (holdings) {
       return dispatch(receiveHoldings(holdings));
+    });
+  };
+};
+var updateHolding = function updateHolding(holdingId, newAmount, price) {
+  return function (dispatch) {
+    return _util_holding_util__WEBPACK_IMPORTED_MODULE_0__["updateHolding"](holdingId, newAmount).then(function (asset) {
+      return dispatch(receiveNewAmounts(_objectSpread(_objectSpread({}, asset), {}, {
+        price: price
+      })));
     });
   };
 };
@@ -307,10 +326,10 @@ __webpack_require__.r(__webpack_exports__);
 var RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
 var LOGOUT_CURRENT_USER = "LOGOUT_CURRENT_USER";
 var RECEIVE_SESSION_ERRORS = "RECEIVE_SESSION_ERRORS";
-var receiveCurrentUser = function receiveCurrentUser(currentResponse) {
+var receiveCurrentUser = function receiveCurrentUser(currentUser) {
   return {
     type: RECEIVE_CURRENT_USER,
-    currentResponse: currentResponse
+    currentUser: currentUser
   };
 };
 var logoutCurrentUser = function logoutCurrentUser() {
@@ -408,6 +427,38 @@ var fetchTransactions = function fetchTransactions() {
       return dispatch(receiveTransactions(transactions));
     }).fail(function (errors) {
       return dispatch(receiveErrors(errors.responseJSON));
+    });
+  };
+};
+
+/***/ }),
+
+/***/ "./frontend/actions/user_actions.js":
+/*!******************************************!*\
+  !*** ./frontend/actions/user_actions.js ***!
+  \******************************************/
+/*! exports provided: RECEIVE_NEW_BUYING_POWER, updateBuyingPower */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_NEW_BUYING_POWER", function() { return RECEIVE_NEW_BUYING_POWER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBuyingPower", function() { return updateBuyingPower; });
+/* harmony import */ var _util_user_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/user_util */ "./frontend/util/user_util.js");
+
+var RECEIVE_NEW_BUYING_POWER = "RECEIVE_NEW_BUYING_POWER";
+
+var receiveNewBuyingPower = function receiveNewBuyingPower(buyingPower) {
+  return {
+    type: RECEIVE_NEW_BUYING_POWER,
+    buyingPower: buyingPower
+  };
+};
+
+var updateBuyingPower = function updateBuyingPower(userId, amount) {
+  return function (dispatch) {
+    return _util_user_util__WEBPACK_IMPORTED_MODULE_0__["updateBuyingPower"](userId, amount).then(function (buyingPower) {
+      return dispatch(receiveNewBuyingPower(buyingPower));
     });
   };
 };
@@ -1085,7 +1136,8 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
         asset: this.props.asset,
         buyingPower: this.props.currentUser.buyingPower,
         amount: this.props.ownedAsset.amount,
-        createTransaction: this.props.createTransaction
+        updateHolding: this.props.updateHolding,
+        updateBuyingPower: this.props.updateBuyingPower
       }));
     }
   }, {
@@ -1095,12 +1147,12 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
         user: this.props.currentUser,
         asset: this.props.asset,
         buyingPower: this.props.currentUser.buyingPower,
-        amount: this.props.currentUser.amount,
         assetType: "Watched Asset",
         watchAsset: this.props.watchAsset,
         unwatchAsset: this.props.unwatchAsset,
-        createTransaction: this.props.createTransaction,
-        holdingId: this.props.watchedAsset.holdingId
+        updateHolding: this.props.updateHolding,
+        holdingId: this.props.watchedAsset.holdingId,
+        updateBuyingPower: this.props.updateBuyingPower
       }));
     }
   }, {
@@ -1113,8 +1165,9 @@ var AssetSidebar = /*#__PURE__*/function (_Component) {
         assetType: "New Asset",
         watchAsset: this.props.watchAsset,
         unwatchAsset: this.props.unwatchAsset,
-        createTransaction: this.props.createTransaction,
-        holdingId: ""
+        updateHolding: this.props.updateHolding,
+        holdingId: "",
+        updateBuyingPower: this.props.updateBuyingPower
       }));
     }
   }, {
@@ -1156,7 +1209,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../actions/holding_actions */ "./frontend/actions/holding_actions.js");
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
-/* harmony import */ var _asset_sidebar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./asset_sidebar */ "./frontend/components/asset_show/asset_sidebar/asset_sidebar.jsx");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../actions/user_actions */ "./frontend/actions/user_actions.js");
+/* harmony import */ var _asset_sidebar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./asset_sidebar */ "./frontend/components/asset_show/asset_sidebar/asset_sidebar.jsx");
+
 
 
 
@@ -1164,7 +1219,6 @@ __webpack_require__.r(__webpack_exports__);
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
   return {
-    test: Object.values(state.entities.watchedAssets),
     ownedAsset: state.entities.ownedAssets[ownProps.asset.tickerSymbol],
     watchedAsset: state.entities.watchedAssets[ownProps.asset.tickerSymbol],
     currentUser: state.session.currentUser,
@@ -1182,11 +1236,17 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     },
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["createTransaction"])(transaction));
+    },
+    updateHolding: function updateHolding(holdingId, newAmount, price) {
+      return dispatch(Object(_actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["updateHolding"])(holdingId, newAmount, price));
+    },
+    updateBuyingPower: function updateBuyingPower(userId, amount) {
+      return dispatch(Object(_actions_user_actions__WEBPACK_IMPORTED_MODULE_3__["updateBuyingPower"])(userId, amount));
     }
   };
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_asset_sidebar__WEBPACK_IMPORTED_MODULE_3__["default"]));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(mapStateToProps, mapDispatchToProps)(_asset_sidebar__WEBPACK_IMPORTED_MODULE_4__["default"]));
 
 /***/ }),
 
@@ -1240,13 +1300,15 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
       shares: "",
       cost: "0.00",
       inputStatu: false,
-      transacionError: false,
+      inputError: false,
+      transactionError: false,
       watchType: _this.props.assetType,
       holdingId: _this.props.holdingId
     };
     _this.update = _this.update.bind(_assertThisInitialized(_this));
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.handleWatch = _this.handleWatch.bind(_assertThisInitialized(_this));
+    _this.checkBuyingPower = _this.checkBuyingPower.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -1260,14 +1322,14 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
           shares: e.target.value,
           cost: (this.props.asset.price * parseInt(e.target.value)).toFixed(2).toLocaleString("en-US"),
           inputStatu: valid,
-          transacionError: false
+          inputError: false
         });
       } else {
         this.setState({
           shares: e.target.value,
           cost: "0.00",
           inputStatu: valid,
-          transacionError: false
+          inputError: false
         });
       }
     }
@@ -1295,11 +1357,27 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this3 = this;
+
       if (this.state.inputStatu) {
-        this.props.createTransaction(parseInt(this.state.shares));
+        if (this.checkBuyingPower()) {
+          if (this.state.watchType === "Watched Asset") {
+            this.props.updateHolding(this.state.holdingId, parseInt(this.state.shares), this.props.asset.price).then(function () {
+              _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.user.buyingPower - _this3.state.cost);
+            });
+          } else {
+            this.props.watchAsset(this.props.user.id, this.props.asset.id, parseInt(this.state.shares), this.props.asset.price).then(function () {
+              _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.user.buyingPower - _this3.state.cost);
+            });
+          }
+        } else {
+          this.setState({
+            transactionError: true
+          });
+        }
       } else {
         this.setState({
-          transacionError: true
+          inputError: true
         });
       }
     }
@@ -1318,12 +1396,24 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
       }
     }
   }, {
+    key: "checkBuyingPower",
+    value: function checkBuyingPower() {
+      var newBuyingPower = this.props.user.buyingPower - parseInt(this.state.shares) * this.props.asset.price;
+
+      if (newBuyingPower >= 0) {
+        return true;
+      }
+
+      return false;
+    }
+  }, {
     key: "render",
     value: function render() {
-      console.log("holdingId", this.props.asset.id);
-      var errorClass = this.state.transacionError ? "error-show" : "error-hide";
+      console.log("user", this.props.user.id);
+      var errorClass = this.state.inputError ? "error-show" : "error-hide";
       var buttonText = this.state.watchType === "Watched Asset" ? "Unwatch ".concat(this.props.asset.tickerSymbol) : "Watch ".concat(this.props.asset.tickerSymbol);
-      var errorMsg = this.state.transacionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
+      var inputErrorMsg = this.state.inputError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
+      var transcationErrorMsg = this.state.transactionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Not enough buyingPower") : null;
       var colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
       return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "asset-sidebar ".concat(colorClass)
@@ -1350,7 +1440,7 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
         className: errorClass
       }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fas fa-exclamation-circle"
-      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Error")), errorMsg), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Error")), inputErrorMsg, transcationErrorMsg), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         onClick: this.handleSubmit
       }, "Review Order")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "portValue-display"
@@ -3111,6 +3201,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
 /* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
 /* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -3148,6 +3240,18 @@ var ownedAssetsReducer = function ownedAssetsReducer() {
       } else {
         return oldState;
       }
+
+    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
+      if (action.asset.amount) {
+        nextState[action.asset.tickerSymbol] = action.asset;
+      } else {
+        delete nextState[action.asset.tickerSymbol];
+      }
+
+      return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
+      return {};
 
     case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PORTFOLIO_DATA"]:
       Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
@@ -3336,6 +3440,8 @@ var sessionErrorsReducer = function sessionErrorsReducer() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/user_actions */ "./frontend/actions/user_actions.js");
+
 
 
 var _nullUser = Object.freeze({
@@ -3350,11 +3456,16 @@ var sessionReducer = function sessionReducer() {
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
       return {
-        currentUser: action.currentResponse.user
+        currentUser: action.currentUser
       };
 
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["LOGOUT_CURRENT_USER"]:
       return _nullUser;
+
+    case _actions_user_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_NEW_BUYING_POWER"]:
+      var nextState = Object.assign({}, oldState);
+      nextState.currentUser.buyingPower = action.buyingPower;
+      return nextState;
 
     default:
       return oldState;
@@ -3390,7 +3501,7 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
-      return _objectSpread(_objectSpread({}, oldState), {}, _defineProperty({}, action.currentResponse.user.id, action.currentResponse.user));
+      return _objectSpread(_objectSpread({}, oldState), {}, _defineProperty({}, action.currentUser.id, action.currentUser));
 
     default:
       return oldState;
@@ -3413,6 +3524,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/asset_actions */ "./frontend/actions/asset_actions.js");
 /* harmony import */ var _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/holding_actions */ "./frontend/actions/holding_actions.js");
 /* harmony import */ var _obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./obtain_price_and_change */ "./frontend/reducers/obtain_price_and_change.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -3457,6 +3570,19 @@ var watchedAssetsReducer = function watchedAssetsReducer() {
     case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["UNWATCH_ASSET"]:
       delete nextState[action.tickerSymbol];
       return nextState;
+
+    case _actions_holding_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_HOLDING"]:
+      if (action.asset.quantity) {
+        delete nextState[action.asset.tickerSymbol];
+      } else {
+        nextState[action.asset.tickerSymbol] = action.asset;
+        delete nextState[action.asset.tickerSymbol].amount;
+      }
+
+      return nextState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_3__["LOGOUT_CURRENT_USER"]:
+      return {};
 
     case _actions_asset_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_PORTFOLIO_DATA"]:
       Object(_obtain_price_and_change__WEBPACK_IMPORTED_MODULE_2__["obtainPricesAndChange"])(action.tickerKeyToData).forEach(function (updateObject) {
@@ -3770,6 +3896,29 @@ var createTransaction = function createTransaction(transaction) {
 var fetchTransactions = function fetchTransactions() {
   return $.ajax({
     url: "/api/transactions"
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/user_util.js":
+/*!************************************!*\
+  !*** ./frontend/util/user_util.js ***!
+  \************************************/
+/*! exports provided: updateBuyingPower */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateBuyingPower", function() { return updateBuyingPower; });
+var updateBuyingPower = function updateBuyingPower(userId, amount) {
+  console.log("yes", userId);
+  return $.ajax({
+    url: "/api/users/".concat(userId),
+    method: "PATCH",
+    data: {
+      amount: amount
+    }
   });
 };
 
