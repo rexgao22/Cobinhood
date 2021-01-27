@@ -32,7 +32,15 @@
     
     <%= stylesheet_link_tag "application", media: "all" %>
     <%= javascript_include_tag "application" %>
-  
+
+    <meta property="og:title" content="Cobinhood" />
+    <meta property='og:image' content="<%= image_url('Linkedin.gif') %>"/>
+    <meta property="og:description"
+      content="Full stack clone of Cobinhood built using Rails, React, and Redux"
+    />
+    <meta property="og:url"
+      content="https://cobinhood-rstation.herokuapp.com/#/"
+    />
   </head>
 
   <body>
