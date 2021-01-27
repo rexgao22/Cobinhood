@@ -1,6 +1,6 @@
 # Cobinhood
 
-<img src=“app/assets/images/robinhood.png?raw=true” width="350"/>
+<img src="app/assets/images/robinhood.png?raw=true" width="90"/>
 
 Cobinhood is a stock trading website that clones from [robinhood](https://robinhood.com/us/en/) User can perform stock trading(buy and sell), search stock, and track their profolio value.
 
@@ -37,12 +37,12 @@ to add the api keys in this format:<br/>
 
 * Profile where users can search stock and go to stock page from search dropdown.
 
-<img src=“https://res.cloudinary.com/rexgao22/image/upload/v1611779001/search_wo5et8.gif” width=“700”>
+<img src="app/assets/images/search.gif?raw=true" width=“700”>
 
 * Stock page where users can buy and sell, watch and unwatch stock.
 
-<img src=“https://res.cloudinary.com/rexgao22/image/upload/v1611779000/graphandnew_vk4j4c.gif” width=“700”>
+<img src="app/assets/images/buyandsell.gif?raw=true" width=“700”>
 
 * Profile where users can view profolio value change via the graph, go and read the new via the new feature.
 
-<img src=“https://res.cloudinary.com/rexgao22/image/upload/v1611778978/buyandsell_g0szkn.gif” width=“700”>
+<img src="app/assets/images/graphandnew.gif?raw=true" width=“700”>
