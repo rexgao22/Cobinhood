@@ -2503,7 +2503,7 @@ var Portfolio = /*#__PURE__*/function (_Component) {
       var graphPoints = this.props.portfolioGraph;
       if (graphPoints.length === 0) return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "no-graph-container"
-      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "$".concat(this.props.buyingPower.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Welcome to RobinGood! Purchase stocks to see the graph. Have fun with the free money"));
+      }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("header", null, "$".concat(this.props.buyingPower.toFixed(2).toLocaleString("en-US"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Welcome to Cobinhood! Purchase stocks to see the graph. Have fun with the free money"));
       var portValueChange = graphPoints[graphPoints.length - 1].portfolioValue - graphPoints[0].portfolioValue;
       var percentChange = portValueChange / graphPoints[0].portfolioValue * 100;
       var endValue = graphPoints[graphPoints.length - 1].portfolioValue;

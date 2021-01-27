@@ -28,7 +28,7 @@ class Portfolio extends Component {
           {`$${this.props.buyingPower.toFixed(2).toLocaleString("en-US")}`}
         </header>
         <p>
-          Welcome to RobinGood! Purchase stocks to see the graph.
+          Welcome to Cobinhood! Purchase stocks to see the graph.
           Have fun with the free money
         </p>
       </div>
