@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./search_bar";
 
-const NavBar = ({ currentUser, holdingValue,logout, path }) => {
+const NavBar = ({ currentUser, holdingValue, logout, path }) => {
   const HomeNavBar = () => (
     <section className="navbar">
       <div className="navbar-logo">
@@ -12,14 +12,17 @@ const NavBar = ({ currentUser, holdingValue,logout, path }) => {
       <div className="navbar-about-me">
         <span className="dropdown-header">About Me</span>
         <div className="about-me-dropdown">
-          <a href="https://github.com/rexgao22">
+          <a target="_blank" href="https://github.com/rexgao22">
             <i className="fab fa-github-square fa-2x"></i>
           </a>
-          <a href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
+          <a target="_blank" href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
             <i className="fab fa-linkedin fa-2x"></i>
           </a>
-          <a href="https://lolchess.gg/profile/na/ikebukuro">
-            <i className="fas fa-gamepad fa-2x"></i>
+          <a target="_blank" href="https://angel.co/u/rex-gao">
+            <i className="fab fa-angellist fa-2x"></i>
+          </a>
+          <a target="_blank" href="https://rexgao22.github.io/Rex-Profile/">
+            <i className="far fa-address-card fa-2x"></i>
           </a>
         </div>
       </div>
@@ -40,6 +43,23 @@ const NavBar = ({ currentUser, holdingValue,logout, path }) => {
         <Link className="navbar-name" to="/portfolio">
           <img className="logo" src={window.images.logo} />
         </Link>
+      </div>
+      <div className="navbar-about-me">
+        <span className="dropdown-header">About Me</span>
+        <div className="about-me-dropdown">
+          <a target="_blank" href="https://github.com/rexgao22">
+            <i className="fab fa-github-square fa-2x"></i>
+          </a>
+          <a target="_blank" href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
+            <i className="fab fa-linkedin fa-2x"></i>
+          </a>
+          <a target="_blank" href="https://angel.co/u/rex-gao">
+            <i className="fab fa-angellist fa-2x"></i>
+          </a>
+          <a target="_blank" href="https://rexgao22.github.io/Rex-Profile/">
+            <i className="far fa-address-card fa-2x"></i>
+          </a>
+        </div>
       </div>
       <SearchBar />
       <div className="user-dropdown">
