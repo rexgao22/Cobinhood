@@ -9,6 +9,7 @@ class BuyOnlyForm extends Component {
       inputStatu: false,
       inputError: false,
       transactionError: false,
+      successMsg: false,
       watchType: this.props.assetType,
       holdingId: this.props.holdingId,
       buyingPower: this.props.buyingPower,
@@ -61,7 +62,6 @@ class BuyOnlyForm extends Component {
   }
 
   handleSubmit(e) {
-    console.log("no", parseInt(this.state.shares));
     if (this.state.inputStatu) {
       if (this.checkBuyingPower()) {
         if (this.state.watchType === "Watched Asset") {
@@ -82,6 +82,7 @@ class BuyOnlyForm extends Component {
                 buyingPower: res,
                 shares: "0",
                 cost: 0,
+                successMsg: true,
               });
             });
         } else {
@@ -103,6 +104,7 @@ class BuyOnlyForm extends Component {
                 buyingPower: res,
                 shares: "0",
                 cost: 0,
+                successMsg: true,
               });
             });
         }
@@ -149,6 +151,11 @@ class BuyOnlyForm extends Component {
     const transcationErrorMsg = this.state.transactionError ? (
       <span>Not enough buyingPower</span>
     ) : null;
+
+       const displaySucccessMsg = this.state.successMsg
+         ? `successfully bought shares of ${this.props.asset.tickerSymbol}`
+         : null;
+
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (
       <div className={`asset-sidebar ${colorClass}`}>

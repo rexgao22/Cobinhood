@@ -36,7 +36,13 @@ class TradeForm extends React.Component {
   }
 
   selectedTab(type) {
-    this.setState({ status: type, inputError: false });
+    this.setState({
+      status: type,
+      inputError: false,
+      transactionError: false,
+      sellError: false,
+      successMsg: false,
+    });
   }
 
   update(e) {
@@ -104,9 +110,6 @@ class TradeForm extends React.Component {
         } else {
           this.setState({ transactionError: true, successMsg: false });
         }
-        // this.props.successMsg(
-        //   `You bought ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        // );
       } else {
         if (this.checkAmount()) {
           this.props
@@ -133,9 +136,6 @@ class TradeForm extends React.Component {
         } else {
           this.setState({ sellError: true, successMsg: false });
         }
-        // this.props.successMsg(
-        //   `You sold ${this.state.shares} shares of ${this.props.asset.tickerSymbol}`
-        // );
       }
     } else {
       this.setState({ inputError: true, successMsg: false });
@@ -168,6 +168,11 @@ class TradeForm extends React.Component {
       <span>exceed {this.state.amount} shares to sell</span>
     ) : null;
 
+    const displaySucccessMsg = this.state.successMsg
+      ? this.state.status === "buy"
+        ? `successfully bought shares of ${this.props.asset.tickerSymbol}`
+        : `successfully sold shares of ${this.props.asset.tickerSymbol}`
+      : null;
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (
       <div className={`asset-sidebar ${colorClass}`}>
@@ -208,6 +213,7 @@ class TradeForm extends React.Component {
               {errorMsg}
               {transcationErrorMsg}
               {sellErrorMsg}
+              {displaySucccessMsg}
             </span>
           </div>
           <button onClick={this.handleSubmit}>{"Place Order"}</button>

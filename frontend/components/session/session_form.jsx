@@ -44,7 +44,6 @@ class SessionForm extends Component {
         <div className="session-display-form">
           <header className="session-header">Welcome to Cobinhood</header>
           <form onSubmit={this.handleSubmit} className="session-form">
-            <span className="session-errors">{this.renderErrors()}</span>
             <div className="login-form">
               <br />
               <label>
@@ -67,6 +66,7 @@ class SessionForm extends Component {
                 />
               </label>
               <br />
+              <span className="session-errors">{this.renderErrors()}</span>
               <button type="submit">{this.props.formType}</button>
             </div>
           </form>

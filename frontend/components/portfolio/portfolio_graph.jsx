@@ -27,15 +27,6 @@ class PortfolioGraph extends React.Component {
   }
 
   render() {
-    if (this.props.graphPoints.length === 0)
-      return (
-        <div className="portfolio-graph-container">
-          <header>
-            {`$${this.props.buyingPower.toFixed(2).toLocaleString("en-US")}`}
-          </header>
-          <p>Welcome to RobinGood!</p>
-        </div>
-      );
     const color = this.props.portValueChange > 0 ? "#82ca9d" : "#f45531";
     const sign = this.state.valueChange < 0 ? "-" : "+";
     return (

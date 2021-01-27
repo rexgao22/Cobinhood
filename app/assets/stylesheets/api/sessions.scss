@@ -8,13 +8,14 @@
     justify-content: center;
     font-family: 'DM Sans', sans-serif;
     background-image: image-url("money.png");
-    
+    height: 900px;
 }
 .session-display-form{
     width: 50%;
     background-color: white;
     margin-left: auto;
     padding: 24px;
+    height: 900px;
 }
 .demo-button{
     margin-bottom: 30px;
@@ -38,6 +39,8 @@
 
 .session-form input:hover {
   background-color: white;
+  margin: -1px;
+  margin-bottom: 14px;
   border: 1px solid lightgrey;
 }
 
@@ -89,6 +92,6 @@ label span {
 }
 .session-errors {
   font-size: 13px;
-  color: orange;
+  color: rgb(240, 8, 8);
 }
 
