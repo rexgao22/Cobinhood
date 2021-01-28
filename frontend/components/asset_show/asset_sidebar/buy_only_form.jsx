@@ -66,15 +66,15 @@ class BuyOnlyForm extends Component {
       if (this.checkBuyingPower()) {
         if (this.state.watchType === "Watched Asset") {
           this.props
-            .updateHolding(
-              this.state.holdingId,
-              parseInt(this.state.shares),
-              this.props.asset.price
+            .updateBuyingPower(
+              this.props.user.id,
+              this.props.buyingPower - this.state.cost
             )
             .then(() => {
-              this.props.updateBuyingPower(
-                this.props.user.id,
-                this.props.buyingPower - this.state.cost
+              this.props.updateHolding(
+                this.state.holdingId,
+                parseInt(this.state.shares),
+                this.props.asset.price
               );
             })
             .then(() => {
@@ -152,9 +152,9 @@ class BuyOnlyForm extends Component {
       <span>Not enough buyingPower</span>
     ) : null;
 
-       const displaySucccessMsg = this.state.successMsg
-         ? `successfully bought shares of ${this.props.asset.tickerSymbol}`
-         : null;
+    const displaySucccessMsg = this.state.successMsg
+      ? `successfully bought shares of ${this.props.asset.tickerSymbol}`
+      : null;
 
     const colorClass = this.props.asset.percentChange < 0 ? "red" : "green";
     return (

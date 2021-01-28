@@ -3,6 +3,7 @@ import {
   LOGOUT_CURRENT_USER,
 } from "../actions/session_actions";
 import { RECEIVE_NEW_BUYING_POWER } from "../actions/user_actions";
+
 const _nullUser = Object.freeze({
   currentUser: null,
 });

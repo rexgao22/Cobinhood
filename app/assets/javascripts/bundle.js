@@ -1374,8 +1374,8 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
       if (this.state.inputStatu) {
         if (this.checkBuyingPower()) {
           if (this.state.watchType === "Watched Asset") {
-            this.props.updateHolding(this.state.holdingId, parseInt(this.state.shares), this.props.asset.price).then(function () {
-              _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.buyingPower - _this3.state.cost);
+            this.props.updateBuyingPower(this.props.user.id, this.props.buyingPower - this.state.cost).then(function () {
+              _this3.props.updateHolding(_this3.state.holdingId, parseInt(_this3.state.shares), _this3.props.asset.price);
             }).then(function () {
               _this3.setState({
                 buyingPower: _this3.state.buyingPower - _this3.state.cost,
@@ -1629,8 +1629,8 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
       if (this.state.inputStatu) {
         if (this.state.status === "buy") {
           if (this.checkBuyingPower()) {
-            this.props.updateHolding(this.props.holdingId, parseInt(this.state.shares) + this.state.amount, this.props.asset.price).then(function () {
-              _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower - _this2.state.cost);
+            this.props.updateBuyingPower(this.props.user.id, this.props.buyingPower - this.state.cost).then(function () {
+              _this2.props.updateHolding(_this2.props.holdingId, parseInt(_this2.state.shares) + _this2.state.amount, _this2.props.asset.price);
             }).then(function () {
               _this2.setState({
                 buyingPower: _this2.state.buyingPower - _this2.state.cost,
@@ -1648,8 +1648,8 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
           }
         } else {
           if (this.checkAmount()) {
-            this.props.updateHolding(this.props.holdingId, this.state.amount - parseInt(this.state.shares), this.props.asset.price).then(function () {
-              _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower + _this2.state.cost);
+            this.props.updateBuyingPower(this.props.user.id, this.props.buyingPower + this.state.cost).then(function () {
+              _this2.props.updateHolding(_this2.props.holdingId, _this2.state.amount - parseInt(_this2.state.shares), _this2.props.asset.price);
             }).then(function (res) {
               _this2.setState({
                 buyingPower: _this2.state.buyingPower - _this2.state.cost,

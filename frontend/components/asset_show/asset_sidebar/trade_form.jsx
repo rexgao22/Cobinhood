@@ -87,15 +87,15 @@ class TradeForm extends React.Component {
       if (this.state.status === "buy") {
         if (this.checkBuyingPower()) {
           this.props
-            .updateHolding(
-              this.props.holdingId,
-              parseInt(this.state.shares) + this.state.amount,
-              this.props.asset.price
+            .updateBuyingPower(
+              this.props.user.id,
+              this.props.buyingPower - this.state.cost
             )
             .then(() => {
-              this.props.updateBuyingPower(
-                this.props.user.id,
-                this.props.buyingPower - this.state.cost
+              this.props.updateHolding(
+                this.props.holdingId,
+                parseInt(this.state.shares) + this.state.amount,
+                this.props.asset.price
               );
             })
             .then(() => {
@@ -113,15 +113,15 @@ class TradeForm extends React.Component {
       } else {
         if (this.checkAmount()) {
           this.props
-            .updateHolding(
-              this.props.holdingId,
-              this.state.amount - parseInt(this.state.shares),
-              this.props.asset.price
+            .updateBuyingPower(
+              this.props.user.id,
+              this.props.buyingPower + this.state.cost
             )
             .then(() => {
-              this.props.updateBuyingPower(
-                this.props.user.id,
-                this.props.buyingPower + this.state.cost
+              this.props.updateHolding(
+                this.props.holdingId,
+                this.state.amount - parseInt(this.state.shares),
+                this.props.asset.price
               );
             })
             .then((res) => {
