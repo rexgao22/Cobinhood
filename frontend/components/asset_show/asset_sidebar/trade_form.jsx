@@ -13,7 +13,7 @@ class TradeForm extends React.Component {
       transactionError: false,
       sellError: false,
       successMsg: false,
-      buyingPower: this.props.user.buyingPower,
+      buyingPower: this.props.buyingPower,
       amount: this.props.amount,
     };
     this.selectedTab = this.selectedTab.bind(this);
@@ -98,9 +98,9 @@ class TradeForm extends React.Component {
                 this.props.buyingPower - this.state.cost
               );
             })
-            .then((res) => {
+            .then(() => {
               this.setState({
-                buyingPower: res,
+                buyingPower: this.state.buyingPower - this.state.cost,
                 amount: this.state.amount + parseInt(this.state.shares),
                 successMsg: true,
                 shares: "0",
@@ -126,7 +126,7 @@ class TradeForm extends React.Component {
             })
             .then((res) => {
               this.setState({
-                buyingPower: res,
+                buyingPower: this.state.buyingPower - this.state.cost,
                 amount: this.state.amount - parseInt(this.state.shares),
                 successMsg: true,
                 shares: "0",
@@ -149,7 +149,7 @@ class TradeForm extends React.Component {
       this.state.status === "buy" ? (
         <span>
           {`$
-            ${this.props.buyingPower.toFixed(2).toLocaleString("en-US")}
+            ${this.state.buyingPower.toFixed(2).toLocaleString("en-US")}
             Buying Power Available `}
         </span>
       ) : (

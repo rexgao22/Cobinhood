@@ -1376,9 +1376,9 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
           if (this.state.watchType === "Watched Asset") {
             this.props.updateHolding(this.state.holdingId, parseInt(this.state.shares), this.props.asset.price).then(function () {
               _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.buyingPower - _this3.state.cost);
-            }).then(function (res) {
+            }).then(function () {
               _this3.setState({
-                buyingPower: res,
+                buyingPower: _this3.state.buyingPower - _this3.state.cost,
                 shares: "0",
                 cost: 0,
                 successMsg: true
@@ -1389,7 +1389,7 @@ var BuyOnlyForm = /*#__PURE__*/function (_Component) {
               _this3.props.updateBuyingPower(_this3.props.user.id, _this3.props.user.buyingPower - _this3.state.cost);
             }).then(function (res) {
               _this3.setState({
-                buyingPower: res,
+                buyingPower: _this3.state.buyingPower - _this3.state.cost,
                 shares: "0",
                 cost: 0,
                 successMsg: true
@@ -1542,7 +1542,7 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
       transactionError: false,
       sellError: false,
       successMsg: false,
-      buyingPower: _this.props.user.buyingPower,
+      buyingPower: _this.props.buyingPower,
       amount: _this.props.amount
     };
     _this.selectedTab = _this.selectedTab.bind(_assertThisInitialized(_this));
@@ -1631,9 +1631,9 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
           if (this.checkBuyingPower()) {
             this.props.updateHolding(this.props.holdingId, parseInt(this.state.shares) + this.state.amount, this.props.asset.price).then(function () {
               _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower - _this2.state.cost);
-            }).then(function (res) {
+            }).then(function () {
               _this2.setState({
-                buyingPower: res,
+                buyingPower: _this2.state.buyingPower - _this2.state.cost,
                 amount: _this2.state.amount + parseInt(_this2.state.shares),
                 successMsg: true,
                 shares: "0",
@@ -1652,7 +1652,7 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
               _this2.props.updateBuyingPower(_this2.props.user.id, _this2.props.buyingPower + _this2.state.cost);
             }).then(function (res) {
               _this2.setState({
-                buyingPower: res,
+                buyingPower: _this2.state.buyingPower - _this2.state.cost,
                 amount: _this2.state.amount - parseInt(_this2.state.shares),
                 successMsg: true,
                 shares: "0",
@@ -1678,7 +1678,7 @@ var TradeForm = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var errorClass = this.state.inputError ? "error-show" : "error-hide";
       var spanText = this.state.status === "buy" ? "Cost" : "Credit";
-      var portValueDisplay = this.state.status === "buy" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$\n            ".concat(this.props.buyingPower.toFixed(2).toLocaleString("en-US"), "\n            Buying Power Available ")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, this.state.amount, " shares Available");
+      var portValueDisplay = this.state.status === "buy" ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "$\n            ".concat(this.state.buyingPower.toFixed(2).toLocaleString("en-US"), "\n            Buying Power Available ")) : /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, this.state.amount, " shares Available");
       var errorMsg = this.state.inputError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Please enter a valid number of shares.") : null;
       var transcationErrorMsg = this.state.transactionError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "Not enough buyingPower") : null;
       var sellErrorMsg = this.state.sellError ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "exceed ", this.state.amount, " shares to sell") : null;

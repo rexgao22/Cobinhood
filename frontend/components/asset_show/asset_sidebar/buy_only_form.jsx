@@ -77,9 +77,9 @@ class BuyOnlyForm extends Component {
                 this.props.buyingPower - this.state.cost
               );
             })
-            .then((res) => {
+            .then(() => {
               this.setState({
-                buyingPower: res,
+                buyingPower: this.state.buyingPower - this.state.cost,
                 shares: "0",
                 cost: 0,
                 successMsg: true,
@@ -101,7 +101,7 @@ class BuyOnlyForm extends Component {
             })
             .then((res) => {
               this.setState({
-                buyingPower: res,
+                buyingPower: this.state.buyingPower - this.state.cost,
                 shares: "0",
                 cost: 0,
                 successMsg: true,

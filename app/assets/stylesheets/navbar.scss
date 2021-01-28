@@ -1,7 +1,6 @@
 .navbar{
     display: flex;
     position: fixed;
-    justify-content: space-between;
     align-items: center;
     width: 100%;
     background-color:white;
@@ -33,9 +32,10 @@
 }
 
 .navbar-about-me{
-  margin-right: 600px;
   position: relative;
+  margin-left: 48px;
 }
+
 
 .about-me-dropdown{
   display: none;
@@ -62,12 +62,12 @@
 }
 
 .home-link{
-  margin-right: 24px;
-  font-family: 'Langar', cursive;
-  display: flex;
-  align-items: center;
-  font-family: 'Langar', cursive;
-  font-size: 18px;
+    display: flex;
+    align-items: center;
+    font-family: 'Langar', cursive;
+    font-size: 18px;
+    margin: auto;
+    margin-right: 16px;
 }
 .home-link-child {
   margin-left: 30px;
@@ -96,10 +96,11 @@
 }
 
 .user-dropdown{
-  position: relative;
-  display: inline-block;
-  margin-right: 30px;
-  font-weight: bold;
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    font-weight: bold;
+    margin-right: 27px;
   .user-dropdown-header {
     display: inline-block;
     height: 30px;
@@ -186,7 +187,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  right: 140px;
+  left: 3vw;
   width: 400px;
   height: auto;
   border: 1px solid lightgray;
