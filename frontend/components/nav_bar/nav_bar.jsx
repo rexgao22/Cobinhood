@@ -15,13 +15,16 @@ const NavBar = ({ currentUser, holdingValue, logout, path }) => {
           <a target="_blank" href="https://github.com/rexgao22">
             <i className="fab fa-github-square fa-2x"></i>
           </a>
-          <a target="_blank" href="https://www.linkedin.com/in/rex-gao-61a9a5139/">
+          <a
+            target="_blank"
+            href="https://www.linkedin.com/in/rex-gao-61a9a5139/"
+          >
             <i className="fab fa-linkedin fa-2x"></i>
           </a>
           <a target="_blank" href="https://angel.co/u/rex-gao">
             <i className="fab fa-angellist fa-2x"></i>
           </a>
-          <a target="_blank" href="https://rexgao22.github.io/Rex-Profile/">
+          <a target="_blank" href="https://rexgao22.github.io/Rex-Portfolio/">
             <i className="far fa-address-card fa-2x"></i>
           </a>
         </div>
