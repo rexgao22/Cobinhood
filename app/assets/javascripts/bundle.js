@@ -1994,7 +1994,7 @@ var NavBar = function NavBar(_ref) {
       className: "fab fa-angellist fa-2x"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       target: "_blank",
-      href: "https://rexgao22.github.io/Rex-Profile/"
+      href: "https://rexgao22.github.io/Rex-Portfolio/"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-address-card fa-2x"
     })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -2044,7 +2044,7 @@ var NavBar = function NavBar(_ref) {
       className: "fab fa-angellist fa-2x"
     })), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
       target: "_blank",
-      href: "https://rexgao22.github.io/Rex-Profile/"
+      href: "https://rexgao22.github.io/Rex-Portfolio/"
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
       className: "far fa-address-card fa-2x"
     })))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_search_bar__WEBPACK_IMPORTED_MODULE_2__["default"], null), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
