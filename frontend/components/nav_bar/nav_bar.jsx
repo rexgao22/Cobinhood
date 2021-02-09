@@ -56,7 +56,7 @@ const NavBar = ({ currentUser, holdingValue, logout, path }) => {
           <a target="_blank" href="https://angel.co/u/rex-gao">
             <i className="fab fa-angellist fa-2x"></i>
           </a>
-          <a target="_blank" href="https://rexgao22.github.io/Rex-Profile/">
+          <a target="_blank" href="https://rexgao22.github.io/Rex-Portfolio/">
             <i className="far fa-address-card fa-2x"></i>
           </a>
         </div>
