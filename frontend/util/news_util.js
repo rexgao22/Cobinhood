@@ -1,6 +1,6 @@
 export const fetchNews = () => {
   return $.ajax({
-    url: `https://financialmodelingprep.com/api/v3/stock_news?limit=5?&apikey=${window.fmpAPIKey}`,
+    url: `https://financialmodelingprep.com/api/v3/stock_news?limit=5&apikey=${window.fmpAPIKey}`,
     method: "GET",
   });
 };

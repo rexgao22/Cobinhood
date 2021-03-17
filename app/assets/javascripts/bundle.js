@@ -3917,7 +3917,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchCompanyNews", function() { return fetchCompanyNews; });
 var fetchNews = function fetchNews() {
   return $.ajax({
-    url: "https://financialmodelingprep.com/api/v3/stock_news?limit=5?&apikey=".concat(window.fmpAPIKey),
+    url: "https://financialmodelingprep.com/api/v3/stock_news?limit=5&apikey=".concat(window.fmpAPIKey),
     method: "GET"
   });
 };
